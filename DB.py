@@ -93,3 +93,5 @@ class Time_Table(Base):
 
     def __str__(self):
         return f'{self.Home_Work_ID} - {self.Home_Work_Name}'
+
+# бумбулейла бумбулятор
