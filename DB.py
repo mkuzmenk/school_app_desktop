@@ -94,7 +94,56 @@ class Time_Table(Base):
     def __str__(self):
         return f'{self.Home_Work_ID} - {self.Home_Work_Name}'
 
-# бумбулейла бумбулятор
+
+class User_Roles(Base):
+    __tablename__ = 'User_Roles'
+
+    User_Role_ID = Column(mysql.SMALLINT(6), primary_key=True)
+    User_Role_Name = Column(mysql.VARCHAR(255), primary_key=True)
+
+    def __init__(self, id, name):
+        self.User_Role_ID = id
+        self.User_Role_Name = name
+
+    def __str__(self):
+        return f'{self.User_Role_ID} - {self.User_Role_Name}'
 
 
-# я тут пишу !!! !!  ! ! !! ! ! ! 
+class Users(Base):
+    __tablename__ = 'Users'
+
+    User_ID = Column(mysql.INTEGER(11), primary_key=True)
+    User_Login = Column(mysql.INTEGER(11))
+    User_Password = Column(mysql.VARCHAR(24))
+    User_First_Name = Column(mysql.VARCHAR(255))
+    User_Last_Name = Column(mysql.VARCHAR(255))
+    User_Surname = Column(mysql.VARCHAR(255))
+    User_Phone = Column(mysql.VARCHAR(255))
+    User_EMail = Column(mysql.VARCHAR(255))
+    User_Sex = Column(mysql.CHAR(1))
+    User_Birthday = Column(mysql.DATE)
+    User_Role = Column(mysql.SMALLINT(6))
+    User_Taxnumber = Column(mysql.INTEGER(11))
+    User_Desc = Column(mysql.VARCHAR(255))
+    User_Creation_Date = Column(mysql.DATETIME)
+    User_DLC = Column(mysql.DATETIME)
+
+    def __init__(self, id, login, password, first_name, last_name, surname, phone, email, sex, birthday, role, taxnumber, desc, creation_date, dlc):
+        self.User_ID = id
+        self.User_Login = login
+        self.User_Password = password
+        self.User_First_Name = first_name
+        self.User_Last_Name = last_name
+        self.User_Surname = surname
+        self.User_Phone = phone
+        self.User_EMail = email
+        self.User_Sex = sex
+        self.User_Birthday = birthday
+        self.User_Role = role
+        self.User_Taxnumber = taxnumber
+        self.User_Desc = desc
+        self.User_Creation_Date = creation_date
+        self.User_DLC = dlc
+
+    def __str__(self):
+        return f'{self.User_ID} - {self.User_First_Name} - {self.User_Last_Name} - {self.User_Login} - {self.User_Role}'
