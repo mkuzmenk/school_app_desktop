@@ -1,7 +1,17 @@
 from sqlalchemy import create_engine, Column
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 from sqlalchemy.dialects import mysql
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+DB_SETTINGS = {'SERVER_ADDRESS': os.getenv('SERVER_ADDRESS'),
+                'DB_NAME': os.getenv('DB_NAME'),
+                'USERNAME': os.getenv('USERNAME'),
+                'PASSWORD': os.getenv('PASSWORD'),
+               'PORT_NUMBER': os.getenv('PORT_NUMBER')
+               }
 
 class Base(DeclarativeBase):
     pass
@@ -77,22 +87,37 @@ class Time_Table(Base):
     Time_Table_ID = Column(mysql.INTEGER(11), primary_key=True)
     Time_Table_User_REF = Column(mysql.INTEGER(11))
     Time_Table_GroupName = Column(mysql.VARCHAR(255))
-    Home_Work_TimeTable_REF = Column(mysql.INTEGER(11))
-    Home_Work_Desc = Column(mysql.VARCHAR(255))
-    Home_Work_Deadline = Column(mysql.DATE)
+    Time_Table_Cabinet = Column(mysql.SMALLINT(6))
+    Time_Table_Start_Time = Column(mysql.DATETIME)
+    Time_Table_End_Time = Column(mysql.DATETIME)
 
-    def __init__(self, id, name, user_ref, group_ref, timetable_ref, desc, deadline):
-        self.Home_Work_ID = id
-        self.Home_Work_Name = name
-        self.Home_Work_User_REF = user_ref
-        self.Home_Work_Group_REF = group_ref
-        self.Home_Work_TimeTable_REF = timetable_ref
-        self.Home_Work_Desc = desc
-        self.Home_Work_Deadline = deadline
+    def __init__(self, id, user_ref, group_name, cabinet, start_time, end_time):
+        self.Time_Table_ID = id
+        self.Time_Table_User_REF = user_ref
+        self.Time_Table_GroupName = group_name
+        self.Time_Table_Cabinet = cabinet
+        self.Time_Table_Start_Time = start_time
+        self.Time_Table_End_Time = end_time
 
 
     def __str__(self):
-        return f'{self.Home_Work_ID} - {self.Home_Work_Name}'
+        return f'{self.Time_Table_ID} - {self.Time_Table_GroupName}'
+
+
+class User_Group(Base):
+    __tablename__ = 'User_Group'
+
+    ID = Column(mysql.INTEGER(11), primary_key=True)
+    User_REF = Column(mysql.INTEGER(11))
+    Group_Name = Column(mysql.VARCHAR(255))
+
+    def __init__(self, id, user_ref, group_name):
+        self.ID = id
+        self.User_REF = user_ref
+        self.Group_Name = group_name
+
+    def __str__(self):
+        return f'{self.ID} - {self.Group_Name}'
 
 
 class User_Roles(Base):
@@ -147,3 +172,17 @@ class Users(Base):
 
     def __str__(self):
         return f'{self.User_ID} - {self.User_First_Name} - {self.User_Last_Name} - {self.User_Login} - {self.User_Role}'
+
+
+engine = create_engine(f"mysql://{DB_SETTINGS['USERNAME']}:{DB_SETTINGS['PASSWORD']}@"
+                           f"{DB_SETTINGS['SERVER_ADDRESS']}:{DB_SETTINGS['PORT_NUMBER']}/{DB_SETTINGS['DB_NAME']}")
+
+def create_tables():
+    Base.metadata.create_all(bind=engine)
+
+
+def get_connection():
+    Session = sessionmaker(engine)
+    conn = Session()
+
+    return conn
