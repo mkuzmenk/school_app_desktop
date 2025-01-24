@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Column
-from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker, relationship
 from sqlalchemy.dialects import mysql
 from dotenv import load_dotenv
 import os
@@ -137,19 +137,19 @@ class User_Roles(Base):
 class Users(Base):
     __tablename__ = 'Users'
 
-    User_ID = Column(mysql.INTEGER(11), primary_key=True)
-    User_Login = Column(mysql.INTEGER(11))
+    User_ID = Column(mysql.INTEGER(11), primary_key=True, autoincrement=True, unique=True)
+    User_Login = Column(mysql.INTEGER(11), unique=True)
     User_Password = Column(mysql.VARCHAR(24))
     User_First_Name = Column(mysql.VARCHAR(255))
     User_Last_Name = Column(mysql.VARCHAR(255))
-    User_Surname = Column(mysql.VARCHAR(255))
+    User_Surname = Column(mysql.VARCHAR(255), nullable=True)
     User_Phone = Column(mysql.VARCHAR(255))
     User_EMail = Column(mysql.VARCHAR(255))
-    User_Sex = Column(mysql.CHAR(1))
+    User_Sex = Column(mysql.CHAR(1), nullable=True)
     User_Birthday = Column(mysql.DATE)
     User_Role = Column(mysql.SMALLINT(6))
-    User_Taxnumber = Column(mysql.INTEGER(11))
-    User_Desc = Column(mysql.VARCHAR(255))
+    User_Taxnumber = Column(mysql.INTEGER(11), nullable=True)
+    User_Desc = Column(mysql.VARCHAR(255), nullable=True)
     User_Creation_Date = Column(mysql.DATETIME)
     User_DLC = Column(mysql.DATETIME)
 
