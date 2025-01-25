@@ -193,6 +193,7 @@ def get_all_roles():
     conn.close()
 
 
+
 def test():
     get_all_roles()
 
