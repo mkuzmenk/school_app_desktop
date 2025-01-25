@@ -180,7 +180,5 @@ engine = create_engine(f"mysql+pymysql://{DB_SETTINGS['DB_USERNAME']}:{DB_SETTIN
                            f"{DB_SETTINGS['SERVER_ADDRESS']}:{DB_SETTINGS['PORT_NUMBER']}/{DB_SETTINGS['DB_NAME']}")
 
 Session = sessionmaker(engine)
-
-def create_tables():
-    Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
