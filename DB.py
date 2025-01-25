@@ -154,6 +154,7 @@ class Users(Base):
     User_Desc = Column(mysql.VARCHAR(255), nullable=True)
     User_Creation_Date = Column(mysql.DATETIME)
     User_DLC = Column(mysql.DATETIME)
+    User_GroupID_REF = Column(mysql.INTEGER(11), nullable=True)
 
     role = relationship('User_Roles', back_populates='all_users')
 
