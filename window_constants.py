@@ -1,7 +1,0 @@
-GEOMETRY = '1000x800+300+50'
-
-FONT = "Courier New"
-FONT_COLOR = "white"
-TOOLBAR_COLOR = "#4562D6"
-
-PANEL_COLOR = "#BD3333"
