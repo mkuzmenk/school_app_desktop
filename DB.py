@@ -190,6 +190,8 @@ def get_all_roles():
     for role in roles:
         print(role)
 
+    conn.close()
+
 
 def test():
     get_all_roles()
