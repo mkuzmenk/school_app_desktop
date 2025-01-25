@@ -158,7 +158,8 @@ class Users(Base):
 
     role = relationship('User_Roles', back_populates='all_users')
 
-    def __init__(self, id, login, password, first_name, last_name, surname, phone, email, sex, birthday, role, taxnumber, desc, creation_date, dlc):
+    def __init__(self, id, login, password, first_name, last_name, surname, phone, email, sex, birthday, role,
+                 taxnumber, desc, creation_date, dlc, user_gorupid_ref):
         self.User_ID = id
         self.User_Login = login
         self.User_Password = password
@@ -174,6 +175,7 @@ class Users(Base):
         self.User_Desc = desc
         self.User_Creation_Date = creation_date
         self.User_DLC = dlc
+        self.User_GroupID_REF = user_gorupid_ref
 
     def __str__(self):
         return f'{self.User_ID} - {self.User_First_Name} - {self.User_Last_Name} - {self.User_Login} - {self.User_Role}'
