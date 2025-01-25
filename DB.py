@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column
+from sqlalchemy import create_engine, Column, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker, relationship
 from sqlalchemy.dialects import mysql
 from dotenv import load_dotenv
@@ -123,8 +123,10 @@ class User_Group(Base):
 class User_Roles(Base):
     __tablename__ = 'User_Roles'
 
-    User_Role_ID = Column(mysql.SMALLINT(6), primary_key=True)
-    User_Role_Name = Column(mysql.VARCHAR(255), primary_key=True)
+    User_Role_ID = Column(mysql.SMALLINT(6), primary_key=True, unique=True, autoincrement=True)
+    User_Role_Name = Column(mysql.VARCHAR(255))
+
+    all_users = relationship('Users', back_populates='role')
 
     def __init__(self, id, name):
         self.User_Role_ID = id
@@ -146,12 +148,14 @@ class Users(Base):
     User_Phone = Column(mysql.VARCHAR(255))
     User_EMail = Column(mysql.VARCHAR(255))
     User_Sex = Column(mysql.CHAR(1), nullable=True)
-    User_Birthday = Column(mysql.DATE)
-    User_Role = Column(mysql.SMALLINT(6))
+    User_Birthdate = Column(mysql.DATE)
+    User_Role = Column(mysql.SMALLINT(6), ForeignKey('User_Roles.User_Role_ID'))
     User_Taxnumber = Column(mysql.INTEGER(11), nullable=True)
     User_Desc = Column(mysql.VARCHAR(255), nullable=True)
     User_Creation_Date = Column(mysql.DATETIME)
     User_DLC = Column(mysql.DATETIME)
+
+    role = relationship('User_Roles', back_populates='all_users')
 
     def __init__(self, id, login, password, first_name, last_name, surname, phone, email, sex, birthday, role, taxnumber, desc, creation_date, dlc):
         self.User_ID = id
@@ -163,7 +167,7 @@ class Users(Base):
         self.User_Phone = phone
         self.User_EMail = email
         self.User_Sex = sex
-        self.User_Birthday = birthday
+        self.User_Birthdate = birthday
         self.User_Role = role
         self.User_Taxnumber = taxnumber
         self.User_Desc = desc
@@ -193,8 +197,27 @@ def get_all_roles():
     conn.close()
 
 
+def check_relationship_roles():
+    conn = Session()
+
+    user_roles = conn.query(User_Roles).all()
+    for role1 in user_roles:
+        print(role1.User_Role_Name)
+
+        if role1.all_users:
+            for user in role1.all_users:
+                print(user.User_Login)
+        else:
+            print('no users here')
+
+        print()
+
+
 
 def test():
     get_all_roles()
+    print('fk check')
+    check_relationship_roles()
+
 
 test()
