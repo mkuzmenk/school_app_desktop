@@ -8,7 +8,7 @@ load_dotenv()
 
 DB_SETTINGS = {'SERVER_ADDRESS': os.getenv('SERVER_ADDRESS'),
                 'DB_NAME': os.getenv('DB_NAME'),
-                'USERNAME': os.getenv('USERNAME'),
+                'DB_USERNAME': os.getenv('DB_USERNAME'),
                 'PASSWORD': os.getenv('PASSWORD'),
                'PORT_NUMBER': os.getenv('PORT_NUMBER')
                }
@@ -174,15 +174,13 @@ class Users(Base):
         return f'{self.User_ID} - {self.User_First_Name} - {self.User_Last_Name} - {self.User_Login} - {self.User_Role}'
 
 
-engine = create_engine(f"mysql://{DB_SETTINGS['USERNAME']}:{DB_SETTINGS['PASSWORD']}@"
+# engine works with PyMySQL package
+
+engine = create_engine(f"mysql+pymysql://{DB_SETTINGS['DB_USERNAME']}:{DB_SETTINGS['PASSWORD']}@"
                            f"{DB_SETTINGS['SERVER_ADDRESS']}:{DB_SETTINGS['PORT_NUMBER']}/{DB_SETTINGS['DB_NAME']}")
+
+Session = sessionmaker(engine)
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
 
-
-def get_connection():
-    Session = sessionmaker(engine)
-    conn = Session()
-
-    return conn
