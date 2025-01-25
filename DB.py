@@ -212,6 +212,7 @@ def check_relationship_roles():
 
         print()
 
+    conn.close()
 
 
 def test():
