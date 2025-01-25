@@ -209,7 +209,7 @@ def check_relationship_roles():
 
         if role1.all_users:
             for user in role1.all_users:
-                print(user.User_Login)
+                print(user.User_Login, user.User_First_Name)
         else:
             print('no users here')
 
