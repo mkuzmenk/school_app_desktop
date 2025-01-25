@@ -182,3 +182,16 @@ engine = create_engine(f"mysql+pymysql://{DB_SETTINGS['DB_USERNAME']}:{DB_SETTIN
 Session = sessionmaker(engine)
 Base.metadata.create_all(bind=engine)
 
+# function for test
+def get_all_roles():
+    conn = Session()
+
+    roles = conn.query(User_Roles).all()
+    for role in roles:
+        print(role)
+
+
+def test():
+    get_all_roles()
+
+test()
