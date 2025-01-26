@@ -1,7 +1,9 @@
 import tkinter
-from window_settings import WINDOW_GEOMETRY, TB_FONT, TB_FONT_COLOR, TB_COLOR
+from window_settings import (WINDOW_GEOMETRY, TB_FONT, TB_FONT_COLOR, TB_COLOR, TB_FONT_SIZE, TB_FONT_FORMAT, TB_RELIEF,
+                             E_COLOR, E_FONT_SIZE, E_FONT)
 from schedule_admin_page import Schedule
 from user_registration_admin_page import UserRegistration
+from edit_group_admin_page import EditGroup
 
 
 class Window:
@@ -12,30 +14,34 @@ class Window:
 
         self.active_window = None
 
-        self.__add_toolbar()
+        self.add_toolbar()
 
+    def run(self):
         self.main_window.mainloop()
 
-    def __add_toolbar(self):
-        self.up_meny = tkinter.Frame(self.main_window, bg=TB_COLOR, height=100)
-        self.up_meny.pack(side="top", fill="x")
+    def add_toolbar(self):
+        up_menu = tkinter.Frame(self.main_window, bg=TB_COLOR, height=100)
+        up_menu.pack(side="top", fill="x")
 
-        self.schedule_button = tkinter.Button(self.up_meny, text="Розклад", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
-                                              font=(TB_FONT, 22, "bold"), relief="flat", command=self.__on_schedule_click)
+        schedule_button = tkinter.Button(up_menu, text="Розклад", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
+                                         font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=TB_RELIEF,
+                                         command=self.__on_schedule_click)
 
-        self.edit_group_button = tkinter.Button(self.up_meny, text="Редагувати клас", bg=TB_COLOR, fg=TB_FONT_COLOR,
-                                                height=2,
-                                                font=(TB_FONT, 22, "bold"), relief="flat")
+        edit_group_button = tkinter.Button(up_menu, text="Редагувати клас", bg=TB_COLOR, fg=TB_FONT_COLOR,
+                                           height=2, font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=TB_RELIEF,
+                                           command=self.__on_edit_group_click)
 
-        self.input_users_button = tkinter.Button(self.up_meny, text="Додати users", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
-                                                 font=(TB_FONT, 22, "bold"), relief="flat", command=self.__on_input_users_click)
+        input_users_button = tkinter.Button(up_menu, text="Додати users", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
+                                            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=TB_RELIEF,
+                                            command=self.__on_input_users_click)
 
-        self.search_string = tkinter.Entry(self.up_meny, bg=TB_COLOR, relief="flat")
+        search_string = tkinter.Entry(up_menu, bg=E_COLOR, relief=TB_RELIEF, font=(E_FONT, E_FONT_SIZE))
 
-        self.schedule_button.pack(side="left", pady=30)
-        self.edit_group_button.pack(side="left", pady=30)
-        self.input_users_button.pack(side="left", pady=30)
-        self.search_string.pack(side="right", pady=30, padx=30)
+        schedule_button.pack(side="left", pady=30)
+        edit_group_button.pack(side="left", pady=30)
+        input_users_button.pack(side="left", pady=30)
+
+        search_string.pack(side="right", pady=30, padx=30)
 
     def __on_schedule_click(self):
         if not isinstance(self.active_window, Schedule):
@@ -53,6 +59,16 @@ class Window:
             self.active_window = UserRegistration(self.main_window)
 
             print('opening UserRegistrationPage')
+
+            print(self.main_window.winfo_children())
+            print(self.active_window)
+
+    def __on_edit_group_click(self):
+        if not isinstance(self.active_window, EditGroup):
+            self.active_window = None
+            self.active_window = EditGroup(self.main_window)
+
+            print('opening EditGroupPage')
 
             print(self.main_window.winfo_children())
             print(self.active_window)

@@ -1,8 +1,11 @@
-WINDOW_GEOMETRY = '1000x800+300+50'
+WINDOW_GEOMETRY = '1024x768+0+0'
 
 # TB - Toolbar
 TB_FONT = "Courier New"
 TB_FONT_COLOR = "white"
+TB_FONT_SIZE = 22
+TB_FONT_FORMAT = "bold"
+TB_RELIEF = "flat"
 TB_COLOR = "#4562D6"
 
 # L - Left
@@ -24,6 +27,7 @@ RB_WIDTH = 10
 # E - Entry
 E_FONT = "Courier New"
 E_FONT_SIZE = 18
+E_COLOR = "white"
 
 # B - Button
 B_COLOR = "#4562D6"

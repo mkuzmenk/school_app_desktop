@@ -1,3 +1,3 @@
 from window import Window
 
-Window()
+Window().run()
