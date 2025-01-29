@@ -9,7 +9,7 @@ class Window:
     def __init__(self):
         self.main_window = tkinter.Tk()
 
-        self.main_window.geometry(WINDOW_GEOMETRY)
+        self.main_window.state('zoomed')
 
         self.active_window = None
 
