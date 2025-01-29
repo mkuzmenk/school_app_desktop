@@ -17,168 +17,149 @@ class Base(DeclarativeBase):
     pass
 
 
-class Discipline_Type(Base):
-    __tablename__ = 'Discipline_Type'
+class AuthGroup(Base):
+    __tablename__ = 'auth_group'
 
-    Discipline_ID = Column(mysql.SMALLINT(6), primary_key=True)
-    Discipline_Name = Column(mysql.VARCHAR(255))
+    id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
+    name = Column(mysql.VARCHAR(150), unique=True, nullable=False)
+
+    auth_group_permissions = relationship('AuthGroupPermissions', 'auth_group')
 
     def __init__(self, id, name):
-        self.Discipline_ID = id
-        self.Discipline_Name = name
+        self.id = id
+        self.name = name
 
     def __str__(self):
-        return f'{self.Discipline_ID} - {self.Discipline_Name}'
+        return f'{self.id} - {self.name}'
+
+
+class AuthPermission(Base):
+    __tablename__ = 'auth_permission'
+
+    id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
+    name = Column(mysql.VARCHAR(255), nullable=False)
+    content_type_id = Column(mysql.INTEGER, nullable=False)
+    codename = Column(mysql.VARCHAR(100), nullable=False)
+
+    auth_permissions_group = relationship('AuthGroupPermissions', back_populates='auth_permission')
+
+    def __init__(self, id, name, content_type_id, codename):
+        self.id = id
+        self.name = name
+        self.content_type_id = content_type_id
+        self.codename = codename
+
+    def __str__(self):
+        return f'{self.id} - {self.name} - {self.codename}'
+
+
+class Disciplines(Base):
+    __tablename__ = 'disciplines'
+
+    discipline_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
+    discipline_name = Column(mysql.VARCHAR(255), nullable=False)
+
+    def __init__(self, discipline_id, discipline_name):
+        self.discipline_id = discipline_id
+        self.discipline_name = discipline_name
+
+    def __str__(self):
+        return f'{self.discipline_id} - {self.discipline_name}'
+
+
+class AuthGroupPermissions(Base):
+    __tablename__ = 'auth_group_permissions'
+
+    id = Column(mysql.BIGINT, primary_key=True, autoincrement=True)
+    group_id = Column(mysql.INTEGER, ForeignKey('auth_group.id'), nullable=False)
+    permission_id = Column(mysql.INTEGER, ForeignKey('auth_permission.id'), nullable=False)
+
+    auth_group = relationship('AuthGroup', back_populates='auth_group_permissions')
+    auth_permission = relationship('AuthPermission', back_populates='auth_permissions_group')
+
+    def __init__(self, id, group_id, permission_id):
+        self.id = id
+        self.group_id = group_id
+        self.permission_id = permission_id
+
+    def __str__(self):
+        return f'{self.id} - Group: {self.group_id} - Permission: {self.permission_id}'
+
+
+class HomeworkResponses(Base):
+    __tablename__ = 'homework_responses'
+
+    home_work_response_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
+    home_work_response = Column(mysql.LONGTEXT, nullable=False)
+    home_work_response_created_at = Column(mysql.DATETIME(fsp=6), nullable=False)
+    home_work_mark_id_ref = Column(mysql.INTEGER, ForeignKey('marks.mark_id'))
+    home_work_user_id_ref = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
+    home_work_id_ref = Column(mysql.INTEGER, ForeignKey('homeworks.home_work_id'), nullable=False)
+
+# TODO: foreign relationship
+
+    def __init__(self, home_work_response_id, home_work_response, home_work_response_created_at,
+                 home_work_mark_id_ref, home_work_user_id_ref, home_work_id_ref):
+        self.home_work_response_id = home_work_response_id
+        self.home_work_response = home_work_response
+        self.home_work_response_created_at = home_work_response_created_at
+        self.home_work_mark_id_ref = home_work_mark_id_ref
+        self.home_work_user_id_ref = home_work_user_id_ref
+        self.home_work_id_ref = home_work_id_ref
+
+    def __str__(self):
+        return f'{self.home_work_response_id} - User: {self.home_work_user_id_ref} - Homework: {self.home_work_id_ref}'
+
+
+class Groups(Base):
+    __tablename__ = 'groups'
+
+    group_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
+    group_name = Column(mysql.VARCHAR(255), nullable=False)
+    group_teacher_id_id = Column(mysql.INTEGER, nullable=True)
+
+    def __init__(self, group_id, group_name):
+        self.group_id = group_id
+        self.group_name = group_name
+
+    def __str__(self):
+        return f'{self.group_id} - {self.group_name}'
 
 
 class Homeworks(Base):
-    __tablename__ = 'Homeworks'
+    __tablename__ = 'homeworks'
 
-    Home_Work_ID = Column(mysql.INTEGER(11), primary_key=True)
-    Home_Work_Name = Column(mysql.VARCHAR(255))
-    Home_Work_User_REF = Column(mysql.INTEGER(11))
-    Home_Work_Group_REF = Column(mysql.VARCHAR(255))
-    Home_Work_TimeTable_REF = Column(mysql.INTEGER(11))
-    Home_Work_Desc = Column(mysql.VARCHAR(255))
-    Home_Work_Deadline = Column(mysql.DATE)
+    home_work_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
+    home_work_name = Column(mysql.VARCHAR(255), nullable=False)
+    home_work_topic = Column(mysql.VARCHAR(255), nullable=False)
+    home_work_description = Column(mysql.LONGTEXT, nullable=False)
+    home_work_deadline = Column(mysql.DATETIME(fsp=6), nullable=False)
+    home_work_created_at = Column(mysql.DATETIME(fsp=6), nullable=False)
+    home_work_group_id_ref = Column(mysql.INTEGER, nullable=True)
+    home_work_timetable_ref = Column(mysql.INTEGER, nullable=True)
+    home_work_user_ref_id = Column(mysql.INTEGER, nullable=True)
 
-    def __init__(self, id, name, user_ref, group_ref, timetable_ref, desc, deadline):
-        self.Home_Work_ID = id
-        self.Home_Work_Name = name
-        self.Home_Work_User_REF = user_ref
-        self.Home_Work_Group_REF = group_ref
-        self.Home_Work_TimeTable_REF = timetable_ref
-        self.Home_Work_Desc = desc
-        self.Home_Work_Deadline = deadline
-
+    def __init__(self, homework_id, discipline_id, homework_text):
+        self.homework_id = homework_id
+        self.discipline_id = discipline_id
+        self.homework_text = homework_text
 
     def __str__(self):
-        return f'{self.Home_Work_ID} - {self.Home_Work_Name}'
+        return f'{self.homework_id} - Discipline: {self.discipline_id}'
 
+class MarkTypes(Base):
+    __tablename__ = 'mark_types'
 
-class Marks(Base):
-    __tablename__ = 'Marks'
+    mark_type_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
+    mark_name = Column(mysql.VARCHAR(255), nullable=False)
 
-    Marks_ID = Column(mysql.BIGINT(20), primary_key=True)
-    Mark_Value = Column(mysql.TINYINT(4))
-    Mark_User_REF = Column(mysql.VARCHAR(255))
-    Mark_Student_REF = Column(mysql.INTEGER(11))
-    Mark_Time_Table_REF = Column(mysql.INTEGER(11))
-    Mark_Discipline_Type_REF = Column(mysql.INTEGER(11))
-    Mark_Type = Column(mysql.CHAR(255))
-
-    def __init__(self, id, value, user_ref, student_ref, time_table_ref, discipline_type_ref, mark_type):
-        self.Marks_ID = id
-        self.Mark_Value = value
-        self.Mark_User_REF = user_ref
-        self.Mark_Student_REF = student_ref
-        self.Mark_Time_Table_REF = time_table_ref
-        self.Mark_Discipline_Type_REF = discipline_type_ref
-        self.Mark_Type = mark_type
-
+    def __init__(self, mark_type_id, mark_name):
+        self.mark_type_id = mark_type_id
+        self.mark_name = mark_name
 
     def __str__(self):
-        return f'{self.Marks_ID} - {self.Mark_Value} - {self.Mark_User_REF}'
+        return f'{self.mark_type_id} - {self.mark_name}'
 
-
-class Time_Table(Base):
-    __tablename__ = 'Time_Table'
-
-    Time_Table_ID = Column(mysql.INTEGER(11), primary_key=True)
-    Time_Table_User_REF = Column(mysql.INTEGER(11))
-    Time_Table_GroupName = Column(mysql.VARCHAR(255))
-    Time_Table_Cabinet = Column(mysql.SMALLINT(6))
-    Time_Table_Start_Time = Column(mysql.DATETIME)
-    Time_Table_End_Time = Column(mysql.DATETIME)
-
-    def __init__(self, id, user_ref, group_name, cabinet, start_time, end_time):
-        self.Time_Table_ID = id
-        self.Time_Table_User_REF = user_ref
-        self.Time_Table_GroupName = group_name
-        self.Time_Table_Cabinet = cabinet
-        self.Time_Table_Start_Time = start_time
-        self.Time_Table_End_Time = end_time
-
-
-    def __str__(self):
-        return f'{self.Time_Table_ID} - {self.Time_Table_GroupName}'
-
-
-class User_Group(Base):
-    __tablename__ = 'User_Group'
-
-    ID = Column(mysql.INTEGER(11), primary_key=True)
-    User_REF = Column(mysql.INTEGER(11))
-    Group_Name = Column(mysql.VARCHAR(255))
-
-    def __init__(self, id, user_ref, group_name):
-        self.ID = id
-        self.User_REF = user_ref
-        self.Group_Name = group_name
-
-    def __str__(self):
-        return f'{self.ID} - {self.Group_Name}'
-
-
-class User_Roles(Base):
-    __tablename__ = 'User_Roles'
-
-    User_Role_ID = Column(mysql.SMALLINT(6), primary_key=True, unique=True, autoincrement=True)
-    User_Role_Name = Column(mysql.VARCHAR(255))
-
-    all_users = relationship('Users', back_populates='role')
-
-    def __init__(self, id, name):
-        self.User_Role_ID = id
-        self.User_Role_Name = name
-
-    def __str__(self):
-        return f'{self.User_Role_ID} - {self.User_Role_Name}'
-
-
-class Users(Base):
-    __tablename__ = 'Users'
-
-    User_ID = Column(mysql.INTEGER(11), primary_key=True, autoincrement=True, unique=True)
-    User_Login = Column(mysql.INTEGER(11), unique=True)
-    User_Password = Column(mysql.VARCHAR(24))
-    User_First_Name = Column(mysql.VARCHAR(255))
-    User_Last_Name = Column(mysql.VARCHAR(255))
-    User_Surname = Column(mysql.VARCHAR(255), nullable=True)
-    User_Phone = Column(mysql.VARCHAR(255))
-    User_EMail = Column(mysql.VARCHAR(255))
-    User_Sex = Column(mysql.CHAR(1), nullable=True)
-    User_Birthdate = Column(mysql.DATE)
-    User_Role = Column(mysql.SMALLINT(6), ForeignKey('User_Roles.User_Role_ID'))
-    User_Taxnumber = Column(mysql.INTEGER(11), nullable=True)
-    User_Desc = Column(mysql.VARCHAR(255), nullable=True)
-    User_Creation_Date = Column(mysql.DATETIME)
-    User_DLC = Column(mysql.DATETIME)
-    User_GroupID_REF = Column(mysql.INTEGER(11), nullable=True)
-
-    role = relationship('User_Roles', back_populates='all_users')
-
-    def __init__(self, id, login, password, first_name, last_name, surname, phone, email, sex, birthday, role,
-                 taxnumber, desc, creation_date, dlc, user_gorupid_ref):
-        self.User_ID = id
-        self.User_Login = login
-        self.User_Password = password
-        self.User_First_Name = first_name
-        self.User_Last_Name = last_name
-        self.User_Surname = surname
-        self.User_Phone = phone
-        self.User_EMail = email
-        self.User_Sex = sex
-        self.User_Birthdate = birthday
-        self.User_Role = role
-        self.User_Taxnumber = taxnumber
-        self.User_Desc = desc
-        self.User_Creation_Date = creation_date
-        self.User_DLC = dlc
-        self.User_GroupID_REF = user_gorupid_ref
-
-    def __str__(self):
-        return f'{self.User_ID} - {self.User_First_Name} - {self.User_Last_Name} - {self.User_Login} - {self.User_Role}'
 
 
 # engine works with PyMySQL package
@@ -188,6 +169,8 @@ engine = create_engine(f"mysql+pymysql://{DB_SETTINGS['DB_USERNAME']}:{DB_SETTIN
 
 Session = sessionmaker(engine)
 Base.metadata.create_all(bind=engine)
+
+
 
 # function for test
 def get_all_roles():
