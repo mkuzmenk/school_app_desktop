@@ -1,8 +1,7 @@
 import tkinter
 from page import Page
-from window_settings import (L_PANEL_COLOR, L_PANEL_WIDTH, L_PANEL_SIDE, L_PANEL_FILL,
-                             RB_FONT, RB_FONT_COLOR, RB_FONT_SIZE, RB_FONT_FORMAT,
-                             RB_WIDTH, B_COLOR, B_FONT, B_FONT_SIZE, B_FONT_COLOR, E_FONT, E_FONT_SIZE)
+from window_settings import *
+from test_data import *
 
 
 class UserRegistration(Page):
@@ -32,63 +31,19 @@ class UserRegistration(Page):
     def show_main_panel(self):
         registration_panel = tkinter.Frame(self.main_window)
 
-        tax_label = tkinter.Label(registration_panel, text='ІПН', font=(RB_FONT, RB_FONT_SIZE))
-        tax_entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
+        button_panel = tkinter.Frame(self.main_window)
 
-        first_name_label = tkinter.Label(registration_panel, text="Ім'я", font=(RB_FONT, RB_FONT_SIZE))
-        first_name_entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
+        for i in range(len(REGISTRATION_LABELS)):
+            label = tkinter.Label(registration_panel, text=REGISTRATION_LABELS[i], font=(RB_FONT, RB_FONT_SIZE))
+            entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
 
-        second_name_label = tkinter.Label(registration_panel, text='Прізвище', font=(RB_FONT, RB_FONT_SIZE))
-        second_name_entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
+            label.grid(column=1, row=i+1)
+            entry.grid(column=2, row=i+1)
 
-        surname_label = tkinter.Label(registration_panel, text='По-батькові', font=(RB_FONT, RB_FONT_SIZE))
-        surname_entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
-
-        birthday_label = tkinter.Label(registration_panel, text='День народження', font=(RB_FONT, RB_FONT_SIZE))
-        birthday_entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
-
-        id_class_label = tkinter.Label(registration_panel, text="ID класу (не обов'язково)", font=(RB_FONT, RB_FONT_SIZE))
-        id_class_entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
-
-        email_label = tkinter.Label(registration_panel, text='Пошта', font=(RB_FONT, RB_FONT_SIZE))
-        email_entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
-
-        password_label = tkinter.Label(registration_panel, text='Пароль', font=(RB_FONT, RB_FONT_SIZE))
-        password_entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
-
-        password_repeat_label = tkinter.Label(registration_panel, text='Повторіть пароль', font=(RB_FONT, RB_FONT_SIZE))
-        password_repeat_entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
-
-        complete_button = tkinter.Button(text='Завершити реєстрацію', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
+        complete_button = tkinter.Button(button_panel, text='Завершити реєстрацію', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
                                          fg=B_FONT_COLOR)
 
         registration_panel.pack()
 
-        tax_label.grid(column=1, row=1)
-        tax_entry.grid(column=2, row=1)
-
-        first_name_label.grid(column=1, row=2)
-        first_name_entry.grid(column=2, row=2)
-
-        second_name_label.grid(column=1, row=3)
-        second_name_entry.grid(column=2, row=3)
-
-        surname_label.grid(column=1, row=4)
-        surname_entry.grid(column=2, row=4)
-
-        birthday_label.grid(column=1, row=5)
-        birthday_entry.grid(column=2, row=5)
-
-        id_class_label.grid(column=1, row=6)
-        id_class_entry.grid(column=2, row=6)
-
-        email_label.grid(column=1, row=7)
-        email_entry.grid(column=2, row=7)
-
-        password_label.grid(column=1, row=8)
-        password_entry.grid(column=2, row=8)
-
-        password_repeat_label.grid(column=1, row=9)
-        password_repeat_entry.grid(column=2, row=9)
-
+        button_panel.pack()
         complete_button.pack()

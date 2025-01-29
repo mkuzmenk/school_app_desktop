@@ -15,7 +15,8 @@ L_PANEL_SIDE = 'left'
 L_PANEL_FILL = 'y'
 
 # R - Right
-R_PANEL_SIDE = 'right'
+R_PANEL_FONT = "Courier New"
+R_PANEL_FONT_SIZE = 18
 
 # RB - Radiobutton
 RB_FONT = "Courier New"
@@ -34,3 +35,9 @@ B_COLOR = "#4562D6"
 B_FONT = "Courier New"
 B_FONT_SIZE = 18
 B_FONT_COLOR = "white"
+
+# T - Table
+T_QUANTITY = 2
+T_HEIGHT = 7
+T_NUMBER_WIDTH = 12
+T_TIME_WIDTH = 100

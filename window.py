@@ -1,6 +1,5 @@
 import tkinter
-from window_settings import (WINDOW_GEOMETRY, TB_FONT, TB_FONT_COLOR, TB_COLOR, TB_FONT_SIZE, TB_FONT_FORMAT, TB_RELIEF,
-                             E_COLOR, E_FONT_SIZE, E_FONT)
+from window_settings import *
 from schedule_admin_page import Schedule
 from user_registration_admin_page import UserRegistration
 from edit_group_admin_page import EditGroup

@@ -1,6 +1,6 @@
 import tkinter
 
-from school_app_desktop.test_constants import CLASS_QUANTITY
+from test_data import CLASS_QUANTITY
 from window_settings import L_PANEL_COLOR, L_PANEL_WIDTH, RB_FONT_COLOR, RB_WIDTH, RB_FONT, RB_FONT_SIZE, \
     RB_FONT_FORMAT, L_PANEL_SIDE, L_PANEL_FILL
 
@@ -38,7 +38,7 @@ class Page:
         number_option = tkinter.IntVar(value=1)
 
         for i in range(CLASS_QUANTITY):
-            option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=L_PANEL_COLOR,
+            option = tkinter.Radiobutton(left_panel, text=f'{i+1} Клас', value=i + 1, bg=L_PANEL_COLOR,
                                          fg=RB_FONT_COLOR,
                                          width=RB_WIDTH, variable=number_option,
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT))

@@ -1,7 +1,7 @@
-import tkinter
+import tkinter.ttk
 from page import Page
-from window_settings import (L_PANEL_COLOR, L_PANEL_WIDTH, L_PANEL_SIDE, L_PANEL_FILL, R_PANEL_SIDE, RB_WIDTH,
-                             RB_FONT_COLOR, RB_FONT_SIZE, RB_FONT_FORMAT, RB_FONT)
+from window_settings import *
+from test_data import *
 
 
 class Schedule(Page):
@@ -12,9 +12,46 @@ class Schedule(Page):
         self.show_groups_in_left_panel()
 
     def show_main_panel(self):
-        schedule = tkinter.Frame(self.main_window)
+        schedule_frame = tkinter.Frame(self.main_window)
+        schedule_frame.pack()
 
-        monday_label = tkinter.Label(schedule, text="ПОНЕДІЛОК")
+        week = [SCHEDULE_LST_MON, SCHEDULE_LST_TUE, SCHEDULE_LST_WED, SCHEDULE_LST_THU, SCHEDULE_LST_FRI, SCHEDULE_LST_SAT]
 
-        schedule.pack()
-        monday_label.pack(side=R_PANEL_SIDE)
+        current_day = 0
+
+        for i in range(T_QUANTITY):
+
+            column = tkinter.Frame(schedule_frame)
+            column.pack(side=tkinter.LEFT)
+
+            for day in range(current_day, (len(week) // T_QUANTITY + current_day)):
+
+                table_frame = tkinter.Frame(column)
+                table_frame.pack()
+
+                day_name = tkinter.Label(table_frame, text=WEEKDAYS[current_day],
+                                         font=(R_PANEL_FONT, R_PANEL_FONT_SIZE))
+                day_name.pack()
+
+                table = tkinter.ttk.Treeview(table_frame, show='headings', columns=('#1', '#2', '#3', '#4'), height=T_HEIGHT)
+
+                table.column('#1', width=T_NUMBER_WIDTH)
+                table.heading('#1', text='№')
+
+                table.heading('#2', text='Назва предмету')
+
+                table.heading('#3', text='Вчитель')
+
+                table.column('#4', width=T_TIME_WIDTH)
+                table.heading('#4', text='Час уроку')
+
+                scrollbar = tkinter.ttk.Scrollbar(table_frame, orient=tkinter.VERTICAL, command=table.yview)
+                table.configure(yscrollcommand=scrollbar.set)
+
+                table.pack(side='left')
+                scrollbar.pack(side='right', fill='y')
+
+                for lesson in week[day]:
+                    table.insert("", tkinter.END, values=lesson)
+
+                current_day += 1
