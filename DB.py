@@ -161,11 +161,116 @@ class MarkTypes(Base):
         return f'{self.mark_type_id} - {self.mark_name}'
 
 
+class Users(Base):
+    __tablename__ = 'users'
+
+    password = Column(mysql.VARCHAR(128), nullable=False)
+    last_login = Column(mysql.DATETIME(fsp=6), nullable=True)
+    user_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
+    user_login = Column(mysql.VARCHAR(50), nullable=False, unique=True)
+    user_first_name = Column(mysql.VARCHAR(255), nullable=False)
+    user_last_name = Column(mysql.VARCHAR(255), nullable=False)
+    user_surname = Column(mysql.VARCHAR(255), nullable=True)
+    user_phone = Column(mysql.VARCHAR(20), nullable=False)
+    user_email = Column(mysql.VARCHAR(254), nullable=False, unique=True)
+    user_sex = Column(mysql.VARCHAR(1), nullable=False)
+    user_birthday = Column(mysql.DATE, nullable=False)
+    user_tax_number = Column(mysql.VARCHAR(25), nullable=True)
+    user_description = Column(mysql.LONGTEXT, nullable=True)
+    user_created_at = Column(mysql.DATETIME(fsp=6), nullable=False)
+    user_changed_at = Column(mysql.DATETIME(fsp=6), nullable=False)
+    is_active = Column(mysql.TINYINT(1), nullable=False)
+    is_staff = Column(mysql.TINYINT(1), nullable=False)
+    is_superuser = Column(mysql.TINYINT(1), nullable=False)
+    user_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
+    user_role = Column(mysql.INTEGER, ForeignKey('user_roles.user_role_id'), nullable=True)
+
+    def __init__(self, password, last_login, user_id, user_login, user_first_name, user_last_name, user_surname,
+                 user_phone, user_email, user_sex, user_birthday, user_tax_number, user_description, user_created_at,
+                 user_changed_at, is_active, is_staff, is_superuser, user_group_id_ref, user_role):
+        self.password = password
+        self.last_login = last_login
+        self.user_id = user_id
+        self.user_login = user_login
+        self.user_first_name = user_first_name
+        self.user_last_name = user_last_name
+        self.user_surname = user_surname
+        self.user_phone = user_phone
+        self.user_email = user_email
+        self.user_sex = user_sex
+        self.user_birthday = user_birthday
+        self.user_tax_number = user_tax_number
+        self.user_description = user_description
+        self.user_created_at = user_created_at
+        self.user_changed_at = user_changed_at
+        self.is_active = is_active
+        self.is_staff = is_staff
+        self.is_superuser = is_superuser
+        self.user_group_id_ref = user_group_id_ref
+        self.user_role = user_role
+
+    def __str__(self):
+        return f'{self.user_last_name} - {self.user_first_name} - {self.user_tax_number}'
+
+
+class UserRoles(Base):
+    __tablename__ = 'user_roles'
+
+    user_role_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
+    user_role_name = Column(mysql.VARCHAR(50), nullable=False, unique=True)
+
+    def __init__(self, user_role_id, user_role_name):
+        self.user_role_id = user_role_id
+        self.user_role_name = user_role_name
+
+    def __str__(self):
+        return f'{self.user_role_name} - {self.user_role_id}'
+
+
+class TimeTable(Base):
+    __tablename__ = 'time_table'
+
+    time_table_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
+    time_table_cabinet = Column(mysql.SMALLINT, nullable=False)
+    time_table_start_time = Column(mysql.TIME(fsp=6), nullable=False)
+    time_table_end_time = Column(mysql.TIME(fsp=6), nullable=False)
+    time_table_day = Column(mysql.VARCHAR(10), nullable=False)
+    time_table_discipline_ref_id = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=True)
+    time_table_group_id_ref_id = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
+
+    def __init__(self, time_table_id, time_table_cabinet, time_table_start_time, time_table_end_time, time_table_day,
+                 time_table_discipline_ref_id, time_table_group_id_ref_id):
+        self.time_table_id = time_table_id
+        self.time_table_cabinet = time_table_cabinet
+        self.time_table_start_time = time_table_start_time
+        self.time_table_end_time = time_table_end_time
+        self.time_table_day = time_table_day
+        self.time_table_discipline_ref_id = time_table_discipline_ref_id
+        self.time_table_group_id_ref_id = time_table_group_id_ref_id
+
+    def __str__(self):
+        return f'{self.time_table_start_time} - {self.time_table_id}'
+
+
+class TeacherDiscipline(Base):
+    __tablename__ = 'timetable_teacherdiscipline'
+
+    id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
+    discipline_id = Column(mysql.INTEGER, nullable=False)
+    teacher_id = Column(mysql.INTEGER, nullable=False)
+
+    def __init__(self, id, discipline_id, teacher_id):
+        self.id = id
+        self.discipline_id = discipline_id
+        self.teacher_id = teacher_id
+
+    def __str__(self):
+        return f'{self.teacher_id} - {self.id}'
 
 # engine works with PyMySQL package
 
 engine = create_engine(f"mysql+pymysql://{DB_SETTINGS['DB_USERNAME']}:{DB_SETTINGS['PASSWORD']}@"
-                           f"{DB_SETTINGS['SERVER_ADDRESS']}:{DB_SETTINGS['PORT_NUMBER']}/{DB_SETTINGS['DB_NAME']}")
+                       f"{DB_SETTINGS['SERVER_ADDRESS']}:{DB_SETTINGS['PORT_NUMBER']}/{DB_SETTINGS['DB_NAME']}")
 
 Session = sessionmaker(engine)
 Base.metadata.create_all(bind=engine)
