@@ -23,7 +23,7 @@ class AuthGroup(Base):
     id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
     name = Column(mysql.VARCHAR(150), unique=True, nullable=False)
 
-    auth_group_permissions = relationship('AuthGroupPermissions', 'auth_group')
+    auth_group_permissions = relationship('AuthGroupPermissions', back_populates='auth_group')
 
     def __init__(self, id, name):
         self.id = id
