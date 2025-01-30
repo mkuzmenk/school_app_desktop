@@ -196,6 +196,9 @@ class MarkTypes(Base):
 
 
 class Marks(Base):
+
+    __tablename__ = 'marks'
+
     mark_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
     mark_value = Column(mysql.INTEGER, nullable=False)
     mark_created_at = Column(mysql.DATE, nullable=False)
