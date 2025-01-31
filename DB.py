@@ -102,7 +102,9 @@ class HomeworkResponses(Base):
     home_work_id_ref = Column(mysql.INTEGER, ForeignKey('homeworks.home_work_id'), nullable=False)
 
     mark_hw_resp = relationship('Marks', back_populates='hw_resp_mark')
-    user_hw_resp = relationship('Users', back_populates='hw_resp_user')
+    user_hw_resp = relationship('Users', back_populates='hw_resp_user',
+                                foreign_keys='HomeworkResponses.home_work_user_id_ref')
+
     homework_hw_resp = relationship('Homeworks', back_populates='hw_resp_homework')
 
 
@@ -126,8 +128,7 @@ class Groups(Base):
     group_name = Column(mysql.VARCHAR(255), nullable=False)
     group_teacher_id_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
 
-    user_group = relationship('Users', back_populates='group_user')
-
+    user_group = relationship('Users', back_populates='group_user', foreign_keys='Users.user_group_id_ref')
     homework_group = relationship('Homeworks', back_populates='group_homework')
     time_table_group = relationship('TimeTable', back_populates='group_time_table')
 
@@ -158,7 +159,9 @@ class Homeworks(Base):
 
     group_homework = relationship('Groups', back_populates='homework_group')
     time_table_homework = relationship('TimeTable', back_populates='homework_time_table')
-    user_homework = relationship('Users', back_populates='homework_user')
+
+    user_homework = relationship('Users', back_populates='homework_user',
+                                 foreign_keys='Homeworks.home_work_user_ref_id')
 
 
 
@@ -205,14 +208,14 @@ class Marks(Base):
     homework_id_ref = Column(mysql.INTEGER, ForeignKey('homeworks.home_work_id'), nullable=False)
     mark_discipline_type_ref = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=False)
     mark_student_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
-    mark_teacher_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
+    mark_teacher_id = Column(mysql.INTEGER, nullable=False)
     mark_type = Column(mysql.INTEGER, ForeignKey('mark_types.mark_type_id'), nullable=False)
 
     hw_resp_mark = relationship('HomeworkResponses', back_populates='mark_hw_resp')
 
     homework_mark = relationship('Homeworks', back_populates='mark_homework')
     discipline_mark = relationship('Disciplines', back_populates='mark_discipline')
-    user_mark = relationship('Users', back_populates='mark_user')
+    user_mark = relationship('Users', back_populates='mark_user', foreign_keys='Marks.mark_student_id')
     marktype_mark = relationship('MarkTypes', back_populates='mark_marktype')
 
     def __init__(self, mark_id, mark_value, mark_created_at, homework_id_ref, mark_discipline_type_ref, mark_student_id,
@@ -255,13 +258,21 @@ class Users(Base):
     user_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
     user_role = Column(mysql.INTEGER, ForeignKey('user_roles.user_role_id'), nullable=True)
 
-    hw_resp_user = relationship('HomeworkResponses', back_populates='user_hw_resp')
-    group_user = relationship('Groups', back_populates='user_group')
-    homework_user = relationship('Homeworks', back_populates='user_homework')
-    mark_user = relationship('Marks', back_populates='user_mark')
-    teacherdiscipline_user = relationship('TeacherDiscipline', back_populates='user_teacherdiscipline')
+    hw_resp_user = relationship('HomeworkResponses', back_populates='user_hw_resp',
+                                foreign_keys='HomeworkResponses.home_work_user_id_ref')
 
-    userrole_user = relationship('UserRoles', back_populates='user_userrole')
+    group_user = relationship('Groups', back_populates='user_group', foreign_keys='Users.user_group_id_ref')
+
+    homework_user = relationship('Homeworks', back_populates='user_homework',
+                                 foreign_keys='Homeworks.home_work_user_ref_id')
+
+    mark_user = relationship('Marks', back_populates='user_mark', foreign_keys='Marks.mark_student_id')
+
+    teacherdiscipline_user = relationship('TeacherDiscipline', back_populates='user_teacherdiscipline',
+                                          foreign_keys='TeacherDiscipline.teacher_id')
+
+    userrole_user = relationship('UserRoles', back_populates='user_userrole',
+                                 foreign_keys='Users.user_role')
 
 
     def __init__(self, password, user_login, user_first_name, user_last_name,
@@ -300,7 +311,7 @@ class UserRoles(Base):
     user_role_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
     user_role_name = Column(mysql.VARCHAR(50), nullable=False, unique=True)
 
-    user_userrole = relationship('Users', back_populates='userrole_user')
+    user_userrole = relationship('Users', back_populates='userrole_user', foreign_keys='Users.user_role')
 
     def __init__(self, user_role_id, user_role_name):
         self.user_role_id = user_role_id
@@ -348,7 +359,8 @@ class TeacherDiscipline(Base):
     teacher_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
 
     discipline_teacherdiscipline = relationship('Disciplines', back_populates='teacherdiscipline_discipline')
-    user_teacherdiscipline = relationship('Users', back_populates='teacherdiscipline_user')
+    user_teacherdiscipline = relationship('Users', back_populates='teacherdiscipline_user',
+                                          foreign_keys='TeacherDiscipline.teacher_id')
 
     def __init__(self, id, discipline_id, teacher_id):
         self.id = id

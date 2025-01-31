@@ -68,7 +68,14 @@ class UserRegistration(Page):
 
     def get_data(self):
         data = dict()
+
+        if not self.entries["ID класу (не обов'язково)"].get().isdigit():
+            return None
+
         for i in self.entries.keys():
+            if self.entries[i].get() is None and i != "ID класу (не обов'язково)":
+                return None
+
             data[i] = self.entries[i].get()
 
         return data
