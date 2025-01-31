@@ -360,47 +360,10 @@ class TeacherDiscipline(Base):
 
 # engine works with PyMySQL package
 
-engine = create_engine(f"mysql+pymysql://{DB_SETTINGS['DB_USERNAME']}:{DB_SETTINGS['PASSWORD']}@"
-                       f"{DB_SETTINGS['SERVER_ADDRESS']}:{DB_SETTINGS['PORT_NUMBER']}/{DB_SETTINGS['DB_NAME']}")
+def start_db():
+    engine = create_engine(f"mysql+pymysql://{DB_SETTINGS['DB_USERNAME']}:{DB_SETTINGS['PASSWORD']}@"
+                           f"{DB_SETTINGS['SERVER_ADDRESS']}:{DB_SETTINGS['PORT_NUMBER']}/{DB_SETTINGS['DB_NAME']}")
 
-Session = sessionmaker(engine)
-Base.metadata.create_all(bind=engine)
-
-
-
-# function for test
-# def get_all_roles():
-#     conn = Session()
-#
-#     roles = conn.query(User_Roles).all()
-#     for role in roles:
-#         print(role)
-#
-#     conn.close()
-#
-#
-# def check_relationship_roles():
-#     conn = Session()
-#
-#     user_roles = conn.query(User_Roles).all()
-#     for role1 in user_roles:
-#         print(role1.User_Role_Name)
-#
-#         if role1.all_users:
-#             for user in role1.all_users:
-#                 print(user.User_Login, user.User_First_Name)
-#         else:
-#             print('no users here')
-#
-#         print()
-#
-#     conn.close()
-
-
-# def test():
-#     get_all_roles()
-#     print('fk check')
-#     check_relationship_roles()
-#
-#
-# test()
+    Session = sessionmaker(engine)
+    Base.metadata.create_all(bind=engine)
+    return Session
