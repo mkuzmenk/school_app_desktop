@@ -264,9 +264,11 @@ class Users(Base):
     userrole_user = relationship('UserRoles', back_populates='user_userrole')
 
 
-    def __init__(self, password, last_login, user_id, user_login, user_first_name, user_last_name, user_surname,
-                 user_phone, user_email, user_sex, user_birthday, user_tax_number, user_description, user_created_at,
-                 user_changed_at, is_active, is_staff, is_superuser, user_group_id_ref, user_role):
+    def __init__(self, password, user_login, user_first_name, user_last_name,
+                 user_phone, user_email, user_sex, user_birthday, user_created_at,
+                 user_changed_at, is_active, is_staff, is_superuser, last_login=None,
+                 user_surname=None, user_tax_number=None, user_description=None, user_group_id_ref=None, user_role=None,
+                 user_id=None):
         self.password = password
         self.last_login = last_login
         self.user_id = user_id
