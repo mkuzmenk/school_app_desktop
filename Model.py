@@ -17,8 +17,9 @@ class Model:
                          group_id=None):
         teacher = Users(password=password, user_login=user_login, user_first_name=name, user_last_name=last_name,
                         user_surname=surname, user_phone=phone, user_email=email, user_sex=sex, user_birthday=birthdate,
-                        user_tax_number=ipn, user_created_at=datetime.utcnow(), user_changed_at=datetime.utcnow(),
-                        is_active=1, is_staff=1, is_superuser=0, user_group_id_ref=group_id, user_role=2)
+                        user_tax_number=ipn, user_created_at=datetime.utcnow(), last_login=datetime.utcnow(),
+                        user_changed_at=datetime.utcnow(), is_active=1, is_staff=1, is_superuser=0,
+                        user_group_id_ref=group_id, user_role=2)
 
         self.conn.add(teacher)
         self.conn.commit()
