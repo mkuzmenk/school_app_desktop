@@ -4,10 +4,10 @@ from schedule_admin_page import Schedule
 from user_registration_admin_page import UserRegistration
 from edit_group_admin_page import EditGroup
 
-
 class Window:
     def __init__(self):
         self.main_window = tkinter.Tk()
+        self.controller = None
 
         # self.main_window.state('zoomed')
 
@@ -19,6 +19,9 @@ class Window:
 
     def run(self):
         self.main_window.mainloop()
+
+    def set_controller(self, controller):
+        self.controller = controller
 
     def add_toolbar(self):
         up_menu = tkinter.Frame(self.main_window, bg=TB_COLOR, height=100)

@@ -6,7 +6,6 @@ if __name__ == '__main__':
     model = Model()
     view = Window()
     controller = Controller(model, view)
-
-    # also need to add controller into view! view.controller = controller
+    view.set_controller(controller)
 
     view.run()
