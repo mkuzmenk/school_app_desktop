@@ -7,6 +7,8 @@ class Model:
         self.Session = start_db()
         assert self.Session is not None, 'DB connection is not found'      # if no connection, program won't run
 
+        self.conn = self.Session()
+
     def __del__(self):
         if self.Session:
             self.Session().close()
@@ -18,6 +20,5 @@ class Model:
                         user_tax_number=ipn, user_created_at=datetime.utcnow(), user_changed_at=datetime.utcnow(),
                         is_active=1, is_staff=1, is_superuser=0, user_group_id_ref=group_id, user_role=2)
 
-        conn = self.Session()
-        conn.add(teacher)
-        conn.commit()
+        self.conn.add(teacher)
+        self.conn.commit()
