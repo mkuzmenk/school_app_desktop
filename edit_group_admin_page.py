@@ -8,6 +8,9 @@ class EditGroup(Page):
     def __init__(self, window):
         super().__init__(window)
 
+    def __str__(self):
+        return 'EditGroup'
+
     def show_left_panel(self):
         self.show_groups_in_left_panel()
 

@@ -9,7 +9,9 @@ class Window:
     def __init__(self):
         self.main_window = tkinter.Tk()
 
-        self.main_window.state('zoomed')
+        # self.main_window.state('zoomed')
+
+        self.main_window.geometry(WINDOW_GEOMETRY)
 
         self.active_window = None
 
@@ -24,15 +26,15 @@ class Window:
 
         schedule_button = tkinter.Button(up_menu, text="Розклад", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
                                          font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=TB_RELIEF,
-                                         command=self.__on_schedule_click)
+                                         command=lambda: self.__on_toolbar_button_click(Schedule))
 
         edit_group_button = tkinter.Button(up_menu, text="Редагувати клас", bg=TB_COLOR, fg=TB_FONT_COLOR,
                                            height=2, font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=TB_RELIEF,
-                                           command=self.__on_edit_group_click)
+                                           command=lambda: self.__on_toolbar_button_click(EditGroup))
 
         input_users_button = tkinter.Button(up_menu, text="Додати users", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
                                             font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=TB_RELIEF,
-                                            command=self.__on_input_users_click)
+                                            command=lambda: self.__on_toolbar_button_click(UserRegistration))
 
         search_string = tkinter.Entry(up_menu, bg=E_COLOR, relief=TB_RELIEF, font=(E_FONT, E_FONT_SIZE))
 
@@ -42,32 +44,15 @@ class Window:
 
         search_string.pack(side="right", pady=30, padx=30)
 
-    def __on_schedule_click(self):
-        if not isinstance(self.active_window, Schedule):
-            self.active_window = None
-            self.active_window = Schedule(self.main_window)
+    def __on_toolbar_button_click(self, page_class):
+        if not isinstance(self.active_window, page_class):
+            if self.active_window:
+                self.active_window.__del__()
+                self.active_window = None
 
-            print('opening SchedulePage')
+            self.active_window = page_class(self.main_window)
 
-            print(self.main_window.winfo_children())
-            print(self.active_window)
-
-    def __on_input_users_click(self):
-        if not isinstance(self.active_window, UserRegistration):
-            self.active_window = None
-            self.active_window = UserRegistration(self.main_window)
-
-            print('opening UserRegistrationPage')
-
-            print(self.main_window.winfo_children())
-            print(self.active_window)
-
-    def __on_edit_group_click(self):
-        if not isinstance(self.active_window, EditGroup):
-            self.active_window = None
-            self.active_window = EditGroup(self.main_window)
-
-            print('opening EditGroupPage')
+            print(f'opening {page_class}')
 
             print(self.main_window.winfo_children())
             print(self.active_window)

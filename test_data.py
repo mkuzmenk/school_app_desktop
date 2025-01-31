@@ -31,7 +31,7 @@ STUDENT_LST = [
     ('Mykola Robak Viktorovich', '07.01.2008', '9A'),
 ]
 
-SCHEDULE_LST_MON = [
+SCHEDULE_LST_MON_1 = [
     ('1', 'Algebra', 'Oleksiy Gorlanskiy Mykhaylovich', '08:00'),
     ('2', 'Algebra', 'Oleksiy Gorlanskiy Mykhaylovich', '09:00'),
     ('3', 'Algebra', 'Oleksiy Gorlanskiy Mykhaylovich', '10:00'),
@@ -41,7 +41,7 @@ SCHEDULE_LST_MON = [
     ('7', 'Algebra', 'Oleksiy Gorlanskiy Mykhaylovich', '14:00'),
 ]
 
-SCHEDULE_LST_TUE = [
+SCHEDULE_LST_TUE_1 = [
     ('1', 'Geometry', 'Oleksiy Gorlanskiy Mykhaylovich', '08:00'),
     ('2', 'Geometry', 'Oleksiy Gorlanskiy Mykhaylovich', '09:00'),
     ('3', 'Geometry', 'Oleksiy Gorlanskiy Mykhaylovich', '10:00'),
@@ -51,7 +51,7 @@ SCHEDULE_LST_TUE = [
     ('7', 'Geometry', 'Oleksiy Gorlanskiy Mykhaylovich', '14:00'),
 ]
 
-SCHEDULE_LST_WED = [
+SCHEDULE_LST_WED_1 = [
     ('1', 'History', 'Oleksiy Gorlanskiy Mykhaylovich', '08:00'),
     ('2', 'History', 'Oleksiy Gorlanskiy Mykhaylovich', '09:00'),
     ('3', 'History', 'Oleksiy Gorlanskiy Mykhaylovich', '10:00'),
@@ -61,7 +61,7 @@ SCHEDULE_LST_WED = [
     ('7', 'History', 'Oleksiy Gorlanskiy Mykhaylovich', '14:00'),
 ]
 
-SCHEDULE_LST_THU = [
+SCHEDULE_LST_THU_1 = [
     ('1', 'Physics', 'Oleksiy Gorlanskiy Mykhaylovich', '08:00'),
     ('2', 'Physics', 'Oleksiy Gorlanskiy Mykhaylovich', '09:00'),
     ('3', 'Physics', 'Oleksiy Gorlanskiy Mykhaylovich', '10:00'),
@@ -71,7 +71,7 @@ SCHEDULE_LST_THU = [
     ('7', 'Physics', 'Oleksiy Gorlanskiy Mykhaylovich', '14:00'),
 ]
 
-SCHEDULE_LST_FRI = [
+SCHEDULE_LST_FRI_1 = [
     ('1', 'Chemistry', 'Oleksiy Gorlanskiy Mykhaylovich', '08:00'),
     ('2', 'Chemistry', 'Oleksiy Gorlanskiy Mykhaylovich', '09:00'),
     ('3', 'Chemistry', 'Oleksiy Gorlanskiy Mykhaylovich', '10:00'),
@@ -81,7 +81,7 @@ SCHEDULE_LST_FRI = [
     ('7', 'Chemistry', 'Oleksiy Gorlanskiy Mykhaylovich', '14:00'),
 ]
 
-SCHEDULE_LST_SAT = [
+SCHEDULE_LST_SAT_1 = [
     ('1', 'Biology', 'Oleksiy Gorlanskiy Mykhaylovich', '08:00'),
     ('2', 'Biology', 'Oleksiy Gorlanskiy Mykhaylovich', '09:00'),
     ('3', 'Biology', 'Oleksiy Gorlanskiy Mykhaylovich', '10:00'),
@@ -89,6 +89,66 @@ SCHEDULE_LST_SAT = [
     ('5', 'Biology', 'Oleksiy Gorlanskiy Mykhaylovich', '12:00'),
     ('6', 'Biology', 'Oleksiy Gorlanskiy Mykhaylovich', '13:00'),
     ('7', 'Biology', 'Oleksiy Gorlanskiy Mykhaylovich', '14:00'),
+]
+
+SCHEDULE_LST_MON_2 = [
+    ('1', 'AAAA', 'Hatsune Miku', '08:00'),
+    ('2', 'AAAA', 'Hatsune Miku', '09:00'),
+    ('3', 'AAAA', 'Hatsune Miku', '10:00'),
+    ('4', 'AAAA', 'Hatsune Miku', '11:00'),
+    ('5', 'AAAA', 'Hatsune Miku', '12:00'),
+    ('6', 'AAAA', 'Hatsune Miku', '13:00'),
+    ('7', 'AAAA', 'Hatsune Miku', '14:00'),
+]
+
+SCHEDULE_LST_TUE_2 = [
+    ('1', 'BBBB', 'Hatsune Miku', '08:00'),
+    ('2', 'BBBB', 'Hatsune Miku', '09:00'),
+    ('3', 'BBBB', 'Hatsune Miku', '10:00'),
+    ('4', 'BBBB', 'Hatsune Miku', '11:00'),
+    ('5', 'BBBB', 'Hatsune Miku', '12:00'),
+    ('6', 'BBBB', 'Hatsune Miku', '13:00'),
+    ('7', 'BBBB', 'Hatsune Miku', '14:00'),
+]
+
+SCHEDULE_LST_WED_2 = [
+    ('1', 'CCCC', 'Hatsune Miku', '08:00'),
+    ('2', 'CCCC', 'Hatsune Miku', '09:00'),
+    ('3', 'CCCC', 'Hatsune Miku', '10:00'),
+    ('4', 'CCCC', 'Hatsune Miku', '11:00'),
+    ('5', 'CCCC', 'Hatsune Miku', '12:00'),
+    ('6', 'CCCC', 'Hatsune Miku', '13:00'),
+    ('7', 'CCCC', 'Hatsune Miku', '14:00'),
+]
+
+SCHEDULE_LST_THU_2 = [
+    ('1', 'DDDD', 'Hatsune Miku', '08:00'),
+    ('2', 'DDDD', 'Hatsune Miku', '09:00'),
+    ('3', 'DDDD', 'Hatsune Miku', '10:00'),
+    ('4', 'DDDD', 'Hatsune Miku', '11:00'),
+    ('5', 'DDDD', 'Hatsune Miku', '12:00'),
+    ('6', 'DDDD', 'Hatsune Miku', '13:00'),
+    ('7', 'DDDD', 'Hatsune Miku', '14:00'),
+]
+
+SCHEDULE_LST_FRI_2 = [
+    ('1', 'EEEE', 'Hatsune Miku', '08:00'),
+    ('2', 'EEEE', 'Hatsune Miku', '09:00'),
+    ('3', 'EEEE', 'Hatsune Miku', '10:00'),
+    ('4', 'EEEE', 'Hatsune Miku', '11:00'),
+    ('5', 'EEEE', 'Hatsune Miku', '12:00'),
+    ('6', 'EEEE', 'Hatsune Miku', '13:00'),
+    ('7', 'EEEE', 'Hatsune Miku', '14:00'),
+]
+
+SCHEDULE_LST_SAT_2 = [
+    ('1', 'FFFF', 'Hatsune Miku', '08:00'),
+    ('2', 'FFFF', 'Hatsune Miku', '09:00'),
+    ('3', 'FFFF', 'Hatsune Miku', '10:00'),
+    ('4', 'FFFF', 'Hatsune Miku', '11:00'),
+    ('5', 'FFFF', 'Hatsune Miku', '12:00'),
+    ('6', 'FFFF', 'Hatsune Miku', '13:00'),
+    ('7', 'FFFF', 'Hatsune Miku and Tsoykrav', '14:00'),
 ]
 
 WEEKDAYS = {

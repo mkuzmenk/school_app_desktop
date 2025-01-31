@@ -11,6 +11,9 @@ class Page:
 
         self.show_page()
 
+    def __str__(self):
+        return 'Page'
+
     def __del__(self):
         print('Closing page')
         print()
@@ -38,7 +41,7 @@ class Page:
         number_option = tkinter.IntVar(value=1)
 
         for i in range(CLASS_QUANTITY):
-            option = tkinter.Radiobutton(left_panel, text=f'{i+1} Клас', value=i + 1, bg=L_PANEL_COLOR,
+            option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=L_PANEL_COLOR,
                                          fg=RB_FONT_COLOR,
                                          width=RB_WIDTH, variable=number_option,
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT))
@@ -46,3 +49,6 @@ class Page:
             option.pack()
 
         left_panel.pack(side=L_PANEL_SIDE, fill=L_PANEL_FILL)
+
+    def __on_radiobutton_click(self, value):
+        print(value)

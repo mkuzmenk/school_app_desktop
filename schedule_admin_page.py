@@ -8,6 +8,9 @@ class Schedule(Page):
     def __init__(self, window):
         super().__init__(window)
 
+    def __str__(self):
+        return 'Schedule'
+
     def show_left_panel(self):
         self.show_groups_in_left_panel()
 
@@ -15,7 +18,7 @@ class Schedule(Page):
         schedule_frame = tkinter.Frame(self.main_window)
         schedule_frame.pack()
 
-        week = [SCHEDULE_LST_MON, SCHEDULE_LST_TUE, SCHEDULE_LST_WED, SCHEDULE_LST_THU, SCHEDULE_LST_FRI, SCHEDULE_LST_SAT]
+        week = [SCHEDULE_LST_MON_1, SCHEDULE_LST_TUE_1, SCHEDULE_LST_WED_1, SCHEDULE_LST_THU_1, SCHEDULE_LST_FRI_1, SCHEDULE_LST_SAT_1]
 
         current_day = 0
 
