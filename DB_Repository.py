@@ -1,2 +1,0 @@
-
-# class for db functions

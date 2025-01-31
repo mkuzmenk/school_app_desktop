@@ -23,7 +23,7 @@ class AuthGroup(Base):
     id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
     name = Column(mysql.VARCHAR(150), unique=True, nullable=False)
 
-    auth_group_permissions = relationship('AuthGroupPermissions', 'auth_group')
+    auth_group_permissions = relationship('AuthGroupPermissions', back_populates='auth_permission')
 
     def __init__(self, id, name):
         self.id = id
@@ -41,7 +41,7 @@ class AuthPermission(Base):
     content_type_id = Column(mysql.INTEGER, nullable=False, unique=True)
     codename = Column(mysql.VARCHAR(100), nullable=False, unique=True)
 
-    auth_permissions_group = relationship('AuthGroupPermissions', back_populates='auth_permission')
+    auth_permissions_group = relationship('AuthGroupPermissions', back_populates='auth_group')
 
     def __init__(self, id, name, content_type_id, codename):
         self.id = id
@@ -59,6 +59,10 @@ class Disciplines(Base):
     discipline_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
     discipline_name = Column(mysql.VARCHAR(255), nullable=False)
 
+    mark_discipline = relationship('Marks', back_populates='discipline_mark')
+    time_table_discipline = relationship('TimeTable', back_populates='discipline_time_table')
+    teacherdiscipline_discipline = relationship('TeacherDiscipline', back_populates='discipline_teacherdiscipline')
+
     def __init__(self, discipline_id, discipline_name):
         self.discipline_id = discipline_id
         self.discipline_name = discipline_name
@@ -74,8 +78,9 @@ class AuthGroupPermissions(Base):
     group_id = Column(mysql.INTEGER, ForeignKey('auth_group.id'), nullable=False, unique=True)
     permission_id = Column(mysql.INTEGER, ForeignKey('auth_permission.id'), nullable=False, unique=True)
 
-    auth_group = relationship('AuthGroup', back_populates='auth_group_permissions')
-    auth_permission = relationship('AuthPermission', back_populates='auth_permissions_group')
+    auth_group = relationship('AuthPermission', back_populates='auth_permissions_group')
+    auth_permission = relationship('AuthGroup', back_populates='auth_group_permissions')
+
 
     def __init__(self, id, group_id, permission_id):
         self.id = id
@@ -96,7 +101,10 @@ class HomeworkResponses(Base):
     home_work_user_id_ref = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
     home_work_id_ref = Column(mysql.INTEGER, ForeignKey('homeworks.home_work_id'), nullable=False)
 
-# TODO: foreign relationship
+    mark_hw_resp = relationship('Marks', back_populates='hw_resp_mark')
+    user_hw_resp = relationship('Users', back_populates='hw_resp_user')
+    homework_hw_resp = relationship('Homeworks', back_populates='hw_resp_homework')
+
 
     def __init__(self, home_work_response_id, home_work_response, home_work_response_created_at,
                  home_work_mark_id_ref, home_work_user_id_ref, home_work_id_ref):
@@ -114,9 +122,14 @@ class HomeworkResponses(Base):
 class Groups(Base):
     __tablename__ = 'groups'
 
-    group_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
+    group_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True, nullable=False)
     group_name = Column(mysql.VARCHAR(255), nullable=False)
     group_teacher_id_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
+
+    user_group = relationship('Users', back_populates='group_user')
+
+    homework_group = relationship('Homeworks', back_populates='group_homework')
+    time_table_group = relationship('TimeTable', back_populates='group_time_table')
 
     def __init__(self, group_id, group_name, group_teacher_id_id):
         self.group_id = group_id
@@ -136,9 +149,18 @@ class Homeworks(Base):
     home_work_description = Column(mysql.LONGTEXT, nullable=False)
     home_work_deadline = Column(mysql.DATETIME(fsp=6), nullable=False)
     home_work_created_at = Column(mysql.DATETIME(fsp=6), nullable=False)
-    home_work_group_id_ref = Column(mysql.INTEGER, nullable=True)
-    home_work_timetable_ref = Column(mysql.INTEGER, nullable=True)
-    home_work_user_ref_id = Column(mysql.INTEGER, nullable=True)
+    home_work_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
+    home_work_timetable_ref = Column(mysql.INTEGER, ForeignKey('time_table.time_table_id'), nullable=True)
+    home_work_user_ref_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
+
+    hw_resp_homework = relationship('HomeworkResponses', back_populates='homework_hw_resp')
+    mark_homework = relationship('Marks', back_populates='homework_mark')
+
+    group_homework = relationship('Groups', back_populates='homework_group')
+    time_table_homework = relationship('TimeTable', back_populates='homework_time_table')
+    user_homework = relationship('Users', back_populates='homework_user')
+
+
 
     def __init__(self, home_work_id, home_work_name, home_work_topic, home_work_description, home_work_deadline,
                  home_work_created_at, home_work_group_id_ref, home_work_timetable_ref, home_work_user_ref_id):
@@ -163,6 +185,8 @@ class MarkTypes(Base):
     mark_type_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
     mark_type_name = Column(mysql.VARCHAR(255), nullable=False)
 
+    mark_marktype = relationship('Marks', back_populates='marktype_mark')
+
     def __init__(self, mark_type_id, mark_type_name):
         self.mark_type_id = mark_type_id
         self.mark_type_name = mark_type_name
@@ -172,14 +196,24 @@ class MarkTypes(Base):
 
 
 class Marks(Base):
+
+    __tablename__ = 'marks'
+
     mark_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
     mark_value = Column(mysql.INTEGER, nullable=False)
     mark_created_at = Column(mysql.DATE, nullable=False)
     homework_id_ref = Column(mysql.INTEGER, ForeignKey('homeworks.home_work_id'), nullable=False)
     mark_discipline_type_ref = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=False)
-    mark_student_id = Column(mysql.INTEGER, nullable=False)
-    mark_teacher_id = Column(mysql.INTEGER, nullable=False)
-    mark_type = Column(mysql.INTEGER, nullable=False)
+    mark_student_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
+    mark_teacher_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
+    mark_type = Column(mysql.INTEGER, ForeignKey('mark_types.mark_type_id'), nullable=False)
+
+    hw_resp_mark = relationship('HomeworkResponses', back_populates='mark_hw_resp')
+
+    homework_mark = relationship('Homeworks', back_populates='mark_homework')
+    discipline_mark = relationship('Disciplines', back_populates='mark_discipline')
+    user_mark = relationship('Users', back_populates='mark_user')
+    marktype_mark = relationship('MarkTypes', back_populates='mark_marktype')
 
     def __init__(self, mark_id, mark_value, mark_created_at, homework_id_ref, mark_discipline_type_ref, mark_student_id,
                  mark_teacher_id, mark_type):
@@ -221,9 +255,20 @@ class Users(Base):
     user_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
     user_role = Column(mysql.INTEGER, ForeignKey('user_roles.user_role_id'), nullable=True)
 
-    def __init__(self, password, last_login, user_id, user_login, user_first_name, user_last_name, user_surname,
-                 user_phone, user_email, user_sex, user_birthday, user_tax_number, user_description, user_created_at,
-                 user_changed_at, is_active, is_staff, is_superuser, user_group_id_ref, user_role):
+    hw_resp_user = relationship('HomeworkResponses', back_populates='user_hw_resp')
+    group_user = relationship('Groups', back_populates='user_group')
+    homework_user = relationship('Homeworks', back_populates='user_homework')
+    mark_user = relationship('Marks', back_populates='user_mark')
+    teacherdiscipline_user = relationship('TeacherDiscipline', back_populates='user_teacherdiscipline')
+
+    userrole_user = relationship('UserRoles', back_populates='user_userrole')
+
+
+    def __init__(self, password, user_login, user_first_name, user_last_name,
+                 user_phone, user_email, user_sex, user_birthday, user_created_at,
+                 user_changed_at, is_active, is_staff, is_superuser, last_login=None,
+                 user_surname=None, user_tax_number=None, user_description=None, user_group_id_ref=None, user_role=None,
+                 user_id=None):
         self.password = password
         self.last_login = last_login
         self.user_id = user_id
@@ -255,6 +300,8 @@ class UserRoles(Base):
     user_role_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
     user_role_name = Column(mysql.VARCHAR(50), nullable=False, unique=True)
 
+    user_userrole = relationship('Users', back_populates='userrole_user')
+
     def __init__(self, user_role_id, user_role_name):
         self.user_role_id = user_role_id
         self.user_role_name = user_role_name
@@ -271,29 +318,37 @@ class TimeTable(Base):
     time_table_start_time = Column(mysql.TIME(fsp=6), nullable=False)
     time_table_end_time = Column(mysql.TIME(fsp=6), nullable=False)
     time_table_day = Column(mysql.VARCHAR(10), nullable=False)
-    time_table_discipline_ref_id = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=True)
-    time_table_group_id_ref_id = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
+    time_table_discipline_ref = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=True)
+    time_table_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
+
+    homework_time_table = relationship('Homeworks', back_populates='time_table_homework')
+
+    discipline_time_table = relationship('Disciplines', back_populates='time_table_discipline')
+    group_time_table = relationship('Groups', back_populates='time_table_group')
 
     def __init__(self, time_table_id, time_table_cabinet, time_table_start_time, time_table_end_time, time_table_day,
-                 time_table_discipline_ref_id, time_table_group_id_ref_id):
+                 time_table_discipline_ref, time_table_group_id_ref):
         self.time_table_id = time_table_id
         self.time_table_cabinet = time_table_cabinet
         self.time_table_start_time = time_table_start_time
         self.time_table_end_time = time_table_end_time
         self.time_table_day = time_table_day
-        self.time_table_discipline_ref_id = time_table_discipline_ref_id
-        self.time_table_group_id_ref_id = time_table_group_id_ref_id
+        self.time_table_discipline_ref = time_table_discipline_ref
+        self.time_table_group_id_ref = time_table_group_id_ref
 
     def __str__(self):
         return f'{self.time_table_start_time} - {self.time_table_id}'
 
 
 class TeacherDiscipline(Base):
-    __tablename__ = 'timetable_teacherdiscipline'
+    __tablename__ = 'teacher_discipline'
 
     id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
-    discipline_id = Column(mysql.INTEGER, nullable=False)
-    teacher_id = Column(mysql.INTEGER, nullable=False)
+    discipline_id = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=False)
+    teacher_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
+
+    discipline_teacherdiscipline = relationship('Disciplines', back_populates='teacherdiscipline_discipline')
+    user_teacherdiscipline = relationship('Users', back_populates='teacherdiscipline_user')
 
     def __init__(self, id, discipline_id, teacher_id):
         self.id = id
@@ -303,49 +358,14 @@ class TeacherDiscipline(Base):
     def __str__(self):
         return f'{self.teacher_id} - {self.id}'
 
+
+
 # engine works with PyMySQL package
 
-engine = create_engine(f"mysql+pymysql://{DB_SETTINGS['DB_USERNAME']}:{DB_SETTINGS['PASSWORD']}@"
-                       f"{DB_SETTINGS['SERVER_ADDRESS']}:{DB_SETTINGS['PORT_NUMBER']}/{DB_SETTINGS['DB_NAME']}")
+def start_db():
+    engine = create_engine(f"mysql+pymysql://{DB_SETTINGS['DB_USERNAME']}:{DB_SETTINGS['PASSWORD']}@"
+                           f"{DB_SETTINGS['SERVER_ADDRESS']}:{DB_SETTINGS['PORT_NUMBER']}/{DB_SETTINGS['DB_NAME']}")
 
-Session = sessionmaker(engine)
-Base.metadata.create_all(bind=engine)
-
-
-
-# function for test
-# def get_all_roles():
-#     conn = Session()
-#
-#     roles = conn.query(User_Roles).all()
-#     for role in roles:
-#         print(role)
-#
-#     conn.close()
-#
-#
-# def check_relationship_roles():
-#     conn = Session()
-#
-#     user_roles = conn.query(User_Roles).all()
-#     for role1 in user_roles:
-#         print(role1.User_Role_Name)
-#
-#         if role1.all_users:
-#             for user in role1.all_users:
-#                 print(user.User_Login, user.User_First_Name)
-#         else:
-#             print('no users here')
-#
-#         print()
-#
-#     conn.close()
-
-
-# def test():
-#     get_all_roles()
-#     print('fk check')
-#     check_relationship_roles()
-#
-#
-# test()
+    Session = sessionmaker(engine)
+    Base.metadata.create_all(bind=engine)
+    return Session
