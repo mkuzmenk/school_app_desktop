@@ -20,6 +20,9 @@ class Page:
 
         self.hide_page()
 
+    def set_controller(self, controller):
+        self.controller = controller
+
     def show_page(self):
         self.show_left_panel()
         self.show_main_panel()

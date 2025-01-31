@@ -54,6 +54,7 @@ class Window:
                 self.active_window = None
 
             self.active_window = page_class(self.main_window)
+            self.active_window.set_controller(self.controller)
 
             print(f'opening {page_class}')
 

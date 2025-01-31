@@ -52,7 +52,7 @@ class UserRegistration(Page):
             entry.grid(column=2, row=i+1)
 
         complete_button = tkinter.Button(button_panel, text='Завершити реєстрацію', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
-                                         fg=B_FONT_COLOR, command=self.__on_complete_button_click)
+                                         fg=B_FONT_COLOR, command= lambda: self.controller.add_teacher(self.get_data()))
 
         self.button = complete_button
 
@@ -64,3 +64,11 @@ class UserRegistration(Page):
     def __on_complete_button_click(self):
         for i, j in self.entries.items():
             print(i, j.get())
+
+
+    def get_data(self):
+        data = dict()
+        for i in self.entries.keys():
+            data[i] = self.entries[i].get()
+
+        return data
