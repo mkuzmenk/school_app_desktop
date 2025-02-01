@@ -5,10 +5,10 @@ from test_data import *
 
 
 class UserRegistration(Page):
-    def __init__(self, window):
+    def __init__(self, window, controller):
         self.entries = {}
 
-        super().__init__(window)
+        super().__init__(window, controller)
 
         self.button = None
 
@@ -51,8 +51,10 @@ class UserRegistration(Page):
             label.grid(column=1, row=i+1)
             entry.grid(column=2, row=i+1)
 
-        complete_button = tkinter.Button(button_panel, text='Завершити реєстрацію', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
-                                         fg=B_FONT_COLOR, command= lambda: self.controller.add_teacher(self.get_data()))
+        complete_button = tkinter.Button(
+            button_panel, text='Завершити реєстрацію', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
+            fg=B_FONT_COLOR, command=lambda: self.controller.add_teacher()
+        )
 
         self.button = complete_button
 
@@ -65,8 +67,7 @@ class UserRegistration(Page):
         for i, j in self.entries.items():
             print(i, j.get())
 
-
-    def get_data(self):
+    def get_teacher_data(self):
         data = dict()
 
         if not self.entries["ID класу (не обов'язково)"].get().isdigit():

@@ -1,11 +1,15 @@
 from test_data import REGISTRATION_LABELS
+
+
 class Controller:
 
     def __init__(self, model, view):
         self.model = model
-        self.view = view
+        self.view = view.active_window
 
-    def add_teacher(self, data):
+    def add_teacher(self):
+        data = self.view.get_teacher_data()
+
         if data is not None:
             ipn = data[REGISTRATION_LABELS[0]]
             name = data[REGISTRATION_LABELS[1]]

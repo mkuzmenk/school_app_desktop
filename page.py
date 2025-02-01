@@ -1,13 +1,14 @@
 import tkinter
 
 from test_data import CLASS_QUANTITY
-from window_settings import L_PANEL_COLOR, L_PANEL_WIDTH, RB_FONT_COLOR, RB_WIDTH, RB_FONT, RB_FONT_SIZE, \
-    RB_FONT_FORMAT, L_PANEL_SIDE, L_PANEL_FILL
+from window_settings import *
 
 
 class Page:
-    def __init__(self, window):
+    def __init__(self, window, controller):
         self.main_window = window
+
+        self.controller = controller
 
         self.show_page()
 

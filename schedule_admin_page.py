@@ -5,8 +5,8 @@ from test_data import *
 
 
 class Schedule(Page):
-    def __init__(self, window):
-        super().__init__(window)
+    def __init__(self, window, controller):
+        super().__init__(window, controller)
 
     def __str__(self):
         return 'Schedule'

@@ -4,14 +4,16 @@ from schedule_admin_page import Schedule
 from user_registration_admin_page import UserRegistration
 from edit_group_admin_page import EditGroup
 
+
 class Window:
     def __init__(self):
         self.main_window = tkinter.Tk()
+
         self.controller = None
 
-        # self.main_window.state('zoomed')
+        self.main_window.state('zoomed')
 
-        self.main_window.geometry(WINDOW_GEOMETRY)
+        # self.main_window.geometry(WINDOW_GEOMETRY)
 
         self.active_window = None
 
@@ -53,8 +55,7 @@ class Window:
                 self.active_window.__del__()
                 self.active_window = None
 
-            self.active_window = page_class(self.main_window)
-            self.active_window.set_controller(self.controller)
+            self.active_window = page_class(self.main_window, self.controller)
 
             print(f'opening {page_class}')
 
