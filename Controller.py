@@ -5,10 +5,10 @@ class Controller:
 
     def __init__(self, model, view):
         self.model = model
-        self.view = view.active_window
+        self.view = view
 
     def add_teacher(self):
-        data = self.view.get_teacher_data()
+        data = self.view.active_window.get_teacher_data()
 
         if data is not None:
             ipn = data[REGISTRATION_LABELS[0]]
@@ -23,7 +23,8 @@ class Controller:
             sex = data[REGISTRATION_LABELS[9]]
             password = data[REGISTRATION_LABELS[10]]
 
-            self.model.add_user_teacher(ipn, login, name, last_name, surname, birthdate, email, password, phone,
+            result = self.model.add_user_teacher(ipn, login, name, last_name, surname, birthdate, email, password, phone,
                                         sex, group_id)
 
-            print('added')
+            if result:
+                print('ok')
