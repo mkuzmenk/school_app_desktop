@@ -1,4 +1,6 @@
 mysqlclient
-tkinter
+PyMySQL
+python-dotenv
+tk
 sqlalchemy
 psycopg
