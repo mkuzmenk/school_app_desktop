@@ -23,7 +23,8 @@ class AuthGroup(Base):
     id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
     name = Column(mysql.VARCHAR(150), unique=True, nullable=False)
 
-    auth_group_permissions = relationship('AuthGroupPermissions', back_populates='auth_permission')
+    auth_group_permissions = relationship('AuthGroupPermissions', back_populates='auth_group',
+                                          foreign_keys='AuthGroupPermissions.group_id')
 
     def __init__(self, id, name):
         self.id = id
@@ -41,7 +42,8 @@ class AuthPermission(Base):
     content_type_id = Column(mysql.INTEGER, nullable=False, unique=True)
     codename = Column(mysql.VARCHAR(100), nullable=False, unique=True)
 
-    auth_permissions_group = relationship('AuthGroupPermissions', back_populates='auth_group')
+    auth_permissions_group = relationship('AuthGroupPermissions', back_populates='auth_permission',
+                                          foreign_keys='AuthGroupPermissions.permission_id')
 
     def __init__(self, id, name, content_type_id, codename):
         self.id = id
@@ -59,9 +61,15 @@ class Disciplines(Base):
     discipline_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
     discipline_name = Column(mysql.VARCHAR(255), nullable=False)
 
-    mark_discipline = relationship('Marks', back_populates='discipline_mark')
-    time_table_discipline = relationship('TimeTable', back_populates='discipline_time_table')
-    teacherdiscipline_discipline = relationship('TeacherDiscipline', back_populates='discipline_teacherdiscipline')
+    mark_discipline = relationship('Marks', back_populates='discipline_mark',
+                                   foreign_keys='Marks.mark_discipline_type_ref')
+
+    time_table_discipline = relationship('TimeTable', back_populates='discipline_time_table',
+                                         foreign_keys='TimeTable.time_table_discipline_ref')
+
+    teacherdiscipline_discipline = relationship('TeacherDiscipline',
+                                                back_populates='discipline_teacherdiscipline',
+                                                foreign_keys='TeacherDiscipline.discipline_id')
 
     def __init__(self, discipline_id, discipline_name):
         self.discipline_id = discipline_id
@@ -78,8 +86,11 @@ class AuthGroupPermissions(Base):
     group_id = Column(mysql.INTEGER, ForeignKey('auth_group.id'), nullable=False, unique=True)
     permission_id = Column(mysql.INTEGER, ForeignKey('auth_permission.id'), nullable=False, unique=True)
 
-    auth_group = relationship('AuthPermission', back_populates='auth_permissions_group')
-    auth_permission = relationship('AuthGroup', back_populates='auth_group_permissions')
+    auth_group = relationship('AuthGroup', back_populates='auth_group_permissions',
+                              foreign_keys='AuthGroupPermissions.group_id')
+
+    auth_permission = relationship('AuthPermission', back_populates='auth_permissions_group',
+                                   foreign_keys='AuthGroupPermissions.permission_id')
 
 
     def __init__(self, id, group_id, permission_id):
@@ -101,11 +112,14 @@ class HomeworkResponses(Base):
     home_work_user_id_ref = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
     home_work_id_ref = Column(mysql.INTEGER, ForeignKey('homeworks.home_work_id'), nullable=False)
 
-    mark_hw_resp = relationship('Marks', back_populates='hw_resp_mark')
+    mark_hw_resp = relationship('Marks', back_populates='hw_resp_mark',
+                                foreign_keys='HomeworkResponses.home_work_mark_id_ref')
+
     user_hw_resp = relationship('Users', back_populates='hw_resp_user',
                                 foreign_keys='HomeworkResponses.home_work_user_id_ref')
 
-    homework_hw_resp = relationship('Homeworks', back_populates='hw_resp_homework')
+    homework_hw_resp = relationship('Homeworks', back_populates='hw_resp_homework',
+                                    foreign_keys='HomeworkResponses.home_work_id_ref')
 
 
     def __init__(self, home_work_response_id, home_work_response, home_work_response_created_at,
@@ -128,9 +142,13 @@ class Groups(Base):
     group_name = Column(mysql.VARCHAR(255), nullable=False)
     group_teacher_id_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
 
-    user_group = relationship('Users', back_populates='group_user', foreign_keys='Users.user_group_id_ref')
-    homework_group = relationship('Homeworks', back_populates='group_homework')
-    time_table_group = relationship('TimeTable', back_populates='group_time_table')
+    user_group = relationship('Users', back_populates='group_user', foreign_keys='Groups.group_teacher_id_id')
+
+    homework_group = relationship('Homeworks', back_populates='group_homework',
+                                  foreign_keys='Homeworks.home_work_group_id_ref')
+
+    time_table_group = relationship('TimeTable', back_populates='group_time_table',
+                                    foreign_keys='TimeTable.time_table_group_id_ref')
 
     def __init__(self, group_id, group_name, group_teacher_id_id):
         self.group_id = group_id
@@ -154,11 +172,17 @@ class Homeworks(Base):
     home_work_timetable_ref = Column(mysql.INTEGER, ForeignKey('time_table.time_table_id'), nullable=True)
     home_work_user_ref_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
 
-    hw_resp_homework = relationship('HomeworkResponses', back_populates='homework_hw_resp')
-    mark_homework = relationship('Marks', back_populates='homework_mark')
+    hw_resp_homework = relationship('HomeworkResponses', back_populates='homework_hw_resp',
+                                    foreign_keys='HomeworkResponses.home_work_id_ref')
 
-    group_homework = relationship('Groups', back_populates='homework_group')
-    time_table_homework = relationship('TimeTable', back_populates='homework_time_table')
+    mark_homework = relationship('Marks', back_populates='homework_mark',
+                                 foreign_keys='Marks.homework_id_ref')
+
+    group_homework = relationship('Groups', back_populates='homework_group',
+                                  foreign_keys='Homeworks.home_work_group_id_ref')
+
+    time_table_homework = relationship('TimeTable', back_populates='homework_time_table',
+                                       foreign_keys='Homeworks.home_work_timetable_ref')
 
     user_homework = relationship('Users', back_populates='homework_user',
                                  foreign_keys='Homeworks.home_work_user_ref_id')
@@ -188,7 +212,8 @@ class MarkTypes(Base):
     mark_type_id = Column(mysql.INTEGER, primary_key=True, autoincrement=True)
     mark_type_name = Column(mysql.VARCHAR(255), nullable=False)
 
-    mark_marktype = relationship('Marks', back_populates='marktype_mark')
+    mark_marktype = relationship('Marks', back_populates='marktype_mark',
+                                 foreign_keys='Marks.mark_type')
 
     def __init__(self, mark_type_id, mark_type_name):
         self.mark_type_id = mark_type_id
@@ -211,12 +236,19 @@ class Marks(Base):
     mark_teacher_id = Column(mysql.INTEGER, nullable=False)
     mark_type = Column(mysql.INTEGER, ForeignKey('mark_types.mark_type_id'), nullable=False)
 
-    hw_resp_mark = relationship('HomeworkResponses', back_populates='mark_hw_resp')
+    hw_resp_mark = relationship('HomeworkResponses', back_populates='mark_hw_resp',
+                                foreign_keys='HomeworkResponses.home_work_mark_id_ref')
 
-    homework_mark = relationship('Homeworks', back_populates='mark_homework')
-    discipline_mark = relationship('Disciplines', back_populates='mark_discipline')
+    homework_mark = relationship('Homeworks', back_populates='mark_homework',
+                                 foreign_keys='Marks.homework_id_ref')
+
+    discipline_mark = relationship('Disciplines', back_populates='mark_discipline',
+                                   foreign_keys='Marks.mark_discipline_type_ref')
+
     user_mark = relationship('Users', back_populates='mark_user', foreign_keys='Marks.mark_student_id')
-    marktype_mark = relationship('MarkTypes', back_populates='mark_marktype')
+
+    marktype_mark = relationship('MarkTypes', back_populates='mark_marktype',
+                                 foreign_keys='Marks.mark_type')
 
     def __init__(self, mark_id, mark_value, mark_created_at, homework_id_ref, mark_discipline_type_ref, mark_student_id,
                  mark_teacher_id, mark_type):
@@ -261,7 +293,7 @@ class Users(Base):
     hw_resp_user = relationship('HomeworkResponses', back_populates='user_hw_resp',
                                 foreign_keys='HomeworkResponses.home_work_user_id_ref')
 
-    group_user = relationship('Groups', back_populates='user_group', foreign_keys='Users.user_group_id_ref')
+    group_user = relationship('Groups', back_populates='user_group', foreign_keys='Groups.group_teacher_id_id')
 
     homework_user = relationship('Homeworks', back_populates='user_homework',
                                  foreign_keys='Homeworks.home_work_user_ref_id')
@@ -332,10 +364,14 @@ class TimeTable(Base):
     time_table_discipline_ref = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=True)
     time_table_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
 
-    homework_time_table = relationship('Homeworks', back_populates='time_table_homework')
+    homework_time_table = relationship('Homeworks', back_populates='time_table_homework',
+                                       foreign_keys='Homeworks.home_work_timetable_ref')
 
-    discipline_time_table = relationship('Disciplines', back_populates='time_table_discipline')
-    group_time_table = relationship('Groups', back_populates='time_table_group')
+    discipline_time_table = relationship('Disciplines', back_populates='time_table_discipline',
+                                         foreign_keys='TimeTable.time_table_discipline_ref')
+
+    group_time_table = relationship('Groups', back_populates='time_table_group',
+                                    foreign_keys='TimeTable.time_table_group_id_ref')
 
     def __init__(self, time_table_id, time_table_cabinet, time_table_start_time, time_table_end_time, time_table_day,
                  time_table_discipline_ref, time_table_group_id_ref):
@@ -358,7 +394,9 @@ class TeacherDiscipline(Base):
     discipline_id = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=False)
     teacher_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
 
-    discipline_teacherdiscipline = relationship('Disciplines', back_populates='teacherdiscipline_discipline')
+    discipline_teacherdiscipline = relationship('Disciplines', back_populates='teacherdiscipline_discipline',
+                                                foreign_keys='TeacherDiscipline.discipline_id')
+
     user_teacherdiscipline = relationship('Users', back_populates='teacherdiscipline_user',
                                           foreign_keys='TeacherDiscipline.teacher_id')
 
