@@ -1,6 +1,6 @@
 from DB import start_db
 from DB import Users
-from datetime import datetime
+from datetime import datetime, UTC
 
 class Model:
     def __init__(self):
@@ -19,8 +19,8 @@ class Model:
         try:
             teacher = Users(password=password, user_login=user_login, user_first_name=name, user_last_name=last_name,
                             user_surname=surname, user_phone=phone, user_email=email, user_sex=sex, user_birthday=birthdate,
-                            user_tax_number=ipn, user_created_at=datetime.utcnow(), last_login=datetime.utcnow(),
-                            user_changed_at=datetime.utcnow(), is_active=1, is_staff=1, is_superuser=0,
+                            user_tax_number=ipn, user_created_at=datetime.now(UTC), last_login=datetime.now(UTC),
+                            user_changed_at=datetime.now(UTC), is_active=1, is_staff=1, is_superuser=0,
                             user_group_id_ref=group_id, user_role=2)
 
             self.conn.add(teacher)
