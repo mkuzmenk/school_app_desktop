@@ -9,7 +9,7 @@ class Controller:
 
     def add_teacher(self):
         data = self.view.active_window.get_teacher_data()
-
+        result = None
         if data is not None:
             ipn = data[REGISTRATION_LABELS[0]]
             name = data[REGISTRATION_LABELS[1]]
@@ -26,8 +26,8 @@ class Controller:
             result = self.model.add_user_teacher(ipn, login, name, last_name, surname, birthdate, email, password, phone,
                                         sex, group_id)
 
-            if result:
-                self.view.active_window.label_status.config(text='Вчителя додано', fg='green')
+        if result:
+            self.view.active_window.label_status.config(text='Вчителя додано', fg='green')
 
-            else:
-                self.view.active_window.label_status.config(text='Некоректні дані!', fg='red')
+        else:
+            self.view.active_window.label_status.config(text='Некоректні дані!', fg='red')
