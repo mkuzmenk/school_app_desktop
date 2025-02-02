@@ -27,4 +27,7 @@ class Controller:
                                         sex, group_id)
 
             if result:
-                print('ok')
+                self.view.active_window.label_status.config(text='Вчителя додано', fg='green')
+
+            else:
+                self.view.active_window.label_status.config(text='Некоректні дані!', fg='red')

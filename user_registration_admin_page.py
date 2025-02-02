@@ -8,9 +8,12 @@ class UserRegistration(Page):
     def __init__(self, window, controller):
         self.entries = {}
 
+        self.button = None
+        self.label_status = None
+
         super().__init__(window, controller)
 
-        self.button = None
+
 
     def __str__(self):
         return 'UserRegistration'
@@ -56,12 +59,15 @@ class UserRegistration(Page):
             fg=B_FONT_COLOR, command=lambda: self.controller.add_teacher()
         )
 
+        self.label_status = tkinter.Label(button_panel, text='', font=(RB_FONT, RB_FONT_SIZE))
+
         self.button = complete_button
 
         registration_panel.pack()
 
         button_panel.pack()
         complete_button.pack()
+        self.label_status.pack()
 
     def __on_complete_button_click(self):
         for i, j in self.entries.items():
