@@ -26,11 +26,11 @@ class EditGroup(Page):
         button_frame.pack(side=tkinter.BOTTOM)
 
         table = tkinter.ttk.Treeview(
-            main_frame, show='headings', columns=('#1', '#2', '#3')
+            main_frame, show='headings', columns=('#1', '#2', '#3'), height=TEG_HEIGHT
         )
-        table.heading('#1', text='L. F. S. name')
-        table.heading('#2', text='Birthday')
-        table.heading('#3', text='Group')
+        table.heading('#1', text='ПІБ')
+        table.heading('#2', text='Дата народження')
+        table.heading('#3', text='Клас')
 
         scrollbar = tkinter.ttk.Scrollbar(
             main_frame, orient=tkinter.VERTICAL, command=table.yview
@@ -40,8 +40,8 @@ class EditGroup(Page):
         for student in STUDENT_LST:
             table.insert("", tkinter.END, values=student)
 
-        table.pack(side='left')
-        scrollbar.pack(side='right', fill='y')
+        table.pack(side=tkinter.LEFT)
+        scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 
         change_student_group_button = tkinter.Button(
             button_frame, text='Перевести учня', bg=B_COLOR,

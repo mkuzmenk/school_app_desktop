@@ -67,7 +67,7 @@ class UserRegistration(Page):
 
         complete_button = tkinter.Button(
             button_panel, text='Завершити реєстрацію', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
-            fg=B_FONT_COLOR, command=lambda: self.controller.add_teacher()
+            fg=B_FONT_COLOR, command=self.controller.add_teacher
         )
 
         self.button = complete_button
@@ -87,16 +87,6 @@ class UserRegistration(Page):
     def show_message_success_teacher_added(self):
         messagebox.showinfo(
             title=MB_SUCCESS_TITLE, message='Вчителя успішно додано.'
-        )
-
-    def show_message_invalid_teacher_data(self):
-        messagebox.showinfo(
-            title=MB_FAIL_TITLE, message='Некоректні дані.'
-        )
-
-    def show_message_empty_teacher_fields(self):
-        messagebox.showinfo(
-            title=MB_FAIL_TITLE, message='Одне або декілька полів пусті.'
         )
 
     def get_teacher_data(self):

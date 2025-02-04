@@ -24,14 +24,14 @@ class Schedule(Page):
 
         current_day = 0
 
-        for i in range(T_QUANTITY):
+        for i in range(TS_QUANTITY):
 
             column = tkinter.Frame(
                 schedule_frame
             )
             column.pack(side=tkinter.LEFT)
 
-            for day in range(current_day, (len(week) // T_QUANTITY + current_day)):
+            for day in range(current_day, (len(week) // TS_QUANTITY + current_day)):
 
                 table_frame = tkinter.Frame(
                     column
@@ -45,17 +45,17 @@ class Schedule(Page):
                 day_name.pack()
 
                 table = tkinter.ttk.Treeview(
-                    table_frame, show='headings', columns=('#1', '#2', '#3', '#4'), height=T_HEIGHT
+                    table_frame, show='headings', columns=('#1', '#2', '#3', '#4'), height=TS_HEIGHT
                 )
 
-                table.column('#1', width=T_NUMBER_WIDTH)
+                table.column('#1', width=TS_NUMBER_WIDTH)
                 table.heading('#1', text='№')
 
                 table.heading('#2', text='Назва предмету')
 
                 table.heading('#3', text='Вчитель')
 
-                table.column('#4', width=T_TIME_WIDTH)
+                table.column('#4', width=TS_TIME_WIDTH)
                 table.heading('#4', text='Час уроку')
 
                 scrollbar = tkinter.ttk.Scrollbar(

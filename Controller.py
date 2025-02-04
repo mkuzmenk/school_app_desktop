@@ -1,4 +1,4 @@
-from test_data import REGISTRATION_LABELS
+from test_data import REGISTRATION_LABELS, SEARCH_LABELS
 
 
 class Controller:
@@ -9,17 +9,14 @@ class Controller:
 
     def add_teacher(self):
         data = self.view.active_window.get_teacher_data()
-        result_data = {}
 
         for key in data.keys():
             if not data[key] and key != "ID класу*":
-                self.view.active_window.show_message_empty_teacher_fields()
+                self.view.active_window.show_message_empty_fields()
                 return
 
-            result_data[key] = data[key]
-
-        if result_data["ID класу*"] and not result_data["ID класу*"].isdigit():
-            self.view.active_window.show_message_invalid_teacher_data()
+        if data["ID класу*"] and not data["ID класу*"].isdigit():
+            self.view.active_window.show_message_invalid_data()
             return
 
         ipn = data[REGISTRATION_LABELS[0]]
@@ -51,4 +48,23 @@ class Controller:
         if result:
             self.view.active_window.show_message_success_teacher_added()
         else:
-            self.view.active_window.show_message_invalid_teacher_data()
+            self.view.active_window.show_message_invalid_data()
+
+    def get_users(self):
+        data = self.view.active_window.get_user_data()
+
+        if (not data[SEARCH_LABELS[0]]) and (not data[SEARCH_LABELS[1]]):
+            self.view.active_window.show_message_empty_fields()
+            return
+
+        for key in data.keys():
+            if not data[key]:
+                data[key] = None
+
+        result_data = self.model.get_user(data[SEARCH_LABELS[0]], data[SEARCH_LABELS[1]])
+
+        if result_data is None:
+            self.view.active_window.show_message_users_not_found()
+            return
+
+        self.view.active_window.show_found_students(result_data)

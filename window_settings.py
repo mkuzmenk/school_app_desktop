@@ -35,6 +35,7 @@ L_PAD_Y = 5
 E_COLOR = "white"
 E_FONT = "Courier New"
 E_FONT_SIZE = 18
+E_PAD_X = 5
 E_PAD_Y = 5
 
 # B - Button
@@ -45,11 +46,17 @@ B_FONT_COLOR = "white"
 B_PAD_X = 5
 B_PAD_Y = 5
 
-# T - Table
-T_QUANTITY = 2
-T_HEIGHT = 7
-T_NUMBER_WIDTH = 12
-T_TIME_WIDTH = 100
+# TS - Table Schedule
+TS_QUANTITY = 2
+TS_HEIGHT = 7
+TS_NUMBER_WIDTH = 12
+TS_TIME_WIDTH = 100
+
+# TEG - Table Edit Group
+TEG_HEIGHT = 20
+
+# TFS - Table Found Students
+TFS_HEIGHT = 15
 
 # MB - Messagebox
 MB_SUCCESS_TITLE = 'Успіх'

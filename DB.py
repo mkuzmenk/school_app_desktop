@@ -334,7 +334,7 @@ class Users(Base):
         self.user_role = user_role
 
     def __str__(self):
-        return f'{self.user_last_name} - {self.user_first_name} - {self.user_tax_number}'
+        return f'{self.user_last_name} - {self.user_first_name} - {self.user_email}'
 
 
 class UserRoles(Base):

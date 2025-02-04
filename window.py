@@ -1,8 +1,10 @@
 import tkinter
+
 from window_settings import *
 from schedule_admin_page import Schedule
 from user_registration_admin_page import UserRegistration
 from edit_group_admin_page import EditGroup
+from find_user_page import FindUser
 
 
 class Window:
@@ -51,7 +53,8 @@ class Window:
 
         find_user = tkinter.Button(
             up_menu, text="Знайти користувача", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
-            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT
+            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
+            command=lambda: self.__on_toolbar_button_click(FindUser)
         )
 
         schedule_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
@@ -61,10 +64,7 @@ class Window:
 
     def __on_toolbar_button_click(self, page_class):
         if not isinstance(self.active_window, page_class):
-            if self.active_window:
-                self.active_window.__del__()
-                self.active_window = None
-
+            self.active_window = None
             self.active_window = page_class(self.main_window, self.controller)
 
             print(f'opening {page_class}')

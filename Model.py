@@ -29,9 +29,26 @@ class Model:
             self.conn.commit()
             return 1
 
-        except sqlalchemy.exc.DatabaseError as db_err:
-            print(db_err)
-
+        except sqlalchemy.exc.DatabaseError:
             self.conn.rollback()
             print('Некоректні дані')
             return None
+
+    def get_user(self, first_name, last_name):
+        query = None
+
+        if last_name is None:
+            query = self.conn.query(Users).filter(
+                Users.user_first_name == first_name,
+            )
+        elif first_name is None:
+            query = self.conn.query(Users).filter(
+                Users.user_last_name == last_name,
+            )
+        else:
+            query = self.conn.query(Users).filter(
+                Users.user_first_name == first_name,
+                Users.user_last_name == last_name,
+            )
+
+        return query.all()
