@@ -44,20 +44,20 @@ class Window:
         )
 
         input_users_button = tkinter.Button(
-            up_menu, text="Додати users", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
+            up_menu, text="Додати користувачів", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
             font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
             command=lambda: self.__on_toolbar_button_click(UserRegistration)
         )
 
-        search_string = tkinter.Entry(
-            up_menu, bg=E_COLOR, relief=tkinter.FLAT, font=(E_FONT, E_FONT_SIZE)
+        find_user = tkinter.Button(
+            up_menu, text="Знайти користувача", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
+            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT
         )
 
-        schedule_button.pack(side=tkinter.LEFT, pady=30)
-        edit_group_button.pack(side=tkinter.LEFT, pady=30)
-        input_users_button.pack(side=tkinter.LEFT, pady=30)
-
-        search_string.pack(side=tkinter.RIGHT, pady=30, padx=30)
+        schedule_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
+        edit_group_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
+        input_users_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
+        find_user.pack(side=tkinter.RIGHT, pady=TB_BUTTONS_PAD_Y)
 
     def __on_toolbar_button_click(self, page_class):
         if not isinstance(self.active_window, page_class):

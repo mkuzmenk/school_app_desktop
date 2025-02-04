@@ -63,8 +63,8 @@ class Schedule(Page):
                 )
                 table.configure(yscrollcommand=scrollbar.set)
 
-                table.pack(side='left')
-                scrollbar.pack(side='right', fill='y')
+                table.pack(side=tkinter.LEFT)
+                scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 
                 for lesson in week[day]:
                     table.insert("", tkinter.END, values=lesson)

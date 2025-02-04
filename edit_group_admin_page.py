@@ -18,12 +18,12 @@ class EditGroup(Page):
         main_frame = tkinter.Frame(
             self.main_window
         )
-        main_frame.pack(side='top')
+        main_frame.pack(side=tkinter.TOP)
 
         button_frame = tkinter.Frame(
             main_frame
         )
-        button_frame.pack(side='bottom')
+        button_frame.pack(side=tkinter.BOTTOM)
 
         table = tkinter.ttk.Treeview(
             main_frame, show='headings', columns=('#1', '#2', '#3')
@@ -47,10 +47,10 @@ class EditGroup(Page):
             button_frame, text='Перевести учня', bg=B_COLOR,
             font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR
         )
-        change_student_group_button.pack(side=tkinter.LEFT)
+        change_student_group_button.pack(side=tkinter.LEFT, padx=B_PAD_X, pady=B_PAD_Y)
 
         change_student_teacher_button = tkinter.Button(
             button_frame, text='Змінити класного керівника', bg=B_COLOR,
             font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR
         )
-        change_student_teacher_button.pack(side=tkinter.LEFT)
+        change_student_teacher_button.pack(side=tkinter.LEFT, padx=B_PAD_X, pady=B_PAD_Y)
