@@ -12,13 +12,13 @@ class Controller:
         result_data = {}
 
         for key in data.keys():
-            if not data[key] and key != "ID класу*":
+            if not data[key] and key != REGISTRATION_LABELS[5]:
                 self.view.active_window.show_message_empty_teacher_fields()
                 return
 
             result_data[key] = data[key]
 
-        if result_data["ID класу*"] and not result_data["ID класу*"].isdigit():
+        if result_data[REGISTRATION_LABELS[5]] and not result_data[REGISTRATION_LABELS[5]].isdigit():
             self.view.active_window.show_message_invalid_teacher_data()
             return
 
@@ -32,7 +32,7 @@ class Controller:
 
         group_id = data[REGISTRATION_LABELS[5]]
 
-        if group_id:
+        if group_id.:
             group_id = int(group_id)
         else:
             group_id = None
