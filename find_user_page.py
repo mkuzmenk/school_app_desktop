@@ -42,7 +42,7 @@ class FindUser(Page):
         button_panel.pack()
 
         button = tkinter.Button(
-            button_panel, text='Знайти учня', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
+            button_panel, text='Знайти користувача', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
             fg=B_FONT_COLOR, command=self.controller.get_users
         )
         button.pack(pady=B_PAD_Y)
