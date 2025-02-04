@@ -58,21 +58,33 @@ class Model:
 
             week[day] = []
 
+            num_lesson = 1
             for lesson in query:
                 name = None
                 if lesson.teacher_time_table:
-                    name = (f'{lesson.teacher_time_table.user_last_name} {lesson.teacher_time_table.user_first_name} '
-                            f'{lesson.teacher_time_table.user_surname}')
+                    last_name = ''
+                    first_name = ''
+                    surname = ''
+                    if lesson.teacher_time_table.user_last_name:
+                        last_name = lesson.teacher_time_table.user_last_name
 
-                data = (lesson.discipline_time_table.discipline_name,
+                    if lesson.teacher_time_table.user_first_name:
+                        first_name = lesson.teacher_time_table.user_first_name
+
+                    if lesson.teacher_time_table.user_surname:
+                        surname = lesson.teacher_time_table.user_surname
+
+                    name = (f'{last_name} {first_name} '
+                            f'{surname}')
+
+                if name is None:
+                    name = '---'
+
+                data = (num_lesson, lesson.discipline_time_table.discipline_name,
                         name,
                         lesson.time_table_start_time.strftime("%H:%M"))
 
                 week[day].append(data)
+                num_lesson += 1
 
         return week
-
-
-m = Model()
-
-m.get_schedule(1)

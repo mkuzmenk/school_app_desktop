@@ -91,3 +91,4 @@ class UserRegistration(Page):
             data[i] = self.entries[i].get()
 
         return data
+

@@ -43,7 +43,7 @@ class Page:
     def show_groups_in_left_panel(self):
         left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
 
-        number_option = tkinter.IntVar(value=1)
+        number_option = tkinter.IntVar(value=0)
 
         for i in range(CLASS_QUANTITY):
             option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=L_PANEL_COLOR,

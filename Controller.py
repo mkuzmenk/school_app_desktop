@@ -72,4 +72,8 @@ class Controller:
 
 
     def show_shedule(self):
-        week = self.model.get_schedule()
+        num_class = self.view.active_window.get_class_number()
+
+        week = self.model.get_schedule(num_class)
+
+        self.view.active_window.show_main_panel(week)
