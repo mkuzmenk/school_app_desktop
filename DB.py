@@ -306,6 +306,8 @@ class Users(Base):
     userrole_user = relationship('UserRoles', back_populates='user_userrole',
                                  foreign_keys='Users.user_role')
 
+    time_table_teacher = relationship('TimeTable', back_populates='teacher_time_table',
+                                      foreign_keys='TimeTable.time_table_teacher_id_ref')
 
     def __init__(self, password, user_login, user_first_name, user_last_name,
                  user_phone, user_email, user_sex, user_birthday, user_created_at,
@@ -363,6 +365,7 @@ class TimeTable(Base):
     time_table_day = Column(mysql.VARCHAR(10), nullable=False)
     time_table_discipline_ref = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=True)
     time_table_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
+    time_table_teacher_id_ref = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
 
     homework_time_table = relationship('Homeworks', back_populates='time_table_homework',
                                        foreign_keys='Homeworks.home_work_timetable_ref')
@@ -373,8 +376,12 @@ class TimeTable(Base):
     group_time_table = relationship('Groups', back_populates='time_table_group',
                                     foreign_keys='TimeTable.time_table_group_id_ref')
 
+    teacher_time_table = relationship('Users', back_populates='time_table_teacher',
+                                      foreign_keys='TimeTable.time_table_teacher_id_ref')
+
+
     def __init__(self, time_table_id, time_table_cabinet, time_table_start_time, time_table_end_time, time_table_day,
-                 time_table_discipline_ref, time_table_group_id_ref):
+                 time_table_discipline_ref, time_table_group_id_ref, time_table_teacher_id_ref):
         self.time_table_id = time_table_id
         self.time_table_cabinet = time_table_cabinet
         self.time_table_start_time = time_table_start_time
@@ -382,6 +389,8 @@ class TimeTable(Base):
         self.time_table_day = time_table_day
         self.time_table_discipline_ref = time_table_discipline_ref
         self.time_table_group_id_ref = time_table_group_id_ref
+        self.time_table_teacher_id_ref = time_table_teacher_id_ref
+
 
     def __str__(self):
         return f'{self.time_table_start_time} - {self.time_table_id}'

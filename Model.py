@@ -1,7 +1,8 @@
 import sqlalchemy
 from DB import start_db
-from DB import Users
+from DB import Users, TimeTable, Groups
 from datetime import datetime, UTC
+from test_data import WEEKDAYS_DB
 
 
 class Model:
@@ -41,3 +42,37 @@ class Model:
         )
 
         return query.all()
+
+
+
+    def get_schedule(self, num_class):
+        week = dict()
+        for day in WEEKDAYS_DB.values():
+            query = self.conn.query(TimeTable).join(TimeTable.group_time_table).filter(
+                    TimeTable.time_table_day == day,
+                    Groups.group_name == num_class
+                ).order_by(TimeTable.time_table_start_time).all()
+
+            if query is None:
+                continue
+
+            week[day] = []
+
+            for lesson in query:
+                name = None
+                if lesson.teacher_time_table:
+                    name = (f'{lesson.teacher_time_table.user_last_name} {lesson.teacher_time_table.user_first_name} '
+                            f'{lesson.teacher_time_table.user_surname}')
+
+                data = (lesson.discipline_time_table.discipline_name,
+                        name,
+                        lesson.time_table_start_time.strftime("%H:%M"))
+
+                week[day].append(data)
+
+        return week
+
+
+m = Model()
+
+m.get_schedule(1)

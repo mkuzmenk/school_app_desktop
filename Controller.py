@@ -69,3 +69,7 @@ class Controller:
             return
 
         self.view.active_window.show_found_students(result_data)
+
+
+    def show_shedule(self):
+        week = self.model.get_schedule()
