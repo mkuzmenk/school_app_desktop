@@ -45,6 +45,7 @@ class Controller:
 
         if password != password_repeat:
             self.view.active_window.show_message(3)
+            return
 
         result = self.model.add_user_teacher(ipn, login, name, last_name, surname, birthdate, email, password, phone,
                                              sex, group_id)
