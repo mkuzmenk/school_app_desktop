@@ -32,7 +32,7 @@ class Controller:
 
         group_id = data[REGISTRATION_LABELS[5]]
 
-        if group_id.:
+        if group_id:
             group_id = int(group_id)
         else:
             group_id = None
