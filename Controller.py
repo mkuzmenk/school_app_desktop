@@ -9,17 +9,14 @@ class Controller:
 
     def add_teacher(self):
         data = self.view.active_window.get_teacher_data()
-        result_data = {}
 
         for key in data.keys():
             if not data[key] and key != REGISTRATION_LABELS[5]:
-                self.view.active_window.show_message_empty_teacher_fields()
+                self.view.active_window.show_message(0)
                 return
 
-            result_data[key] = data[key]
-
-        if result_data[REGISTRATION_LABELS[5]] and not result_data[REGISTRATION_LABELS[5]].isdigit():
-            self.view.active_window.show_message_invalid_teacher_data()
+        if data[REGISTRATION_LABELS[5]] and not data[REGISTRATION_LABELS[5]].isdigit():
+            self.view.active_window.show_message(1)
             return
 
         ipn = data[REGISTRATION_LABELS[0]]
@@ -44,30 +41,30 @@ class Controller:
         sex = data[REGISTRATION_LABELS[9]]
 
         password = data[REGISTRATION_LABELS[10]]
+        password_repeat = data[REGISTRATION_LABELS[11]]
+
+        if password != password_repeat:
+            self.view.active_window.show_message(3)
 
         result = self.model.add_user_teacher(ipn, login, name, last_name, surname, birthdate, email, password, phone,
                                              sex, group_id)
 
         if result:
-            self.view.active_window.show_message_success_teacher_added()
+            self.view.active_window.show_message(4)
         else:
-            self.view.active_window.show_message_invalid_teacher_data()
+            self.view.active_window.show_message(1)
 
     def get_users(self):
         data = self.view.active_window.get_user_data()
 
         if (not data[SEARCH_LABELS[0]]) and (not data[SEARCH_LABELS[1]]):
-            self.view.active_window.show_message_empty_fields()
+            self.view.active_window.show_message(0)
             return
-
-        for key in data.keys():
-            if not data[key]:
-                data[key] = None
 
         result_data = self.model.get_user(data[SEARCH_LABELS[0]], data[SEARCH_LABELS[1]])
 
-        if result_data is None:
-            self.view.active_window.show_message_users_not_found()
+        if not result_data:
+            self.view.active_window.show_message(2)
             return
 
         self.view.active_window.show_found_students(result_data)

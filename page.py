@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import messagebox
 
-from test_data import CLASS_QUANTITY
+from test_data import CLASS_QUANTITY, SHOW_MESSAGE_CODES
 from window_settings import *
 
 
@@ -55,17 +55,7 @@ class Page:
 
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
 
-    def show_message_empty_fields(self):
+    def show_message(self, code):
         messagebox.showinfo(
-            title=MB_FAIL_TITLE, message='Одне або декілька полів пусті.'
-        )
-
-    def show_message_invalid_data(self):
-        messagebox.showinfo(
-            title=MB_FAIL_TITLE, message='Некоректні дані.'
-        )
-
-    def show_message_users_not_found(self):
-        messagebox.showinfo(
-            title=MB_FAIL_TITLE, message='Користувачів не знайдено.'
+            title=MB_FAIL_TITLE, message=SHOW_MESSAGE_CODES[code]
         )

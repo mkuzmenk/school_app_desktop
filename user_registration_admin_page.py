@@ -84,11 +84,6 @@ class UserRegistration(Page):
         )
         bottom_label.pack()
 
-    def show_message_success_teacher_added(self):
-        messagebox.showinfo(
-            title=MB_SUCCESS_TITLE, message='Вчителя успішно додано.'
-        )
-
     def get_teacher_data(self):
         data = dict()
 
