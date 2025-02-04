@@ -52,7 +52,7 @@ class Page:
 
             option.pack()
 
-        left_panel.pack(side=L_PANEL_SIDE, fill=L_PANEL_FILL)
+        left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
 
     def __on_radiobutton_click(self, value):
         print(value)

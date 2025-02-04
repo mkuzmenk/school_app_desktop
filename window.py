@@ -8,10 +8,10 @@ from edit_group_admin_page import EditGroup
 class Window:
     def __init__(self):
         self.main_window = tkinter.Tk()
+        self.main_window.state(W_STATE)
+        self.main_window.title(W_START_TITLE)
 
         self.controller = None
-
-        self.main_window.state('zoomed')
 
         # self.main_window.geometry(WINDOW_GEOMETRY)
 
@@ -26,28 +26,38 @@ class Window:
         self.controller = controller
 
     def add_toolbar(self):
-        up_menu = tkinter.Frame(self.main_window, bg=TB_COLOR, height=100)
-        up_menu.pack(side="top", fill="x")
+        up_menu = tkinter.Frame(
+            self.main_window, bg=TB_COLOR, height=100
+        )
+        up_menu.pack(side=tkinter.TOP, fill=tkinter.X)
 
-        schedule_button = tkinter.Button(up_menu, text="Розклад", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
-                                         font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=TB_RELIEF,
-                                         command=lambda: self.__on_toolbar_button_click(Schedule))
+        schedule_button = tkinter.Button(
+            up_menu, text="Розклад", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
+            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
+            command=lambda: self.__on_toolbar_button_click(Schedule)
+        )
 
-        edit_group_button = tkinter.Button(up_menu, text="Редагувати клас", bg=TB_COLOR, fg=TB_FONT_COLOR,
-                                           height=2, font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=TB_RELIEF,
-                                           command=lambda: self.__on_toolbar_button_click(EditGroup))
+        edit_group_button = tkinter.Button(
+            up_menu, text="Редагувати клас", bg=TB_COLOR, fg=TB_FONT_COLOR,
+            height=2, font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
+            command=lambda: self.__on_toolbar_button_click(EditGroup)
+        )
 
-        input_users_button = tkinter.Button(up_menu, text="Додати users", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
-                                            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=TB_RELIEF,
-                                            command=lambda: self.__on_toolbar_button_click(UserRegistration))
+        input_users_button = tkinter.Button(
+            up_menu, text="Додати users", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
+            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
+            command=lambda: self.__on_toolbar_button_click(UserRegistration)
+        )
 
-        search_string = tkinter.Entry(up_menu, bg=E_COLOR, relief=TB_RELIEF, font=(E_FONT, E_FONT_SIZE))
+        search_string = tkinter.Entry(
+            up_menu, bg=E_COLOR, relief=tkinter.FLAT, font=(E_FONT, E_FONT_SIZE)
+        )
 
-        schedule_button.pack(side="left", pady=30)
-        edit_group_button.pack(side="left", pady=30)
-        input_users_button.pack(side="left", pady=30)
+        schedule_button.pack(side=tkinter.LEFT, pady=30)
+        edit_group_button.pack(side=tkinter.LEFT, pady=30)
+        input_users_button.pack(side=tkinter.LEFT, pady=30)
 
-        search_string.pack(side="right", pady=30, padx=30)
+        search_string.pack(side=tkinter.RIGHT, pady=30, padx=30)
 
     def __on_toolbar_button_click(self, page_class):
         if not isinstance(self.active_window, page_class):

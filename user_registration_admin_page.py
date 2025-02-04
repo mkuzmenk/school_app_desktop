@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import messagebox
 from page import Page
 from window_settings import *
 from test_data import *
@@ -9,45 +10,52 @@ class UserRegistration(Page):
         self.entries = {}
 
         self.button = None
-        self.label_status = None
 
         super().__init__(window, controller)
-
-
 
     def __str__(self):
         return 'UserRegistration'
 
     def show_left_panel(self):
-        left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
-
+        left_panel = tkinter.Frame(
+            self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH
+        )
         number_option = tkinter.IntVar(value=1)
 
-        teacher_option = tkinter.Radiobutton(left_panel, text="Вчитель", value=1, bg=L_PANEL_COLOR, fg=RB_FONT_COLOR,
-                                             width=RB_WIDTH,
-                                             font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
-                                             variable=number_option)
+        teacher_option = tkinter.Radiobutton(
+            left_panel, text="Вчитель", value=1, bg=L_PANEL_COLOR, fg=RB_FONT_COLOR,
+            width=RB_WIDTH,
+            font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
+            variable=number_option
+        )
 
-        student_option = tkinter.Radiobutton(left_panel, text="Учень", value=1, bg=L_PANEL_COLOR, fg=RB_FONT_COLOR,
-                                             width=RB_WIDTH,
-                                             font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
-                                             variable=number_option)
+        student_option = tkinter.Radiobutton(
+            left_panel, text="Учень", value=1, bg=L_PANEL_COLOR, fg=RB_FONT_COLOR,
+            width=RB_WIDTH,
+            font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
+            variable=number_option
+        )
 
-        left_panel.pack(side=L_PANEL_SIDE, fill=L_PANEL_FILL)
+        left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
 
         student_option.pack()
         teacher_option.pack()
 
     def show_main_panel(self):
-        registration_panel = tkinter.Frame(self.main_window)
-
-        button_panel = tkinter.Frame(self.main_window)
-
-        # print(self.entries)
+        registration_panel = tkinter.Frame(
+            self.main_window
+        )
+        button_panel = tkinter.Frame(
+            self.main_window
+        )
 
         for i in range(len(REGISTRATION_LABELS)):
-            label = tkinter.Label(registration_panel, text=REGISTRATION_LABELS[i], font=(RB_FONT, RB_FONT_SIZE))
-            entry = tkinter.Entry(registration_panel, font=(E_FONT, E_FONT_SIZE))
+            label = tkinter.Label(
+                registration_panel, text=REGISTRATION_LABELS[i], font=(RB_FONT, RB_FONT_SIZE)
+            )
+            entry = tkinter.Entry(
+                registration_panel, font=(E_FONT, E_FONT_SIZE)
+            )
 
             self.entries[REGISTRATION_LABELS[i]] = entry
 
@@ -59,30 +67,32 @@ class UserRegistration(Page):
             fg=B_FONT_COLOR, command=lambda: self.controller.add_teacher()
         )
 
-        self.label_status = tkinter.Label(button_panel, text='', font=(RB_FONT, RB_FONT_SIZE))
-
         self.button = complete_button
 
         registration_panel.pack()
 
         button_panel.pack()
         complete_button.pack()
-        self.label_status.pack()
 
-    def __on_complete_button_click(self):
-        for i, j in self.entries.items():
-            print(i, j.get())
+    def show_message_success_teacher_added(self):
+        messagebox.showinfo(
+            title=MB_SUCCESS_TITLE, message='Вчителя успішно додано.'
+        )
+
+    def show_message_invalid_teacher_data(self):
+        messagebox.showinfo(
+            title=MB_FAIL_TITLE, message='Некоректні дані.'
+        )
+
+    def show_message_empty_teacher_fields(self):
+        messagebox.showinfo(
+            title=MB_FAIL_TITLE, message='Одне або декілька полів пусті.'
+        )
 
     def get_teacher_data(self):
         data = dict()
 
-        if not self.entries["ID класу (не обов'язково)"].get().isdigit():
-            return None
-
         for i in self.entries.keys():
-            if self.entries[i].get() is None and i != "ID класу (не обов'язково)":
-                return None
-
             data[i] = self.entries[i].get()
 
         return data

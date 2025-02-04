@@ -1,6 +1,8 @@
+import sqlalchemy
 from DB import start_db
 from DB import Users
 from datetime import datetime, UTC
+
 
 class Model:
     def __init__(self):
@@ -26,7 +28,10 @@ class Model:
             self.conn.add(teacher)
             self.conn.commit()
             return 1
-        except Exception:
+
+        except sqlalchemy.exc.DatabaseError as db_err:
+            print(db_err)
+
             self.conn.rollback()
-            print('Некорректные данные')
+            print('Некоректні дані')
             return None
