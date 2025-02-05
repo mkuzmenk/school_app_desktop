@@ -1,6 +1,6 @@
 # W - Window
 W_START_TITLE = 'Шкільний додаток'
-W_GEOMETRY = '1024x768+0+0'
+W_GEOMETRY = '700x300+0+0'
 W_STATE = 'zoomed'
 
 # TB - Toolbar

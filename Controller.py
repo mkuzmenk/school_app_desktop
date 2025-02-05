@@ -83,5 +83,23 @@ class Controller:
         num_class = self.view.active_window.get_class_number()
 
         student_list = self.model.get_students(num_class)
+        teacher = self.model.get_class_teacher(num_class)
 
-        self.view.active_window.show_main_panel(student_list)
+        self.view.active_window.show_main_panel(student_list, teacher)
+
+
+    def get_teachers(self):
+        teachers = self.model.get_teachers()
+        return teachers
+
+    def change_class_teacher(self, new_teacher_id):
+        old_teacher_id = self.view.active_window.get_current_teacher_id()
+        if old_teacher_id == -1:
+            old_teacher_id = None
+
+        num_class = self.view.active_window.get_class_number()
+
+        self.model.change_group_teacher(old_teacher_id, new_teacher_id, num_class)
+        self.view.active_window.close_change_teacher_window()
+        self.show_students()
+

@@ -64,7 +64,10 @@ class Window:
 
     def __on_toolbar_button_click(self, page_class):
         if not isinstance(self.active_window, page_class):
-            self.active_window = None
+            if self.active_window:
+                self.active_window.__del__()
+                self.active_window = None
+
             self.active_window = page_class(self.main_window, self.controller)
 
             print(f'opening {page_class}')

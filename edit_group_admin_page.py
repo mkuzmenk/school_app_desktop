@@ -7,6 +7,11 @@ from test_data import *
 class EditGroup(Page):
     def __init__(self, window, controller):
         self.main_frame = None
+        self.num_class = None
+        self.teacher = None
+        self.teacher_box = None
+
+        self.current_teacher_id = tkinter.IntVar(value=-1)
         super().__init__(window, controller)
 
     def __str__(self):
@@ -15,11 +20,19 @@ class EditGroup(Page):
     def show_left_panel(self):
         self.show_groups_in_left_panel()
 
-    def show_main_panel(self, student_list=None):
-        if student_list:
+    def show_main_panel(self, student_list=None, teacher=None):
+        if isinstance(student_list, list):
+
             self.main_frame = self.create_main_frame(self.main_frame)
+            self.teacher = tkinter.Label(self.main_frame,
+                                         text=f'Класний керівник: {teacher[0]}',
+                                         font=(L_FONT, L_FONT_SIZE))
+
+            self.current_teacher_id.set(teacher[1])
+
 
             self.main_frame.pack(side=tkinter.TOP)
+            self.teacher.pack(pady=L_PAD_Y)
 
             button_frame = tkinter.Frame(
                 self.main_frame
@@ -52,7 +65,7 @@ class EditGroup(Page):
 
             change_student_teacher_button = tkinter.Button(
                 button_frame, text='Змінити класного керівника', bg=B_COLOR,
-                font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR
+                font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR, command=self.open_change_teacher
             )
             change_student_teacher_button.pack(side=tkinter.LEFT, padx=B_PAD_X, pady=B_PAD_Y)
 
@@ -82,3 +95,35 @@ class EditGroup(Page):
 
     def get_class_number(self):
         return self.num_class.get()
+
+    def get_current_teacher_id(self):
+
+        return self.current_teacher_id.get()
+
+
+    def open_change_teacher(self):
+        self.window_teacher = tkinter.Tk()
+        self.window_teacher.geometry(W_GEOMETRY)
+
+        teacher_list = self.controller.get_teachers()
+        only_teachers = []
+        for i in teacher_list.keys():
+            only_teachers.append(i)
+
+        selected_teacher = tkinter.StringVar()
+
+
+        self.teacher_box = tkinter.ttk.Combobox(self.window_teacher, values=only_teachers, state='readonly',
+                                                width=50, textvariable=selected_teacher)
+
+        button_change = tkinter.Button(
+            self.window_teacher, text=f'Змінити класного керівника для класу {self.get_class_number()}', bg=B_COLOR,
+            font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR,
+            command=lambda: self.controller.change_class_teacher(teacher_list[self.teacher_box.get()]))
+
+        self.teacher_box.pack(pady=L_PAD_Y)
+        button_change.pack()
+
+
+    def close_change_teacher_window(self):
+        self.window_teacher.destroy()

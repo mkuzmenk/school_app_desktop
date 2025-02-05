@@ -97,6 +97,7 @@ class Model:
         ).order_by(Users.user_last_name).all()
 
         data = []
+
         for student in query:
             last_name = ''
             first_name = ''
@@ -121,6 +122,88 @@ class Model:
             if student.group_user:
                 class_name = student.group_user.group_name
 
+
             data.append((name, student.user_birthday.strftime("%Y-%m-%d"), class_name))
 
         return data
+
+
+    def get_class_teacher(self, group_name):
+        query_group = self.conn.query(Groups).filter(Groups.group_name == group_name).first()
+
+        teacher_name = '---'
+        teacher_id = -1
+
+        if query_group.teacher_group:
+
+            surname = ''
+            teacher = query_group.teacher_group
+            teacher_id = teacher.user_id
+
+            if teacher.user_surname:
+                surname = teacher.user_surname
+
+            teacher_name = f'{teacher.user_last_name} {teacher.user_first_name} {surname}'
+
+        return teacher_name, teacher_id
+
+
+    def get_teachers(self):
+        query = self.conn.query(Users).filter(Users.user_role == 2).order_by(Users.user_last_name).all()
+
+        teacher_dict = dict()
+
+        for teacher in query:
+            f_n = ''
+            l_n = ''
+            surname = ''
+            if teacher.user_first_name:
+                f_n = teacher.user_first_name
+
+            if teacher.user_last_name:
+                l_n = teacher.user_last_name
+
+            if teacher.user_surname:
+                surname = teacher.user_surname
+
+            teacher_name = f'{l_n} {f_n} {surname}'
+
+            teacher_dict[teacher_name] = teacher.user_id
+
+        return teacher_dict
+
+
+    def get_groups(self):
+        query = self.conn.query(Groups).order_by(Groups.group_name).all()
+
+        group_list = []
+        for group in query:
+            group_list.append(group.group_name)
+
+        return group_list
+
+
+    def change_group_teacher(self, old_teacher_id, new_teacher_id, group_name):
+
+        # old group is where teacher are changing, new group is where new teacher came from
+
+        query_new_teacher = self.conn.query(Users).filter(Users.user_id == new_teacher_id).first()
+        query_group = self.conn.query(Groups).filter(Groups.group_name == group_name).first()
+
+        if old_teacher_id:
+            query_old_teacher = self.conn.query(Users).filter(Users.user_id == old_teacher_id).first()
+
+            query_old_teacher.user_group_id_ref = None
+
+        query_new_teacher.user_group_id_ref = query_group.group_id
+
+        query_group.group_teacher_id_id = query_new_teacher.user_id
+
+        query_new_teacher.group_teacher.group_teacher_id_id = None
+
+        self.conn.commit()
+        return True
+
+
+
+
