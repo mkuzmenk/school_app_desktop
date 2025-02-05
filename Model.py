@@ -88,3 +88,39 @@ class Model:
                 num_lesson += 1
 
         return week
+
+
+    def get_students(self, num_class):
+        query = self.conn.query(Users).join(Users.group_user).filter(
+            Users.user_role == 3,
+            Groups.group_name == num_class
+        ).order_by(Users.user_last_name).all()
+
+        data = []
+        for student in query:
+            last_name = ''
+            first_name = ''
+            surname = ''
+            if student.user_last_name:
+                last_name = student.user_last_name
+
+            if student.user_first_name:
+                first_name = student.user_first_name
+
+            if student.user_surname:
+                surname = student.user_surname
+
+            name = (f'{last_name} {first_name} '
+                    f'{surname}')
+
+            if name == '':
+                name = '**Без імені**'
+
+            class_name = '**Не визначено**'
+
+            if student.group_user:
+                class_name = student.group_user.group_name
+
+            data.append((name, student.user_birthday.strftime("%Y-%m-%d"), class_name))
+
+        return data

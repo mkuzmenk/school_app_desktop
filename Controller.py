@@ -77,3 +77,11 @@ class Controller:
         week = self.model.get_schedule(num_class)
 
         self.view.active_window.show_main_panel(week)
+
+
+    def show_students(self):
+        num_class = self.view.active_window.get_class_number()
+
+        student_list = self.model.get_students(num_class)
+
+        self.view.active_window.show_main_panel(student_list)

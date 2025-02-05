@@ -142,7 +142,9 @@ class Groups(Base):
     group_name = Column(mysql.VARCHAR(255), nullable=False)
     group_teacher_id_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
 
-    user_group = relationship('Users', back_populates='group_user', foreign_keys='Groups.group_teacher_id_id')
+    user_group = relationship('Users', back_populates='group_user', foreign_keys='Users.user_group_id_ref')
+
+    teacher_group = relationship('Users', back_populates='group_teacher', foreign_keys='Groups.group_teacher_id_id')
 
     homework_group = relationship('Homeworks', back_populates='group_homework',
                                   foreign_keys='Homeworks.home_work_group_id_ref')
@@ -293,7 +295,7 @@ class Users(Base):
     hw_resp_user = relationship('HomeworkResponses', back_populates='user_hw_resp',
                                 foreign_keys='HomeworkResponses.home_work_user_id_ref')
 
-    group_user = relationship('Groups', back_populates='user_group', foreign_keys='Groups.group_teacher_id_id')
+    group_user = relationship('Groups', back_populates='user_group', foreign_keys='Users.user_group_id_ref')
 
     homework_user = relationship('Homeworks', back_populates='user_homework',
                                  foreign_keys='Homeworks.home_work_user_ref_id')
@@ -308,6 +310,9 @@ class Users(Base):
 
     time_table_teacher = relationship('TimeTable', back_populates='teacher_time_table',
                                       foreign_keys='TimeTable.time_table_teacher_id_ref')
+
+    group_teacher = relationship('Groups', back_populates='teacher_group',
+                                 foreign_keys='Groups.group_teacher_id_id')
 
     def __init__(self, password, user_login, user_first_name, user_last_name,
                  user_phone, user_email, user_sex, user_birthday, user_created_at,

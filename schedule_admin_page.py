@@ -7,6 +7,7 @@ from test_data import *
 class Schedule(Page):
     def __init__(self, window, controller):
         self.num_class = None
+        self.schedule_frame = None
         super().__init__(window, controller)
 
     def __str__(self):
@@ -16,22 +17,18 @@ class Schedule(Page):
         self.show_groups_in_left_panel()
 
     def show_main_panel(self, data=None):
-
-        schedule_frame = tkinter.Frame(
-            self.main_window
-        )
-        schedule_frame.pack()
-
         week = data
 
         if week is not None:
+            self.schedule_frame = self.create_schedule_frame(self.schedule_frame)
+            self.schedule_frame.pack()
 
             current_day = 0
 
             for i in range(TS_QUANTITY):
 
                 column = tkinter.Frame(
-                    schedule_frame
+                    self.schedule_frame
                 )
                 column.pack(side=tkinter.LEFT)
 
@@ -92,6 +89,13 @@ class Schedule(Page):
             option.pack()
 
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
+
+
+    def create_schedule_frame(self, frame):
+        if frame is not None:
+            frame.destroy()
+
+        return tkinter.Frame(self.main_window)
 
 
     def get_class_number(self):
