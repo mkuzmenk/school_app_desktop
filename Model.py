@@ -8,9 +8,12 @@ from test_data import WEEKDAYS_DB
 class Model:
     def __init__(self):
         self.Session = start_db()
+
         assert self.Session is not None, 'DB connection is not found'      # if no connection, program won't run
 
         self.conn = self.Session()
+
+        # pass
 
     def __del__(self):
         if self.Session:
@@ -35,6 +38,33 @@ class Model:
             print('Некоректні дані')
             return None
 
+    def add_user(self, ipn, user_login, name, last_name, surname, birthdate, email, password, phone, sex, user_role,
+                 group_id=None):
+
+        try:
+            is_staff = 0
+
+            if user_role != 3:
+                is_staff = 1
+
+            teacher = Users(password=password, user_login=user_login, user_first_name=name,
+                            user_last_name=last_name,
+                            user_surname=surname, user_phone=phone, user_email=email, user_sex=sex,
+                            user_birthday=birthdate, user_tax_number=ipn, user_created_at=datetime.now(UTC),
+                            last_login=datetime.now(UTC), user_changed_at=datetime.now(UTC), is_active=1,
+                            is_staff=is_staff, is_superuser=0, user_group_id_ref=group_id, user_role=user_role)
+
+            self.conn.add(teacher)
+            self.conn.commit()
+            return 1
+
+        except sqlalchemy.exc.DatabaseError as ex:
+            print(ex)
+
+            self.conn.rollback()
+            print('Некоректні дані')
+            return None
+
     def get_user(self, first_name, last_name):
         query = self.conn.query(Users).filter(
             Users.user_first_name.like(f'%{first_name}%'),
@@ -43,10 +73,9 @@ class Model:
 
         return query.all()
 
-
-
     def get_schedule(self, num_class):
         week = dict()
+
         for day in WEEKDAYS_DB.values():
             query = self.conn.query(TimeTable).join(TimeTable.group_time_table).filter(
                     TimeTable.time_table_day == day,
@@ -59,6 +88,7 @@ class Model:
             week[day] = []
 
             num_lesson = 1
+
             for lesson in query:
                 name = None
                 if lesson.teacher_time_table:

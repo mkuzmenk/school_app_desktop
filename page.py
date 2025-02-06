@@ -59,3 +59,7 @@ class Page:
         messagebox.showinfo(
             title=MB_FAIL_TITLE, message=SHOW_MESSAGE_CODES[code]
         )
+
+    def hide_main_panel(self):
+        for widget in self.main_window.winfo_children()[2:]:
+            widget.destroy()

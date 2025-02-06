@@ -7,60 +7,61 @@ class Controller:
         self.model = model
         self.view = view
 
-    def add_teacher(self):
-        data = self.view.active_window.get_teacher_data()
+    # def add_teacher(self):
+    #     data = self.view.active_window.get_teacher_data()
+    #
+    #     ipn = data[REGISTRATION_LABELS_TEACHER[0]]
+    #     name = data[REGISTRATION_LABELS_TEACHER[1]]
+    #     last_name = data[REGISTRATION_LABELS_TEACHER[2]]
+    #     surname = data[REGISTRATION_LABELS_TEACHER[3]]
+    #     birthdate = data[REGISTRATION_LABELS_TEACHER[4]]
+    #     group_id = data[REGISTRATION_LABELS_TEACHER[5]]
+    #     email = data[REGISTRATION_LABELS_TEACHER[6]]
+    #     login = data[REGISTRATION_LABELS_TEACHER[7]]
+    #     phone = data[REGISTRATION_LABELS_TEACHER[8]]
+    #     sex = data[REGISTRATION_LABELS_TEACHER[9]]
+    #     password = data[REGISTRATION_LABELS_TEACHER[10]]
+    #
+    #     result = self.model.add_user_teacher(ipn, login, name, last_name, surname, birthdate, email, password, phone,
+    #                                          sex, group_id)
+    #
+    #     if result:
+    #         self.view.active_window.show_message(4)
+    #     else:
+    #         self.view.active_window.show_message(1)
 
-        for key in data.keys():
-            if not data[key] and key != REGISTRATION_LABELS[5]:
-                self.view.active_window.show_message(0)
-                return
+    def add_user_to_database(self):
+        user_role = self.view.active_window.get_user_role()
 
-        if data[REGISTRATION_LABELS[5]] and not data[REGISTRATION_LABELS[5]].isdigit():
-            self.view.active_window.show_message(1)
-            return
+        data = self.view.active_window.get_user_registration_data(user_role)
 
-        ipn = data[REGISTRATION_LABELS[0]]
+        user_labels = [REGISTRATION_LABELS_TEACHER, REGISTRATION_LABELS_STUDENT]
 
-        name = data[REGISTRATION_LABELS[1]]
-        last_name = data[REGISTRATION_LABELS[2]]
-        surname = data[REGISTRATION_LABELS[3]]
+        registration_labels = user_labels[user_role]
 
-        birthdate = data[REGISTRATION_LABELS[4]]
+        if data is not None:
+            ipn = data[registration_labels[0]]
+            name = data[registration_labels[1]]
+            last_name = data[registration_labels[2]]
+            surname = data[registration_labels[3]]
+            birthdate = data[registration_labels[4]]
+            group_id = data[registration_labels[5]]
+            email = data[registration_labels[6]]
+            login = data[registration_labels[7]]
+            phone = data[registration_labels[8]]
+            sex = data[registration_labels[9]]
+            password = data[registration_labels[10]]
 
-        group_id = data[REGISTRATION_LABELS[5]]
+            result = self.model.add_user(ipn, login, name, last_name, surname, birthdate, email, password, phone,
+                                         sex, user_role + 2, group_id)
 
-        if group_id:
-            group_id = int(group_id)
-        else:
-            group_id = None
-
-        email = data[REGISTRATION_LABELS[6]]
-        login = data[REGISTRATION_LABELS[7]]
-        phone = data[REGISTRATION_LABELS[8]]
-
-        sex = data[REGISTRATION_LABELS[9]]
-
-        password = data[REGISTRATION_LABELS[10]]
-        password_repeat = data[REGISTRATION_LABELS[11]]
-
-        if password != password_repeat:
-            self.view.active_window.show_message(3)
-            return
-
-        result = self.model.add_user_teacher(ipn, login, name, last_name, surname, birthdate, email, password, phone,
-                                             sex, group_id)
-
-        if result:
-            self.view.active_window.show_message(4)
-        else:
-            self.view.active_window.show_message(1)
+            if result:
+                self.view.active_window.show_message(user_role + 4)
+            else:
+                self.view.active_window.show_message(1)
 
     def get_users(self):
         data = self.view.active_window.get_user_data()
-
-        if (not data[SEARCH_LABELS[0]]) and (not data[SEARCH_LABELS[1]]):
-            self.view.active_window.show_message(0)
-            return
 
         result_data = self.model.get_user(data[SEARCH_LABELS[0]], data[SEARCH_LABELS[1]])
 
@@ -70,14 +71,12 @@ class Controller:
 
         self.view.active_window.show_found_students(result_data)
 
-
-    def show_shedule(self):
+    def show_schedule(self):
         num_class = self.view.active_window.get_class_number()
 
         week = self.model.get_schedule(num_class)
 
         self.view.active_window.show_main_panel(week)
-
 
     def show_students(self):
         num_class = self.view.active_window.get_class_number()
@@ -87,19 +86,15 @@ class Controller:
 
         self.view.active_window.show_main_panel(student_list, teacher)
 
-
     def get_teachers(self):
         teachers = self.model.get_teachers()
         return teachers
 
     def change_class_teacher(self, new_teacher_id):
         old_teacher_id = self.view.active_window.get_current_teacher_id()
-        if old_teacher_id == -1:
-            old_teacher_id = None
 
         num_class = self.view.active_window.get_class_number()
 
         self.model.change_group_teacher(old_teacher_id, new_teacher_id, num_class)
         self.view.active_window.close_change_teacher_window()
         self.show_students()
-

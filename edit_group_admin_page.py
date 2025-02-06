@@ -30,7 +30,6 @@ class EditGroup(Page):
 
             self.current_teacher_id.set(teacher[1])
 
-
             self.main_frame.pack(side=tkinter.TOP)
             self.teacher.pack(pady=L_PAD_Y)
 
@@ -69,7 +68,6 @@ class EditGroup(Page):
             )
             change_student_teacher_button.pack(side=tkinter.LEFT, padx=B_PAD_X, pady=B_PAD_Y)
 
-
     def show_groups_in_left_panel(self):
         left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
 
@@ -86,7 +84,6 @@ class EditGroup(Page):
 
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
 
-
     def create_main_frame(self, frame):
         if frame is not None:
             frame.destroy()
@@ -97,9 +94,12 @@ class EditGroup(Page):
         return self.num_class.get()
 
     def get_current_teacher_id(self):
+        old_teacher_id = self.current_teacher_id.get()
 
-        return self.current_teacher_id.get()
+        if old_teacher_id == -1:
+            old_teacher_id = None
 
+        return old_teacher_id
 
     def open_change_teacher(self):
         self.window_teacher = tkinter.Tk()
@@ -112,18 +112,17 @@ class EditGroup(Page):
 
         selected_teacher = tkinter.StringVar()
 
-
         self.teacher_box = tkinter.ttk.Combobox(self.window_teacher, values=only_teachers, state='readonly',
                                                 width=50, textvariable=selected_teacher)
 
         button_change = tkinter.Button(
             self.window_teacher, text=f'Змінити класного керівника для класу {self.get_class_number()}', bg=B_COLOR,
             font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR,
-            command=lambda: self.controller.change_class_teacher(teacher_list[self.teacher_box.get()]))
+            command=lambda: self.controller.change_class_teacher(teacher_list[self.teacher_box.get()])
+        )
 
         self.teacher_box.pack(pady=L_PAD_Y)
         button_change.pack()
-
 
     def close_change_teacher_window(self):
         self.window_teacher.destroy()

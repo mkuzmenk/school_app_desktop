@@ -79,7 +79,10 @@ class FindUser(Page):
         for i in range(len(self.entries)):
             data[SEARCH_LABELS[i]] = self.entries[i].get()
 
-        print(data)
+        if (not data[SEARCH_LABELS[0]]) and (not data[SEARCH_LABELS[1]]):
+            self.show_message(0)
+            return
+
         return data
 
     def show_found_students(self, data):

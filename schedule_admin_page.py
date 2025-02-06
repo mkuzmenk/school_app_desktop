@@ -73,7 +73,6 @@ class Schedule(Page):
 
                     current_day += 1
 
-
     def show_groups_in_left_panel(self):
         left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
 
@@ -84,19 +83,17 @@ class Schedule(Page):
                                          fg=RB_FONT_COLOR,
                                          width=RB_WIDTH, variable=self.num_class,
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
-                                         command=self.controller.show_shedule)
+                                         command=self.controller.show_schedule)
 
             option.pack()
 
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
-
 
     def create_schedule_frame(self, frame):
         if frame is not None:
             frame.destroy()
 
         return tkinter.Frame(self.main_window)
-
 
     def get_class_number(self):
         return self.num_class.get()
