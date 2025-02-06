@@ -72,7 +72,7 @@ class EditGroup(Page):
         left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
 
         self.num_class = tkinter.IntVar(value=0)
-
+        self.option_dict = dict()
         for i in range(CLASS_QUANTITY):
             option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=L_PANEL_COLOR,
                                          fg=RB_FONT_COLOR,
@@ -80,6 +80,7 @@ class EditGroup(Page):
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
                                          command=self.controller.show_students)
 
+            self.option_dict[i+1] = option
             option.pack()
 
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
@@ -126,3 +127,6 @@ class EditGroup(Page):
 
     def close_change_teacher_window(self):
         self.window_teacher.destroy()
+
+
+

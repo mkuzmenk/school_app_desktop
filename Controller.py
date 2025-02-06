@@ -73,6 +73,8 @@ class Controller:
 
     def show_schedule(self):
         num_class = self.view.active_window.get_class_number()
+        self.view.active_window.enable_options()
+        self.view.active_window.disable_option(num_class)
 
         week = self.model.get_schedule(num_class)
 
@@ -80,6 +82,8 @@ class Controller:
 
     def show_students(self):
         num_class = self.view.active_window.get_class_number()
+        self.view.active_window.enable_options()
+        self.view.active_window.disable_option(num_class)
 
         student_list = self.model.get_students(num_class)
         teacher = self.model.get_class_teacher(num_class)

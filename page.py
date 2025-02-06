@@ -43,13 +43,16 @@ class Page:
     def show_groups_in_left_panel(self):
         left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
 
-        number_option = tkinter.IntVar(value=0)
+        self.num_class = tkinter.IntVar(value=0)
+        self.option_dict = dict()
 
         for i in range(CLASS_QUANTITY):
             option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=L_PANEL_COLOR,
                                          fg=RB_FONT_COLOR,
-                                         width=RB_WIDTH, variable=number_option,
+                                         width=RB_WIDTH, variable=self.num_class,
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT))
+
+            self.option_dict[i + 1] = option
 
             option.pack()
 
@@ -63,3 +66,13 @@ class Page:
     def hide_main_panel(self):
         for widget in self.main_window.winfo_children()[2:]:
             widget.destroy()
+
+
+    def enable_options(self):
+        for i in self.option_dict.values():
+            if i['state'] == 'disabled':
+                i['state'] = 'normal'
+
+
+    def disable_option(self, num):
+        self.option_dict[num].configure(state='disabled')
