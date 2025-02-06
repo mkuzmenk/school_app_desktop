@@ -10,8 +10,8 @@ from find_user_admin_page import FindUser
 class Window:
     def __init__(self):
         self.main_window = tkinter.Tk()
-        self.main_window.state(W_STATE)
-        self.main_window.title(W_START_TITLE)
+        self.main_window.state(MW_STATE)
+        self.main_window.title(MW_TITLE)
 
         self.controller = None
 

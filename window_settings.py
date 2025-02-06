@@ -1,7 +1,11 @@
-# W - Window
-W_START_TITLE = 'Шкільний додаток'
-W_GEOMETRY = '700x300+0+0'
-W_STATE = 'zoomed'
+# MW - Main Window
+MW_TITLE = 'Шкільний додаток'
+MW_GEOMETRY = '700x300+0+0'
+MW_STATE = 'zoomed'
+
+# TW - Teacher Window
+TW_TITLE = 'Зміна класного керівника'
+TW_GEOMETRY = '700x300+0+0'
 
 # TB - Toolbar
 TB_COLOR = "#212121"

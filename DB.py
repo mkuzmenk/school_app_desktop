@@ -7,11 +7,12 @@ import os
 load_dotenv()
 
 DB_SETTINGS = {'SERVER_ADDRESS': os.getenv('SERVER_ADDRESS'),
-                'DB_NAME': os.getenv('DB_NAME'),
-                'DB_USERNAME': os.getenv('DB_USERNAME'),
-                'PASSWORD': os.getenv('PASSWORD'),
+               'DB_NAME': os.getenv('DB_NAME'),
+               'DB_USERNAME': os.getenv('DB_USERNAME'),
+               'PASSWORD': os.getenv('PASSWORD'),
                'PORT_NUMBER': os.getenv('PORT_NUMBER')
                }
+
 
 class Base(DeclarativeBase):
     pass
@@ -92,7 +93,6 @@ class AuthGroupPermissions(Base):
     auth_permission = relationship('AuthPermission', back_populates='auth_permissions_group',
                                    foreign_keys='AuthGroupPermissions.permission_id')
 
-
     def __init__(self, id, group_id, permission_id):
         self.id = id
         self.group_id = group_id
@@ -120,7 +120,6 @@ class HomeworkResponses(Base):
 
     homework_hw_resp = relationship('Homeworks', back_populates='hw_resp_homework',
                                     foreign_keys='HomeworkResponses.home_work_id_ref')
-
 
     def __init__(self, home_work_response_id, home_work_response, home_work_response_created_at,
                  home_work_mark_id_ref, home_work_user_id_ref, home_work_id_ref):
@@ -189,11 +188,8 @@ class Homeworks(Base):
     user_homework = relationship('Users', back_populates='homework_user',
                                  foreign_keys='Homeworks.home_work_user_ref_id')
 
-
-
     def __init__(self, home_work_id, home_work_name, home_work_topic, home_work_description, home_work_deadline,
                  home_work_created_at, home_work_group_id_ref, home_work_timetable_ref, home_work_user_ref_id):
-
         self.home_work_id = home_work_id
         self.home_work_name = home_work_name
         self.home_work_topic = home_work_topic
@@ -226,7 +222,6 @@ class MarkTypes(Base):
 
 
 class Marks(Base):
-
     __tablename__ = 'marks'
 
     mark_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
@@ -257,12 +252,11 @@ class Marks(Base):
         self.mark_id = mark_id
         self.mark_value = mark_value
         self.mark_created_at = mark_created_at
-        self.homework_id_ref =homework_id_ref
+        self.homework_id_ref = homework_id_ref
         self.mark_discipline_type_ref = mark_discipline_type_ref
         self.mark_student_id = mark_student_id
         self.mark_teacher_id = mark_teacher_id
         self.mark_type = mark_type
-
 
     def __str__(self):
         return f'{self.mark_id} - value {self.mark_value} - student {self.mark_student_id}'
@@ -384,7 +378,6 @@ class TimeTable(Base):
     teacher_time_table = relationship('Users', back_populates='time_table_teacher',
                                       foreign_keys='TimeTable.time_table_teacher_id_ref')
 
-
     def __init__(self, time_table_id, time_table_cabinet, time_table_start_time, time_table_end_time, time_table_day,
                  time_table_discipline_ref, time_table_group_id_ref, time_table_teacher_id_ref):
         self.time_table_id = time_table_id
@@ -395,7 +388,6 @@ class TimeTable(Base):
         self.time_table_discipline_ref = time_table_discipline_ref
         self.time_table_group_id_ref = time_table_group_id_ref
         self.time_table_teacher_id_ref = time_table_teacher_id_ref
-
 
     def __str__(self):
         return f'{self.time_table_start_time} - {self.time_table_id}'
@@ -421,7 +413,6 @@ class TeacherDiscipline(Base):
 
     def __str__(self):
         return f'{self.teacher_id} - {self.id}'
-
 
 
 # engine works with PyMySQL package

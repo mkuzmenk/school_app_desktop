@@ -70,12 +70,10 @@ class Page:
         for widget in self.main_window.winfo_children()[2:]:
             widget.destroy()
 
-
     def enable_options(self):
         for option in self.option_dictionary.values():
             if option['state'] == 'disabled':
                 option['state'] = 'normal'
-
 
     def disable_option(self, num):
         self.option_dictionary[num].configure(state='disabled')

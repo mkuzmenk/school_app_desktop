@@ -9,7 +9,7 @@ class Model:
     def __init__(self):
         self.Session = start_db()
 
-        assert self.Session is not None, 'DB connection is not found'      # if no connection, program won't run
+        assert self.Session is not None, 'DB connection is not found'  # if no connection, program won't run
 
         self.conn = self.Session()
 
@@ -24,7 +24,8 @@ class Model:
 
         try:
             teacher = Users(password=password, user_login=user_login, user_first_name=name, user_last_name=last_name,
-                            user_surname=surname, user_phone=phone, user_email=email, user_sex=sex, user_birthday=birthdate,
+                            user_surname=surname, user_phone=phone, user_email=email, user_sex=sex,
+                            user_birthday=birthdate,
                             user_tax_number=ipn, user_created_at=datetime.now(UTC), last_login=datetime.now(UTC),
                             user_changed_at=datetime.now(UTC), is_active=1, is_staff=1, is_superuser=0,
                             user_group_id_ref=group_id, user_role=2)
@@ -78,9 +79,9 @@ class Model:
 
         for day in WEEKDAYS_DB.values():
             query = self.conn.query(TimeTable).join(TimeTable.group_time_table).filter(
-                    TimeTable.time_table_day == day,
-                    Groups.group_name == num_class
-                ).order_by(TimeTable.time_table_start_time).all()
+                TimeTable.time_table_day == day,
+                Groups.group_name == num_class
+            ).order_by(TimeTable.time_table_start_time).all()
 
             if query is None:
                 continue
@@ -119,7 +120,6 @@ class Model:
 
         return week
 
-
     def get_students_for_schedule(self, num_class):
         query = self.conn.query(Users).join(Users.group_user).filter(
             Users.user_role == 3,
@@ -156,7 +156,6 @@ class Model:
 
         return data
 
-
     def get_class_teacher(self, group_name):
         query_group = self.conn.query(Groups).filter(Groups.group_name == group_name).first()
 
@@ -175,7 +174,6 @@ class Model:
             teacher_name = f'{teacher.user_last_name} {teacher.user_first_name} {surname}'
 
         return teacher_name, teacher_id
-
 
     def get_teachers(self):
         query = self.conn.query(Users).filter(Users.user_role == 2).order_by(Users.user_last_name).all()
@@ -201,7 +199,6 @@ class Model:
 
         return teacher_dict
 
-
     def get_groups(self):
         query = self.conn.query(Groups).order_by(Groups.group_name).all()
 
@@ -210,7 +207,6 @@ class Model:
             group_list.append(group.group_name)
 
         return group_list
-
 
     def change_group_teacher(self, old_teacher_id, new_teacher_id, group_name):
 
@@ -232,7 +228,3 @@ class Model:
 
         self.conn.commit()
         return True
-
-
-
-

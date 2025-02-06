@@ -81,7 +81,7 @@ class EditGroup(Page):
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
                                          command=self.controller.show_students)
 
-            self.option_dictionary[i+1] = option
+            self.option_dictionary[i + 1] = option
             option.pack()
 
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
@@ -105,7 +105,8 @@ class EditGroup(Page):
 
     def open_change_teacher(self):
         self.window_teacher = tkinter.Tk()
-        self.window_teacher.geometry(W_GEOMETRY)
+        self.window_teacher.geometry(TW_GEOMETRY)
+        self.window_teacher.title(TW_TITLE)
 
         teacher_list = self.controller.get_teachers()
         only_teachers = []
@@ -128,6 +129,3 @@ class EditGroup(Page):
 
     def close_change_teacher_window(self):
         self.window_teacher.destroy()
-
-
-
