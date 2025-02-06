@@ -85,7 +85,7 @@ class Controller:
         self.view.active_window.enable_options()
         self.view.active_window.disable_option(num_class)
 
-        student_list = self.model.get_students(num_class)
+        student_list = self.model.get_students_for_schedule(num_class)
         teacher = self.model.get_class_teacher(num_class)
 
         self.view.active_window.show_main_panel(student_list, teacher)

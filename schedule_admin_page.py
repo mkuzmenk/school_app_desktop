@@ -77,8 +77,7 @@ class Schedule(Page):
         left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
 
         self.num_class = tkinter.IntVar(value=0)
-        self.option_dict = dict()
-
+        self.option_dictionary = dict()
 
         for i in range(CLASS_QUANTITY):
             option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=L_PANEL_COLOR,
@@ -87,7 +86,7 @@ class Schedule(Page):
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
                                          command=self.controller.show_schedule)
 
-            self.option_dict[i + 1] = option
+            self.option_dictionary[i + 1] = option
 
             option.pack()
 

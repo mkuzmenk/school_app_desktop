@@ -29,6 +29,7 @@ class AddUser(Page):
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
 
         self.user_role = tkinter.IntVar(value=-1)
+        self.option_dictionary = dict()
 
         for i in range(len(REGISTRATION_OPTIONS)):
             option = tkinter.Radiobutton(left_panel, text=REGISTRATION_OPTIONS[i], value=i, bg=L_PANEL_COLOR,
@@ -36,6 +37,8 @@ class AddUser(Page):
                                          width=RB_WIDTH, variable=self.user_role,
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
                                          command=self.show_main_panel)
+
+            self.option_dictionary[i] = option
 
             option.pack()
 
@@ -57,6 +60,9 @@ class AddUser(Page):
         current_user_role = self.get_user_role()
 
         if current_user_role != -1:
+            self.enable_options()
+            self.disable_option(self.get_user_role())
+
             current_labels = user_labels[current_user_role]
 
             for i in range(len(current_labels)):

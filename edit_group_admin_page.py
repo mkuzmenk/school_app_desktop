@@ -10,6 +10,7 @@ class EditGroup(Page):
         self.num_class = None
         self.teacher = None
         self.teacher_box = None
+        self.window_teacher = None
 
         self.current_teacher_id = tkinter.IntVar(value=-1)
         super().__init__(window, controller)
@@ -43,7 +44,7 @@ class EditGroup(Page):
             )
             table.heading('#1', text='ПІБ')
             table.heading('#2', text='Дата народження')
-            table.heading('#3', text='Клас')
+            table.heading('#3', text='Пошта')
 
             scrollbar = tkinter.ttk.Scrollbar(
                 self.main_frame, orient=tkinter.VERTICAL, command=table.yview
@@ -72,7 +73,7 @@ class EditGroup(Page):
         left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
 
         self.num_class = tkinter.IntVar(value=0)
-        self.option_dict = dict()
+        self.option_dictionary = dict()
         for i in range(CLASS_QUANTITY):
             option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=L_PANEL_COLOR,
                                          fg=RB_FONT_COLOR,
@@ -80,7 +81,7 @@ class EditGroup(Page):
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
                                          command=self.controller.show_students)
 
-            self.option_dict[i+1] = option
+            self.option_dictionary[i+1] = option
             option.pack()
 
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)

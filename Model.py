@@ -120,7 +120,7 @@ class Model:
         return week
 
 
-    def get_students(self, num_class):
+    def get_students_for_schedule(self, num_class):
         query = self.conn.query(Users).join(Users.group_user).filter(
             Users.user_role == 3,
             Groups.group_name == num_class
@@ -147,13 +147,12 @@ class Model:
             if name == '':
                 name = '**Без імені**'
 
-            class_name = '**Не визначено**'
+            email = '**Не вказано**'
 
-            if student.group_user:
-                class_name = student.group_user.group_name
+            if student.user_email:
+                email = student.user_email
 
-
-            data.append((name, student.user_birthday.strftime("%Y-%m-%d"), class_name))
+            data.append((name, student.user_birthday.strftime("%Y-%m-%d"), email))
 
         return data
 

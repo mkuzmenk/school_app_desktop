@@ -1,11 +1,10 @@
 import tkinter
 
-from add_group_page import AddGroup
 from window_settings import *
 from schedule_admin_page import Schedule
 from add_user_page import AddUser
 from edit_group_admin_page import EditGroup
-from find_user_page import FindUser
+from find_user_admin_page import FindUser
 
 
 class Window:
@@ -40,12 +39,6 @@ class Window:
             command=lambda: self.__on_toolbar_button_click(Schedule)
         )
 
-        add_group_button = tkinter.Button(
-            up_menu, text="Додати клас", bg=TB_COLOR, fg=TB_FONT_COLOR,
-            height=2, font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
-            command=lambda: self.__on_toolbar_button_click(AddGroup)
-        )
-
         edit_group_button = tkinter.Button(
             up_menu, text="Редагувати клас", bg=TB_COLOR, fg=TB_FONT_COLOR,
             height=2, font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
@@ -67,7 +60,6 @@ class Window:
         schedule_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
         edit_group_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
         input_users_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
-        add_group_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
 
         find_user.pack(side=tkinter.RIGHT, pady=TB_BUTTONS_PAD_Y)
 

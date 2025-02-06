@@ -1,5 +1,4 @@
 from window import Window
-from page import Page
 from Model import Model
 from Controller import Controller
 
