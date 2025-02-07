@@ -180,7 +180,7 @@ REGISTRATION_LABELS_TEACHER = {
     2: 'Прізвище',
     3: 'По-батькові',
     4: 'День народження',
-    5: "Цифра класу",
+    5: "Клас*",
     6: 'Пошта',
     7: 'Логін',
     8: 'Номер телефону',
@@ -195,7 +195,7 @@ REGISTRATION_LABELS_STUDENT = {
     2: 'Прізвище',
     3: 'По-батькові',
     4: 'День народження',
-    5: "Цифра класу",
+    5: "Клас*",
     6: 'Пошта',
     7: 'Логін',
     8: 'Номер телефону',
@@ -203,6 +203,11 @@ REGISTRATION_LABELS_STUDENT = {
     10: 'Пароль',
     11: 'Повторіть пароль',
 }
+
+REGISTRATION_LABELS = [
+    REGISTRATION_LABELS_TEACHER,
+    REGISTRATION_LABELS_STUDENT,
+]
 
 SEARCH_LABELS = {
     0: "Ім'я",

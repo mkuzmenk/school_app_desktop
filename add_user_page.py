@@ -55,15 +55,13 @@ class AddUser(Page):
             self.main_window
         )
 
-        user_labels = [REGISTRATION_LABELS_TEACHER, REGISTRATION_LABELS_STUDENT]
-
         current_user_role = self.get_user_role()
 
         if current_user_role != -1:
             self.enable_options()
             self.disable_option(self.get_user_role())
 
-            current_labels = user_labels[current_user_role]
+            current_labels = REGISTRATION_LABELS[current_user_role]
 
             for i in range(len(current_labels)):
                 label = tkinter.Label(
@@ -106,37 +104,26 @@ class AddUser(Page):
         for i in self.entries.keys():
             data[i] = self.entries[i].get()
 
-        registration_labels = None
+        current_registration_labels = REGISTRATION_LABELS[option]
 
-        if option == 0:
-            registration_labels = REGISTRATION_LABELS_TEACHER
+        for key in data.keys():
+            if not data[key] and ('*' not in key):
+                self.show_message(0)
+                return
 
-            for key in data.keys():
-                if not data[key] and key != registration_labels[5]:
-                    self.show_message(0)
-                    return
-
-        elif option == 1:
-            registration_labels = REGISTRATION_LABELS_STUDENT
-
-            for key in data.keys():
-                if not data[key] and key != registration_labels[5] and key != registration_labels[0]:
-                    self.show_message(0)
-                    return
-
-        if data[registration_labels[5]] and not data[registration_labels[5]].isdigit():
+        if data[current_registration_labels[5]] and not data[current_registration_labels[5]].isdigit():
             self.show_message(1)
             return
 
-        group_id = data[registration_labels[5]]
+        group_id = data[current_registration_labels[5]]
 
         if group_id:
-            data[registration_labels[5]] = int(group_id)
+            data[current_registration_labels[5]] = int(group_id)
         else:
-            data[registration_labels[5]] = None
+            data[current_registration_labels[5]] = None
 
-        password = data[registration_labels[10]]
-        password_repeat = data[registration_labels[11]]
+        password = data[current_registration_labels[10]]
+        password_repeat = data[current_registration_labels[11]]
 
         if password != password_repeat:
             self.show_message(3)

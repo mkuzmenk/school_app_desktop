@@ -7,50 +7,25 @@ class Controller:
         self.model = model
         self.view = view
 
-    # def add_teacher(self):
-    #     data = self.view.active_window.get_teacher_data()
-    #
-    #     ipn = data[REGISTRATION_LABELS_TEACHER[0]]
-    #     name = data[REGISTRATION_LABELS_TEACHER[1]]
-    #     last_name = data[REGISTRATION_LABELS_TEACHER[2]]
-    #     surname = data[REGISTRATION_LABELS_TEACHER[3]]
-    #     birthdate = data[REGISTRATION_LABELS_TEACHER[4]]
-    #     group_id = data[REGISTRATION_LABELS_TEACHER[5]]
-    #     email = data[REGISTRATION_LABELS_TEACHER[6]]
-    #     login = data[REGISTRATION_LABELS_TEACHER[7]]
-    #     phone = data[REGISTRATION_LABELS_TEACHER[8]]
-    #     sex = data[REGISTRATION_LABELS_TEACHER[9]]
-    #     password = data[REGISTRATION_LABELS_TEACHER[10]]
-    #
-    #     result = self.model.add_user_teacher(ipn, login, name, last_name, surname, birthdate, email, password, phone,
-    #                                          sex, group_id)
-    #
-    #     if result:
-    #         self.view.active_window.show_message(4)
-    #     else:
-    #         self.view.active_window.show_message(1)
-
     def add_user_to_database(self):
         user_role = self.view.active_window.get_user_role()
 
         data = self.view.active_window.get_user_registration_data(user_role)
 
-        user_labels = [REGISTRATION_LABELS_TEACHER, REGISTRATION_LABELS_STUDENT]
-
-        registration_labels = user_labels[user_role]
+        current_registration_labels = REGISTRATION_LABELS[user_role]
 
         if data is not None:
-            ipn = data[registration_labels[0]]
-            name = data[registration_labels[1]]
-            last_name = data[registration_labels[2]]
-            surname = data[registration_labels[3]]
-            birthdate = data[registration_labels[4]]
-            group_id = data[registration_labels[5]]
-            email = data[registration_labels[6]]
-            login = data[registration_labels[7]]
-            phone = data[registration_labels[8]]
-            sex = data[registration_labels[9]]
-            password = data[registration_labels[10]]
+            ipn = data[current_registration_labels[0]]
+            name = data[current_registration_labels[1]]
+            last_name = data[current_registration_labels[2]]
+            surname = data[current_registration_labels[3]]
+            birthdate = data[current_registration_labels[4]]
+            group_id = data[current_registration_labels[5]]
+            email = data[current_registration_labels[6]]
+            login = data[current_registration_labels[7]]
+            phone = data[current_registration_labels[8]]
+            sex = data[current_registration_labels[9]]
+            password = data[current_registration_labels[10]]
 
             result = self.model.add_user(ipn, login, name, last_name, surname, birthdate, email, password, phone,
                                          sex, user_role + 2, group_id)
@@ -82,6 +57,7 @@ class Controller:
 
     def show_students(self):
         num_class = self.view.active_window.get_class_number()
+
         self.view.active_window.enable_options()
         self.view.active_window.disable_option(num_class)
 

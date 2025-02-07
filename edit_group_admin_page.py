@@ -65,7 +65,7 @@ class EditGroup(Page):
 
             change_student_teacher_button = tkinter.Button(
                 button_frame, text='Змінити класного керівника', bg=B_COLOR,
-                font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR, command=self.open_change_teacher
+                font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR, command=self.open_change_teacher_window
             )
             change_student_teacher_button.pack(side=tkinter.LEFT, padx=B_PAD_X, pady=B_PAD_Y)
 
@@ -103,15 +103,15 @@ class EditGroup(Page):
 
         return old_teacher_id
 
-    def open_change_teacher(self):
+    def open_change_teacher_window(self):
         self.window_teacher = tkinter.Tk()
         self.window_teacher.geometry(TW_GEOMETRY)
         self.window_teacher.title(TW_TITLE)
 
         teacher_list = self.controller.get_teachers()
         only_teachers = []
-        for i in teacher_list.keys():
-            only_teachers.append(i)
+        for teacher in teacher_list.keys():
+            only_teachers.append(teacher)
 
         selected_teacher = tkinter.StringVar()
 
