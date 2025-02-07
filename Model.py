@@ -208,23 +208,21 @@ class Model:
 
         return group_list
 
-    def change_group_teacher(self, old_teacher_id, new_teacher_id, group_name):
+    def change_group_teacher(self, new_teacher_id, group_name):
 
         # old group is where teacher are changing, new group is where new teacher came from
 
         query_new_teacher = self.conn.query(Users).filter(Users.user_id == new_teacher_id).first()
         query_group = self.conn.query(Groups).filter(Groups.group_name == group_name).first()
 
-        if old_teacher_id:
-            query_old_teacher = self.conn.query(Users).filter(Users.user_id == old_teacher_id).first()
-
-            query_old_teacher.user_group_id_ref = None
+        query_new_teacher.group_user.group_teacher_id_id = None
+        self.conn.commit()
 
         query_new_teacher.user_group_id_ref = query_group.group_id
 
         query_group.group_teacher_id_id = query_new_teacher.user_id
 
-        query_new_teacher.group_teacher.group_teacher_id_id = None
+
 
         self.conn.commit()
         return True

@@ -71,11 +71,10 @@ class Controller:
         return teachers
 
     def change_class_teacher(self, new_teacher_id):
-        old_teacher_id = self.view.active_window.get_current_teacher_id()
 
         num_class = self.view.active_window.get_class_number()
 
-        self.model.change_group_teacher(old_teacher_id, new_teacher_id, num_class)
+        self.model.change_group_teacher(new_teacher_id, num_class)
         self.view.active_window.close_change_teacher_window()
         self.show_students()
 
