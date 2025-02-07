@@ -1,7 +1,7 @@
 import tkinter.ttk
 from page import Page
 from window_settings import *
-from test_data import *
+from number_and_text_constants import *
 
 
 class EditGroup(Page):
@@ -115,8 +115,11 @@ class EditGroup(Page):
 
         selected_teacher = tkinter.StringVar()
 
-        self.teacher_box = tkinter.ttk.Combobox(self.window_teacher, values=only_teachers, state='readonly',
-                                                width=50, textvariable=selected_teacher)
+        self.teacher_box = tkinter.ttk.Combobox(
+            self.window_teacher, values=only_teachers, state=TWCB_STATE,
+            textvariable=selected_teacher, width=TWCB_WIDTH,
+            font=(TWCB_FONT, TWCB_FONT_SIZE)
+        )
 
         button_change = tkinter.Button(
             self.window_teacher, text=f'Змінити класного керівника для класу {self.get_class_number()}', bg=B_COLOR,

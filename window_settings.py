@@ -7,6 +7,12 @@ MW_STATE = 'zoomed'
 TW_TITLE = 'Зміна класного керівника'
 TW_GEOMETRY = '700x300+0+0'
 
+# TWCB - Teacher Window Combobox
+TWCB_FONT = "Courier New"
+TWCB_FONT_SIZE = 18
+TWCB_WIDTH = 38
+TWCB_STATE = 'readonly'
+
 # TB - Toolbar
 TB_COLOR = "#212121"
 TB_FONT = "Courier New"
@@ -65,3 +71,10 @@ TFS_HEIGHT = 15
 # MB - Messagebox
 MB_SUCCESS_TITLE = 'Успіх'
 MB_FAIL_TITLE = 'Помилка'
+
+# RCB - Registration Combobox
+RCB_FONT = "Courier New"
+RCB_FONT_SIZE = 18
+RCB_WIDTH = 19
+RCB_STATE = 'readonly'
+RCB_GROUP_NOT_DEFINED = 'Не визначено'

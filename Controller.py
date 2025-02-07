@@ -1,4 +1,4 @@
-from test_data import *
+from number_and_text_constants import *
 
 
 class Controller:
@@ -10,7 +10,7 @@ class Controller:
     def add_user_to_database(self):
         user_role = self.view.active_window.get_user_role()
 
-        data = self.view.active_window.get_user_registration_data(user_role)
+        data = self.view.active_window.get_user_registration_data()
 
         current_registration_labels = REGISTRATION_LABELS[user_role]
 
@@ -78,3 +78,7 @@ class Controller:
         self.model.change_group_teacher(old_teacher_id, new_teacher_id, num_class)
         self.view.active_window.close_change_teacher_window()
         self.show_students()
+
+    def get_groups(self):
+        groups = self.model.get_groups()
+        return groups

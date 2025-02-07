@@ -1,7 +1,7 @@
 import tkinter.ttk
 from page import Page
 from window_settings import *
-from test_data import *
+from number_and_text_constants import *
 
 
 class Schedule(Page):

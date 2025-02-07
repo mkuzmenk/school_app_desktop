@@ -2,7 +2,7 @@ import sqlalchemy
 from DB import start_db
 from DB import Users, TimeTable, Groups
 from datetime import datetime, UTC
-from test_data import WEEKDAYS_DB
+from number_and_text_constants import WEEKDAYS_DB
 
 
 class Model:
@@ -204,7 +204,7 @@ class Model:
 
         group_list = []
         for group in query:
-            group_list.append(group.group_name)
+            group_list.append(group)
 
         return group_list
 

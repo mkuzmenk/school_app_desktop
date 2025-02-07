@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import messagebox
 
-from test_data import CLASS_QUANTITY, SHOW_MESSAGE_CODES
+from number_and_text_constants import CLASS_QUANTITY, SHOW_MESSAGE_CODES
 from window_settings import *
 
 

@@ -1,12 +1,14 @@
 import tkinter
+from tkinter import ttk
+
 from page import Page
 from window_settings import *
-from test_data import *
+from number_and_text_constants import *
 
 
 class AddUser(Page):
     def __init__(self, window, controller):
-        self.entries = {}
+        self.data_fields = {}
 
         self.user_role = None
         self.button = None
@@ -20,7 +22,7 @@ class AddUser(Page):
         for widget in self.main_window.winfo_children()[2:]:
             widget.destroy()
 
-        self.entries = {}
+        self.data_fields = {}
 
     def show_left_panel(self):
         left_panel = tkinter.Frame(
@@ -67,14 +69,31 @@ class AddUser(Page):
                 label = tkinter.Label(
                     registration_panel, text=current_labels[i], font=(L_FONT, L_FONT_SIZE)
                 )
-                entry = tkinter.Entry(
-                    registration_panel, font=(E_FONT, E_FONT_SIZE)
-                )
+                label.grid(column=1, row=i + 1, pady=L_PAD_Y)
 
-                self.entries[current_labels[i]] = entry
+                # 5 - позиція, де знаходиться рядок "Клас*".
+                if i == 5:
+                    groups = self.controller.get_groups()
+                    groups.insert(0, RCB_GROUP_NOT_DEFINED)
 
-                label.grid(column=1, row=i+1, pady=L_PAD_Y)
-                entry.grid(column=2, row=i+1, pady=E_PAD_Y)
+                    selected_group = tkinter.StringVar(value=RCB_GROUP_NOT_DEFINED)
+
+                    data_field = ttk.Combobox(
+                        registration_panel, values=groups, state=RCB_STATE,
+                        textvariable=selected_group, width=RCB_WIDTH,
+                        font=(RCB_FONT, RCB_FONT_SIZE)
+                    )
+                    data_field.grid(column=2, row=i + 1, pady=E_PAD_Y)
+
+                    self.data_fields[current_labels[i]] = selected_group
+
+                else:
+                    data_field = tkinter.Entry(
+                        registration_panel, font=(E_FONT, E_FONT_SIZE)
+                    )
+                    data_field.grid(column=2, row=i + 1, pady=E_PAD_Y)
+
+                    self.data_fields[current_labels[i]] = data_field
 
             complete_button = tkinter.Button(
                 button_panel, text='Завершити реєстрацію', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
@@ -98,11 +117,13 @@ class AddUser(Page):
     def get_user_role(self):
         return self.user_role.get()
 
-    def get_user_registration_data(self, option):
+    def get_user_registration_data(self):
+        option = self.get_user_role()
+
         data = dict()
 
-        for i in self.entries.keys():
-            data[i] = self.entries[i].get()
+        for data_field in self.data_fields.keys():
+            data[data_field] = self.data_fields[data_field].get()
 
         current_registration_labels = REGISTRATION_LABELS[option]
 
@@ -111,16 +132,17 @@ class AddUser(Page):
                 self.show_message(0)
                 return
 
-        if data[current_registration_labels[5]] and not data[current_registration_labels[5]].isdigit():
+        group_id = data[current_registration_labels[5]]
+
+        if group_id and group_id != RCB_GROUP_NOT_DEFINED and not group_id.isdigit():
             self.show_message(1)
             return
 
-        group_id = data[current_registration_labels[5]]
-
-        if group_id:
-            data[current_registration_labels[5]] = int(group_id)
-        else:
+        if group_id == RCB_GROUP_NOT_DEFINED:
             data[current_registration_labels[5]] = None
+
+        else:
+            data[current_registration_labels[5]] = int(group_id)
 
         password = data[current_registration_labels[10]]
         password_repeat = data[current_registration_labels[11]]

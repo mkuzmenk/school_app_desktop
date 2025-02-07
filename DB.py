@@ -157,7 +157,7 @@ class Groups(Base):
         self.group_teacher_id_id = group_teacher_id_id
 
     def __str__(self):
-        return f'{self.group_id} - {self.group_name}'
+        return f'{self.group_name}'
 
 
 class Homeworks(Base):

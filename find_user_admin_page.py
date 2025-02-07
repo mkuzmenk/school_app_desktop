@@ -3,7 +3,7 @@ from tkinter import ttk
 
 from page import Page
 from window_settings import *
-from test_data import SEARCH_LABELS
+from number_and_text_constants import SEARCH_LABELS
 
 
 class FindUser(Page):
