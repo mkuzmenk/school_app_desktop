@@ -215,10 +215,14 @@ class Model:
         query_new_teacher = self.conn.query(Users).filter(Users.user_id == new_teacher_id).first()
         query_group = self.conn.query(Groups).filter(Groups.group_name == group_name).first()
 
-        query_new_teacher.group_user.group_teacher_id_id = None
-        self.conn.commit()
+        if query_new_teacher.group_user:
+            query_new_teacher.group_user.group_teacher_id_id = None
+            self.conn.commit()
 
         query_new_teacher.user_group_id_ref = query_group.group_id
+
+        if query_group.teacher_group:
+            query_group.teacher_group.user_group_id_ref = None
 
         query_group.group_teacher_id_id = query_new_teacher.user_id
 
