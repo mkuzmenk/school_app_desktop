@@ -230,3 +230,12 @@ class Model:
 
         self.conn.commit()
         return True
+
+
+    def change_student(self, email, group):
+        student = self.conn.query(Users).filter(Users.user_email == email).first()
+        new_group = self.conn.query(Groups).filter(Groups.group_name == group).first()
+
+        student.user_group_id_ref = new_group.group_id
+
+        self.conn.commit()

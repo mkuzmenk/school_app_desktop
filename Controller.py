@@ -81,3 +81,11 @@ class Controller:
     def get_groups(self):
         groups = self.model.get_groups()
         return groups
+
+
+    def change_student(self, email, group):
+        self.model.change_student(email, group)
+        self.view.active_window.close_change_student_window()
+        self.show_students()
+
+

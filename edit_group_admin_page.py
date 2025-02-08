@@ -39,27 +39,27 @@ class EditGroup(Page):
             )
             button_frame.pack(side=tkinter.BOTTOM)
 
-            table = tkinter.ttk.Treeview(
+            self.table = tkinter.ttk.Treeview(
                 self.main_frame, show='headings', columns=('#1', '#2', '#3'), height=TEG_HEIGHT
             )
-            table.heading('#1', text='ПІБ')
-            table.heading('#2', text='Дата народження')
-            table.heading('#3', text='Пошта')
+            self.table.heading('#1', text='ПІБ')
+            self.table.heading('#2', text='Дата народження')
+            self.table.heading('#3', text='Пошта')
 
             scrollbar = tkinter.ttk.Scrollbar(
-                self.main_frame, orient=tkinter.VERTICAL, command=table.yview
+                self.main_frame, orient=tkinter.VERTICAL, command=self.table.yview
             )
-            table.configure(yscrollcommand=scrollbar.set)
+            self.table.configure(yscrollcommand=scrollbar.set)
 
             for student in student_list:
-                table.insert("", tkinter.END, values=student)
+                self.table.insert("", tkinter.END, values=student)
 
-            table.pack(side=tkinter.LEFT)
+            self.table.pack(side=tkinter.LEFT)
             scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 
             change_student_group_button = tkinter.Button(
                 button_frame, text='Перевести учня', bg=B_COLOR,
-                font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR
+                font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR, command=self.open_change_student_window
             )
             change_student_group_button.pack(side=tkinter.LEFT, padx=B_PAD_X, pady=B_PAD_Y)
 
@@ -130,5 +130,39 @@ class EditGroup(Page):
         self.teacher_box.pack(pady=L_PAD_Y)
         button_change.pack()
 
+
+    def open_change_student_window(self):
+        self.window_student = tkinter.Tk()
+        self.window_student.geometry(TW_GEOMETRY)
+        self.window_student.title(TW_TITLE)
+
+        group_list = self.controller.get_groups()
+
+        selected_group = tkinter.StringVar()
+
+        self.group_box = tkinter.ttk.Combobox(
+            self.window_student, values=group_list, state=TWCB_STATE,
+            textvariable=selected_group, width=TWCB_WIDTH,
+            font=(TWCB_FONT, TWCB_FONT_SIZE)
+        )
+
+        selected_student = self.table.selection()
+        student = self.table.item(selected_student)['values']
+        student_name = student[0]
+        student_email = student[2]
+
+        button_change = tkinter.Button(
+            self.window_student, text=f'Перевести учня {student_name} з {self.get_class_number()} класу',
+            bg=B_COLOR, font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR,
+            command=lambda: self.controller.change_student(student_email, self.group_box.get())
+        )
+
+        self.group_box.pack(pady=L_PAD_Y)
+        button_change.pack()
+
     def close_change_teacher_window(self):
         self.window_teacher.destroy()
+
+
+    def close_change_student_window(self):
+        self.window_student.destroy()
