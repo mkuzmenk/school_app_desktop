@@ -1,10 +1,10 @@
 import tkinter
 
-from window_settings import *
-from schedule_admin_page import Schedule
-from add_user_page import AddUser
-from edit_group_admin_page import EditGroup
-from find_user_admin_page import FindUser
+from view.window_settings import *
+from view.admin.Schedule import Schedule
+from view.admin.AddUser import AddUser
+from view.admin.EditGroup import EditGroup
+from view.admin.FindUser import FindUser
 
 
 class Window:
@@ -14,9 +14,6 @@ class Window:
         self.main_window.title(MW_TITLE)
 
         self.controller = None
-
-        # self.main_window.geometry(WINDOW_GEOMETRY)
-
         self.active_window = None
 
         self.add_toolbar()
@@ -29,30 +26,30 @@ class Window:
 
     def add_toolbar(self):
         up_menu = tkinter.Frame(
-            self.main_window, bg=TB_COLOR, height=100
+            self.main_window, bg=TB_COLOR, height=TB_HEIGHT
         )
         up_menu.pack(side=tkinter.TOP, fill=tkinter.X)
 
         schedule_button = tkinter.Button(
-            up_menu, text="Розклад", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
+            up_menu, text="Розклад", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
             font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
             command=lambda: self.__on_toolbar_button_click(Schedule)
         )
 
         edit_group_button = tkinter.Button(
             up_menu, text="Редагувати клас", bg=TB_COLOR, fg=TB_FONT_COLOR,
-            height=2, font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
+            height=B_HEIGHT, font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
             command=lambda: self.__on_toolbar_button_click(EditGroup)
         )
 
         input_users_button = tkinter.Button(
-            up_menu, text="Додати користувачів", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
+            up_menu, text="Додати користувачів", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
             font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
             command=lambda: self.__on_toolbar_button_click(AddUser)
         )
 
         find_user = tkinter.Button(
-            up_menu, text="Знайти користувача", bg=TB_COLOR, fg=TB_FONT_COLOR, height=2,
+            up_menu, text="Знайти користувача", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
             font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
             command=lambda: self.__on_toolbar_button_click(FindUser)
         )

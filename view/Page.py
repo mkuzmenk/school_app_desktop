@@ -1,8 +1,7 @@
-import tkinter
 from tkinter import messagebox
 
-from number_and_text_constants import CLASS_QUANTITY, SHOW_MESSAGE_CODES
-from window_settings import *
+from controller.constants import *
+from view.Window import *
 
 
 class Page:
@@ -12,12 +11,12 @@ class Page:
         self.controller = controller
 
         self.option_dictionary = None
-        self.current_option = None
+        self.num_class = None
 
         self.show_page()
 
     def __str__(self):
-        return 'Page'
+        return PAGE_STR
 
     def __del__(self):
         print('Closing page')
@@ -46,13 +45,13 @@ class Page:
     def show_groups_in_left_panel(self):
         left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
 
-        self.current_option = tkinter.IntVar(value=0)
+        self.num_class = tkinter.IntVar(value=NUM_CLASS_DEFAULT)
         self.option_dictionary = dict()
 
         for i in range(CLASS_QUANTITY):
             option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=L_PANEL_COLOR,
                                          fg=RB_FONT_COLOR,
-                                         width=RB_WIDTH, variable=self.current_option,
+                                         width=RB_WIDTH, variable=self.num_class,
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT))
 
             self.option_dictionary[i + 1] = option
@@ -67,13 +66,14 @@ class Page:
         )
 
     def hide_main_panel(self):
+        # Усі віджети після індексу 1 є віджетами головної панелі.
         for widget in self.main_window.winfo_children()[2:]:
             widget.destroy()
 
     def enable_options(self):
         for option in self.option_dictionary.values():
-            if option['state'] == 'disabled':
-                option['state'] = 'normal'
+            if option[STATE] == DISABLED:
+                option[STATE] = NORMAL
 
     def disable_option(self, num):
-        self.option_dictionary[num].configure(state='disabled')
+        self.option_dictionary[num].configure(state=DISABLED)

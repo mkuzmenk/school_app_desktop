@@ -1,6 +1,6 @@
-from window import Window
-from Model import Model
-from Controller import Controller
+from view.Window import Window
+from model.Model import Model
+from controller.Controller import Controller
 
 if __name__ == '__main__':
     model = Model()

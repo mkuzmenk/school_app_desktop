@@ -1,4 +1,4 @@
-from number_and_text_constants import *
+from controller.constants import *
 
 
 class Controller:
@@ -12,39 +12,45 @@ class Controller:
 
         data = self.view.active_window.get_user_registration_data()
 
-        current_registration_labels = REGISTRATION_LABELS[user_role]
+        labels = REGISTRATION_LABELS[user_role]
 
-        if data is not None:
-            ipn = data[current_registration_labels[0]]
-            name = data[current_registration_labels[1]]
-            last_name = data[current_registration_labels[2]]
-            surname = data[current_registration_labels[3]]
-            birthdate = data[current_registration_labels[4]]
-            group_id = data[current_registration_labels[5]]
-            email = data[current_registration_labels[6]]
-            login = data[current_registration_labels[7]]
-            phone = data[current_registration_labels[8]]
-            sex = data[current_registration_labels[9]]
-            password = data[current_registration_labels[10]]
+        if data:
+            # data - словник.
+            ipn = data[labels[LABEL_TAX_POS]]
+            name = data[labels[LABEL_FIRST_NAME_POS]]
+            last_name = data[labels[LABEL_LAST_NAME_POS]]
+            surname = data[labels[LABEL_SURNAME_POS]]
+            birthdate = data[labels[LABEL_BIRTHDATE]]
+            group_id = data[labels[LABEL_GROUP_POS]]
+            email = data[labels[LABEL_EMAIL_POS]]
+            login = data[labels[LABEL_LOGIN_POS]]
+            phone = data[labels[LABEL_PHONE_NUMBER_POS]]
+            sex = data[labels[LABEL_SEX_POS]]
+            password = data[labels[LABEL_PASSWORD_POS]]
 
             result = self.model.add_user(ipn, login, name, last_name, surname, birthdate, email, password, phone,
                                          sex, user_role + 2, group_id)
 
             if result:
+                # Якщо user_role = 0 - виводиться повідомлення з кодом 4, якщо user_role = 1 - код 5
                 self.view.active_window.show_message(user_role + 4)
             else:
-                self.view.active_window.show_message(1)
+                self.view.active_window.show_message(CODE_INVALID_DATA)
 
-    def get_users(self):
+    def show_users(self):
         data = self.view.active_window.get_user_data()
+        result_data = tuple()
 
-        result_data = self.model.get_user(data[SEARCH_LABELS[0]], data[SEARCH_LABELS[1]])
+        if data:
+            result_data = self.model.get_user(
+                data[SEARCH_LABELS[SEARCH_FIRST_NAME_POS]],
+                data[SEARCH_LABELS[SEARCH_LAST_NAME_POS]]
+            )
 
         if not result_data:
-            self.view.active_window.show_message(2)
-            return
-
-        self.view.active_window.show_found_students(result_data)
+            self.view.active_window.show_message(CODE_USERS_NOT_FOUND)
+        else:
+            self.view.active_window.show_found_students(result_data)
 
     def show_schedule(self):
         num_class = self.view.active_window.get_class_number()
@@ -82,10 +88,7 @@ class Controller:
         groups = self.model.get_groups()
         return groups
 
-
     def change_student(self, email, group):
         self.model.change_student(email, group)
         self.view.active_window.close_change_student_window()
         self.show_students()
-
-

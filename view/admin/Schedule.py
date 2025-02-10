@@ -1,7 +1,7 @@
 import tkinter.ttk
-from page import Page
-from window_settings import *
-from number_and_text_constants import *
+from view.Page import Page
+from view.Window import *
+from controller.constants import *
 
 
 class Schedule(Page):
@@ -11,7 +11,7 @@ class Schedule(Page):
         super().__init__(window, controller)
 
     def __str__(self):
-        return 'Schedule'
+        return SCHEDULE_STR
 
     def show_left_panel(self):
         self.show_groups_in_left_panel()
@@ -76,7 +76,7 @@ class Schedule(Page):
     def show_groups_in_left_panel(self):
         left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
 
-        self.num_class = tkinter.IntVar(value=0)
+        self.num_class = tkinter.IntVar(value=NUM_CLASS_DEFAULT)
         self.option_dictionary = dict()
 
         for i in range(CLASS_QUANTITY):

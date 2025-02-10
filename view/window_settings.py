@@ -12,6 +12,18 @@ TWCB_FONT = "Courier New"
 TWCB_FONT_SIZE = 18
 TWCB_WIDTH = 38
 TWCB_STATE = 'readonly'
+TWCB_PAD_Y = 5
+
+# SW - Student Window
+SW_TITLE = 'Переведення учня'
+SW_GEOMETRY = '700x300+0+0'
+
+# SWCB - Student Window Combobox
+SWCB_FONT = "Courier New"
+SWCB_FONT_SIZE = 18
+SWCB_WIDTH = 38
+SWCB_STATE = 'readonly'
+SWCB_PAD_Y = 5
 
 # TB - Toolbar
 TB_COLOR = "#212121"
@@ -20,6 +32,7 @@ TB_FONT_COLOR = "white"
 TB_FONT_SIZE = 22
 TB_FONT_FORMAT = "bold"
 TB_BUTTONS_PAD_Y = 30
+TB_HEIGHT = 100
 
 # L - Left
 L_PANEL_COLOR = "grey"
@@ -55,6 +68,7 @@ B_FONT_SIZE = 18
 B_FONT_COLOR = "white"
 B_PAD_X = 5
 B_PAD_Y = 5
+B_HEIGHT = 2
 
 # TS - Table Schedule
 TS_QUANTITY = 2
