@@ -27,7 +27,7 @@ class Model:
         try:
             is_staff = IS_STAFF_FALSE
 
-            if user_role != STUDENT_ROLE:
+            if user_role != STUDENT_ROLE_ID:
                 is_staff = IS_STAFF_TRUE
 
             teacher = User(
@@ -99,7 +99,7 @@ class Model:
 
     def get_students_for_schedule(self, num_class):
         query = self.conn.query(User).join(User.group_user).filter(
-            User.user_role == STUDENT_ROLE,
+            User.user_role == STUDENT_ROLE_ID,
             Group.group_name == num_class
         ).order_by(User.user_last_name).all()
 

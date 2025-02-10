@@ -19,9 +19,6 @@ class Page:
         return PAGE_STR
 
     def __del__(self):
-        print('Closing page')
-        print()
-
         self.hide_page()
 
     def set_controller(self, controller):

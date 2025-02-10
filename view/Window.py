@@ -1,10 +1,6 @@
 import tkinter
 
-from view.window_settings import *
-from view.admin.Schedule import Schedule
-from view.admin.AddUser import AddUser
-from view.admin.EditGroup import EditGroup
-from view.admin.FindUser import FindUser
+from view.admin.admin_window_settings import *
 
 
 class Window:
@@ -15,60 +11,31 @@ class Window:
 
         self.controller = None
         self.active_window = None
+        self.toolbar_panel = None
 
         self.add_toolbar()
 
-    def run(self):
+    def start(self):
         self.main_window.mainloop()
 
     def set_controller(self, controller):
         self.controller = controller
 
     def add_toolbar(self):
-        up_menu = tkinter.Frame(
+        self.toolbar_panel = tkinter.Frame(
             self.main_window, bg=TB_COLOR, height=TB_HEIGHT
         )
-        up_menu.pack(side=tkinter.TOP, fill=tkinter.X)
+        self.toolbar_panel.pack(side=tkinter.TOP, fill=tkinter.X)
 
-        schedule_button = tkinter.Button(
-            up_menu, text="Розклад", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
-            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
-            command=lambda: self.__on_toolbar_button_click(Schedule)
-        )
+        self.add_toolbar_buttons()
 
-        edit_group_button = tkinter.Button(
-            up_menu, text="Редагувати клас", bg=TB_COLOR, fg=TB_FONT_COLOR,
-            height=B_HEIGHT, font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
-            command=lambda: self.__on_toolbar_button_click(EditGroup)
-        )
+    def add_toolbar_buttons(self):
+        pass
 
-        input_users_button = tkinter.Button(
-            up_menu, text="Додати користувачів", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
-            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
-            command=lambda: self.__on_toolbar_button_click(AddUser)
-        )
-
-        find_user = tkinter.Button(
-            up_menu, text="Знайти користувача", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
-            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
-            command=lambda: self.__on_toolbar_button_click(FindUser)
-        )
-
-        schedule_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
-        edit_group_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
-        input_users_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
-
-        find_user.pack(side=tkinter.RIGHT, pady=TB_BUTTONS_PAD_Y)
-
-    def __on_toolbar_button_click(self, page_class):
+    def on_toolbar_button_click(self, page_class):
         if not isinstance(self.active_window, page_class):
             if self.active_window:
                 self.active_window.__del__()
                 self.active_window = None
 
             self.active_window = page_class(self.main_window, self.controller)
-
-            print(f'opening {page_class}')
-
-            print(self.main_window.winfo_children())
-            print(self.active_window)
