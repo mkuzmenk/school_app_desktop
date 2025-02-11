@@ -243,4 +243,4 @@ class Model:
         for teacher_discipline in query:
             teacher_disciplines.append(teacher_discipline.discipline_teacherdiscipline.discipline_name)
 
-        return query
+        return teacher_disciplines

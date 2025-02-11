@@ -76,3 +76,7 @@ class Page:
 
     def disable_option(self, num):
         self.option_dictionary[num].configure(state=DISABLED)
+
+
+    def get_option(self):
+        return self.option.get()

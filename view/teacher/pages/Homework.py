@@ -41,6 +41,9 @@ class Homework(Page):
     def on_homework_radiobutton_click(self):
         self.hide_main_panel()
 
+        self.enable_options()
+        self.disable_option(self.get_option())
+
         self.show_actions_panel()
         self.show_tasks_panel()
 
