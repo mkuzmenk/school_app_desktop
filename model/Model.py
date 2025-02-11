@@ -1,5 +1,8 @@
 import sqlalchemy
 
+from database.table_models.Discipline import Discipline
+from database.table_models.Homework import Homework
+from database.table_models.TeacherDiscipline import TeacherDiscipline
 from database.table_models.User import User
 from database.table_models.TimeTable import TimeTable
 from database.table_models.Group import Group
@@ -46,7 +49,7 @@ class Model:
             self.conn.rollback()
             return False
 
-    def get_user(self, first_name, last_name):
+    def get_users(self, first_name, last_name):
         query = self.conn.query(User).filter(
             User.user_first_name.like(f'%{first_name}%'),
             User.user_last_name.like(f'%{last_name}%'),
@@ -167,6 +170,13 @@ class Model:
 
         return teacher_dict
 
+    def get_group(self, group_id):
+        group = self.conn.query(Group).filter(
+            Group.group_id == group_id
+        ).first()
+
+        return group
+
     def get_groups(self):
         query = self.conn.query(Group).order_by(Group.group_name).all()
 
@@ -198,9 +208,39 @@ class Model:
         return True
 
     def change_student(self, email, group):
-        student = self.conn.query(User).filter(User.user_email == email).first()
-        new_group = self.conn.query(Group).filter(Group.group_name == group).first()
+        student = self.conn.query(User).filter(
+            User.user_email == email
+        ).first()
+
+        new_group = self.conn.query(Group).filter(
+            Group.group_name == group
+        ).first()
 
         student.user_group_id_ref = new_group.group_id
 
         self.conn.commit()
+
+    def get_homeworks(self, teacher_id, discipline_id):
+        query = self.conn.query(Homework).filter(
+            Homework.home_work_teacher_ref_id == teacher_id,
+            Homework.home_work_discipline_ref == discipline_id
+        ).all()
+
+        homeworks_list = []
+
+        for homework in query:
+            homeworks_list.append(homework)
+
+        return homeworks_list
+
+    def get_teacher_disciplines(self, teacher_id):
+        query = self.conn.query(TeacherDiscipline).filter(
+            TeacherDiscipline.teacher_id == teacher_id
+        ).all()
+
+        teacher_disciplines = []
+
+        for teacher_discipline in query:
+            teacher_disciplines.append(teacher_discipline.discipline_teacherdiscipline.discipline_name)
+
+        return query

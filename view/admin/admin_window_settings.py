@@ -34,9 +34,9 @@ TB_FONT_FORMAT = "bold"
 TB_BUTTONS_PAD_Y = 30
 TB_HEIGHT = 100
 
-# L - Left
-L_PANEL_COLOR = "grey"
-L_PANEL_WIDTH = 200
+# LE - Left
+LE_PANEL_COLOR = "grey"
+LE_PANEL_WIDTH = 200
 
 # R - Right
 R_PANEL_FONT = "Courier New"
@@ -49,10 +49,10 @@ RB_FONT_SIZE = 18
 RB_FONT_FORMAT = "bold"
 RB_WIDTH = 10
 
-# L - Label
-L_FONT = "Courier New"
-L_FONT_SIZE = 18
-L_PAD_Y = 5
+# LA - Label
+LA_FONT = "Courier New"
+LA_FONT_SIZE = 18
+LA_PAD_Y = 5
 
 # E - Entry
 E_COLOR = "white"

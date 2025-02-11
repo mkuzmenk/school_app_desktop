@@ -12,9 +12,9 @@ TB_FONT_FORMAT = "bold"
 TB_BUTTONS_PAD_Y = 30
 TB_HEIGHT = 100
 
-# L - Left
-L_PANEL_COLOR = "grey"
-L_PANEL_WIDTH = 200
+# LE - Left
+LE_PANEL_COLOR = "grey"
+LE_PANEL_WIDTH = 200
 
 # R - Right
 R_PANEL_FONT = "Courier New"
@@ -25,12 +25,12 @@ RB_FONT_COLOR = "white"
 RB_FONT = "Courier New"
 RB_FONT_SIZE = 18
 RB_FONT_FORMAT = "bold"
-RB_WIDTH = 10
+RB_WIDTH = 20
 
-# L - Label
-L_FONT = "Courier New"
-L_FONT_SIZE = 18
-L_PAD_Y = 5
+# LA - Label
+LA_FONT = "Courier New"
+LA_FONT_SIZE = 18
+LA_PAD_Y = 5
 
 # E - Entry
 E_COLOR = "white"
@@ -57,3 +57,14 @@ TS_TIME_WIDTH = 100
 # MB - Messagebox
 MB_SUCCESS_TITLE = 'Успіх'
 MB_FAIL_TITLE = 'Помилка'
+
+# A - Actions
+A_PANEL_WIDTH = 100
+
+# TT - Task Topic
+TT_COLOR = "grey"
+TT_FONT_COLOR = "white"
+TT_FONT = "Courier New"
+TT_FONT_SIZE = 18
+TT_FONT_FORMAT = "bold"
+TT_WIDTH = 50

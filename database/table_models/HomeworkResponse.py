@@ -10,6 +10,7 @@ class HomeworkResponse(Base):
     home_work_mark_id_ref = Column(mysql.INTEGER, ForeignKey('marks.mark_id'))
     home_work_user_id_ref = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
     home_work_id_ref = Column(mysql.INTEGER, ForeignKey('homeworks.home_work_id'), nullable=False)
+    home_work_response_teacher_id_ref = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
 
     mark_hw_resp = relationship('Mark', back_populates='hw_resp_mark',
                                 foreign_keys='HomeworkResponse.home_work_mark_id_ref')
@@ -19,6 +20,9 @@ class HomeworkResponse(Base):
 
     homework_hw_resp = relationship('Homework', back_populates='hw_resp_homework',
                                     foreign_keys='HomeworkResponse.home_work_id_ref')
+
+    teacher_hw_resp = relationship('User', back_populates='hw_resp_teacher',
+                                   foreign_keys='HomeworkResponse.home_work_response_teacher_id_ref')
 
     def __init__(self, home_work_response_id, home_work_response, home_work_response_created_at,
                  home_work_mark_id_ref, home_work_user_id_ref, home_work_id_ref):

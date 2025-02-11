@@ -29,7 +29,7 @@ class FindUser(Page):
             column.pack(side=tkinter.LEFT)
 
             label = tkinter.Label(
-                column, text=label_text, font=(L_FONT, L_FONT_SIZE)
+                column, text=label_text, font=(LA_FONT, LA_FONT_SIZE)
             )
             label.pack()
 

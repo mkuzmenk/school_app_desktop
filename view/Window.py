@@ -13,6 +13,8 @@ class Window:
         self.active_window = None
         self.toolbar_panel = None
 
+        self.user_id = None
+
         self.add_toolbar()
 
     def start(self):
@@ -38,4 +40,4 @@ class Window:
                 self.active_window.__del__()
                 self.active_window = None
 
-            self.active_window = page_class(self.main_window, self.controller)
+            self.active_window = page_class(self, self.controller)

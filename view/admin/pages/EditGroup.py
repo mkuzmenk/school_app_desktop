@@ -33,13 +33,13 @@ class EditGroup(Page):
             teacher = tkinter.Label(
                 self.main_frame,
                 text=f'Класний керівник: {teacher_data[TEACHER_NAME_POS]}',
-                font=(L_FONT, L_FONT_SIZE)
+                font=(LA_FONT, LA_FONT_SIZE)
             )
 
             self.current_teacher_id.set(teacher_data[TEACHER_ID_POS])
 
             self.main_frame.pack(side=tkinter.TOP)
-            teacher.pack(pady=L_PAD_Y)
+            teacher.pack(pady=LA_PAD_Y)
 
             button_frame = tkinter.Frame(
                 self.main_frame
@@ -77,13 +77,13 @@ class EditGroup(Page):
             change_student_teacher_button.pack(side=tkinter.LEFT, padx=B_PAD_X, pady=B_PAD_Y)
 
     def show_groups_in_left_panel(self):
-        left_panel = tkinter.Frame(self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH)
+        left_panel = tkinter.Frame(self.main_window, bg=LE_PANEL_COLOR, width=LE_PANEL_WIDTH)
 
-        self.num_class = tkinter.IntVar(value=NUM_CLASS_DEFAULT)
+        self.num_class = tkinter.IntVar(value=OPTION_DEFAULT_VALUE)
         self.option_dictionary = dict()
         for class_number in range(CLASS_QUANTITY):
             option = tkinter.Radiobutton(
-                left_panel, text=f'{class_number + 1} Клас', value=class_number + 1, bg=L_PANEL_COLOR,
+                left_panel, text=f'{class_number + 1} Клас', value=class_number + 1, bg=LE_PANEL_COLOR,
                 fg=RB_FONT_COLOR,
                 width=RB_WIDTH, variable=self.num_class,
                 font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
@@ -167,7 +167,7 @@ class EditGroup(Page):
             command=lambda: self.controller.change_student(student_email, self.window_student_group_box.get())
         )
 
-        self.window_student_group_box.pack(pady=L_PAD_Y)
+        self.window_student_group_box.pack(pady=LA_PAD_Y)
         button_change.pack()
 
     def close_change_teacher_window(self):

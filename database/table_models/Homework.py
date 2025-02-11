@@ -12,7 +12,8 @@ class Homework(Base):
     home_work_created_at = Column(mysql.DATETIME(fsp=6), nullable=False)
     home_work_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
     home_work_timetable_ref = Column(mysql.INTEGER, ForeignKey('time_table.time_table_id'), nullable=True)
-    home_work_user_ref_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
+    home_work_teacher_ref_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
+    home_work_discipline_ref = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=True)
 
     hw_resp_homework = relationship('HomeworkResponse', back_populates='homework_hw_resp',
                                     foreign_keys='HomeworkResponse.home_work_id_ref')
@@ -27,10 +28,11 @@ class Homework(Base):
                                        foreign_keys='Homework.home_work_timetable_ref')
 
     user_homework = relationship('User', back_populates='homework_user',
-                                 foreign_keys='Homework.home_work_user_ref_id')
+                                 foreign_keys='Homework.home_work_teacher_ref_id')
 
     def __init__(self, home_work_id, home_work_name, home_work_topic, home_work_description, home_work_deadline,
-                 home_work_created_at, home_work_group_id_ref, home_work_timetable_ref, home_work_user_ref_id):
+                 home_work_created_at, home_work_group_id_ref, home_work_timetable_ref, home_work_user_ref_id,
+                 home_work_discipline_ref):
         self.home_work_id = home_work_id
         self.home_work_name = home_work_name
         self.home_work_topic = home_work_topic
@@ -39,7 +41,8 @@ class Homework(Base):
         self.home_work_created_at = home_work_created_at
         self.home_work_group_id_ref = home_work_group_id_ref
         self.home_work_timetable_ref = home_work_timetable_ref
-        self.home_work_user_ref_id = home_work_user_ref_id
+        self.home_work_teacher_ref_id = home_work_user_ref_id
+        self.home_work_discipline_ref = home_work_discipline_ref
 
     def __str__(self):
         return f'{self.home_work_id} - Group id ref: {self.home_work_group_id_ref}'

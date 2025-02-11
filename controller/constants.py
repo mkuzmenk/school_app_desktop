@@ -1,6 +1,6 @@
 CLASS_QUANTITY = 11
 
-NUM_CLASS_DEFAULT = 0
+OPTION_DEFAULT_VALUE = 0
 
 TEACHER_ID_DEFAULT = -1
 
@@ -147,3 +147,9 @@ NO_STUDENT_NAME = '**Без імені**'
 NO_STUDENT_EMAIL = '**Не вказано**'
 
 NO_TEACHER_NAME = '---'
+
+# TODO
+DISCIPLINES = {
+    1: 'Математика',
+    2: 'Фізика',
+}

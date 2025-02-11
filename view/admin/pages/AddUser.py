@@ -29,7 +29,7 @@ class AddUser(Page):
 
     def show_left_panel(self):
         left_panel = tkinter.Frame(
-            self.main_window, bg=L_PANEL_COLOR, width=L_PANEL_WIDTH
+            self.main_window, bg=LE_PANEL_COLOR, width=LE_PANEL_WIDTH
         )
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
 
@@ -37,7 +37,7 @@ class AddUser(Page):
         self.option_dictionary = dict()
 
         for i in range(len(REGISTRATION_OPTIONS)):
-            option = tkinter.Radiobutton(left_panel, text=REGISTRATION_OPTIONS[i], value=i, bg=L_PANEL_COLOR,
+            option = tkinter.Radiobutton(left_panel, text=REGISTRATION_OPTIONS[i], value=i, bg=LE_PANEL_COLOR,
                                          fg=RB_FONT_COLOR,
                                          width=RB_WIDTH, variable=self.user_role,
                                          font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
@@ -78,9 +78,9 @@ class AddUser(Page):
 
         for i in range(len(current_labels)):
             label = tkinter.Label(
-                self.registration_panel, text=current_labels[i], font=(L_FONT, L_FONT_SIZE)
+                self.registration_panel, text=current_labels[i], font=(LA_FONT, LA_FONT_SIZE)
             )
-            label.grid(column=FIRST_COLUMN, row=i + 1, pady=L_PAD_Y)
+            label.grid(column=FIRST_COLUMN, row=i + 1, pady=LA_PAD_Y)
 
             if i == LABEL_GROUP_POS:
                 groups = self.controller.get_groups()
@@ -115,7 +115,7 @@ class AddUser(Page):
 
     def add_bottom_label(self):
         bottom_label = tkinter.Label(
-            self.label_panel, text="* - Необов'язково", font=(L_FONT, L_FONT_SIZE)
+            self.label_panel, text="* - Необов'язково", font=(LA_FONT, LA_FONT_SIZE)
         )
         bottom_label.pack()
 

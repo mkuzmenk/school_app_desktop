@@ -42,7 +42,7 @@ class Controller:
         result_data = tuple()
 
         if data:
-            result_data = self.model.get_user(
+            result_data = self.model.get_users(
                 data[SEARCH_LABELS[SEARCH_FIRST_NAME_POS]],
                 data[SEARCH_LABELS[SEARCH_LAST_NAME_POS]]
             )
@@ -88,7 +88,20 @@ class Controller:
         groups = self.model.get_groups()
         return groups
 
+    def get_group(self, group_id):
+        group = self.model.get_group(group_id)
+        return group
+
     def change_student(self, email, group):
         self.model.change_student(email, group)
         self.view.active_window.close_change_student_window()
         self.show_students()
+
+    def get_teacher_disciplines(self):
+        teacher_id = self.view.get_user_id()
+        teacher_disciplines = self.model.get_teacher_disciplines(teacher_id)
+
+        return teacher_disciplines
+
+    def show_tasks(self):
+        discipline_id = self

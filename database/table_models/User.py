@@ -32,7 +32,7 @@ class User(Base):
                               foreign_keys='User.user_group_id_ref')
 
     homework_user = relationship('Homework', back_populates='user_homework',
-                                 foreign_keys='Homework.home_work_user_ref_id')
+                                 foreign_keys='Homework.home_work_teacher_ref_id')
 
     mark_user = relationship('Mark', back_populates='user_mark',
                              foreign_keys='Mark.mark_student_id')
@@ -48,6 +48,9 @@ class User(Base):
 
     group_teacher = relationship('Group', back_populates='teacher_group',
                                  foreign_keys='Group.group_teacher_id_id')
+
+    hw_resp_teacher = relationship('HomeworkResponse', back_populates='teacher_hw_resp',
+                                   foreign_keys='HomeworkResponse.home_work_response_teacher_id_ref')
 
     def __init__(self, password, user_login, user_first_name, user_last_name,
                  user_phone, user_email, user_sex, user_birthday, user_created_at,
