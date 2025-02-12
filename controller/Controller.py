@@ -54,6 +54,7 @@ class Controller:
 
     def show_schedule(self):
         num_class = self.view.active_page.get_class_number()
+
         self.view.active_page.enable_options()
         self.view.active_page.disable_option(num_class)
 
@@ -118,10 +119,40 @@ class Controller:
 
         discipline_name = self.view.active_page.disciplines[option - 1]
 
-        discipline_id = self.model.get_discipline_id(discipline_name)
+        discipline_id = DISCIPLINES_ID[discipline_name]
 
         discipline_homeworks = self.model.get_teacher_discipline_homeworks(teacher_id, discipline_id)
 
         self.view.active_page.homeworks = discipline_homeworks
 
         self.view.active_page.show_tasks_panel()
+
+    def show_students_homeworks_subpage(self):
+        homework_option = self.view.active_page.get_task_option()
+        homework = self.view.active_page.homeworks[homework_option - 1]
+
+        homework_responses = self.model.get_homework_responses(homework.home_work_id)
+
+        marks = []
+        students = []
+
+        for homework_response in homework_responses:
+            mark_id = homework_response.mark_hw_resp.mark_value
+            student_fl_name = (f'{homework_response.user_hw_resp.user_first_name} '
+                               f'{homework_response.user_hw_resp.user_last_name}')
+
+            marks.append(mark_id)
+            students.append(student_fl_name)
+
+        self.view.active_page.show_students_homeworks_subpage(marks, students, homework_responses, homework)
+
+    def show_student_homework_description(self):
+        current_option = self.view.active_page.get_student_option()
+        homework_response = self.view.active_page.responses[current_option - 1]
+
+        description = homework_response.home_work_response
+
+        date_of_sending = homework_response.home_work_response_created_at
+
+        self.view.active_page.task_description.config(text=description)
+        self.view.active_page.deadline.config(text=f'Дата здачі: {date_of_sending}')

@@ -1,7 +1,10 @@
 # MW - Main Window
 MW_TITLE = 'Шкільний додаток'
-MW_GEOMETRY = '700x300+0+0'
 MW_STATE = 'zoomed'
+
+# CHM - Check Homework Window
+CHM_TITLE = 'Перевірка домашнього завдання'
+CHM_STATE = 'zoomed'
 
 # TB - Toolbar
 TB_COLOR = "#212121"
@@ -61,10 +64,26 @@ MB_FAIL_TITLE = 'Помилка'
 # A - Actions
 A_PANEL_WIDTH = 100
 
-# TT - Task Topic
-TT_COLOR = "grey"
-TT_FONT_COLOR = "white"
-TT_FONT = "Courier New"
-TT_FONT_SIZE = 18
-TT_FONT_FORMAT = "bold"
-TT_WIDTH = 50
+# TI - Task Information
+TI_COLOR = "grey"
+TI_FONT_COLOR = "white"
+TI_FONT = "Courier New"
+TI_FONT_SIZE = 18
+TI_FONT_FORMAT = "bold"
+TI_WIDTH = 50
+
+# TD - Task Description
+TD_COLOR = "white"
+TD_WIDTH = 50
+TD_HEIGHT = 50
+TD_FONT = "Courier New"
+TD_FONT_SIZE = 18
+TD_FONT_FORMAT = "bold"
+
+# SH - Student Homework
+SH_COLOR = "grey"
+SH_FONT_COLOR = "white"
+SH_FONT = "Courier New"
+SH_FONT_SIZE = 18
+SH_FONT_FORMAT = "bold"
+SH_WIDTH = 50

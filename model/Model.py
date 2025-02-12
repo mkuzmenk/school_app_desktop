@@ -2,6 +2,8 @@ import sqlalchemy
 
 from database.table_models.Discipline import Discipline
 from database.table_models.Homework import Homework
+from database.table_models.HomeworkResponse import HomeworkResponse
+from database.table_models.Mark import Mark
 from database.table_models.TeacherDiscipline import TeacherDiscipline
 from database.table_models.User import User
 from database.table_models.TimeTable import TimeTable
@@ -53,9 +55,16 @@ class Model:
         query = self.conn.query(User).filter(
             User.user_first_name.like(f'%{first_name}%'),
             User.user_last_name.like(f'%{last_name}%'),
-        )
+        ).all()
 
-        return query.all()
+        return query
+
+    def get_user_name_last_name(self, user_id):
+        query_user = self.conn.query(User).filter(
+            User.user_id == user_id,
+        ).first()
+
+        return query_user.user_last_name, query_user.user_first_name
 
     def get_schedule(self, num_class):
         week = dict()
@@ -245,9 +254,16 @@ class Model:
 
         return teacher_disciplines
 
-    def get_discipline_id(self, discipline_name):
-        query_discipline = self.conn.query(Discipline).filter(
-            Discipline.discipline_name == discipline_name
+    def get_homework_responses(self, homework_id):
+        query_responses = self.conn.query(HomeworkResponse).filter(
+            HomeworkResponse.home_work_id_ref == homework_id
+        ).all()
+
+        return query_responses
+
+    def get_mark_value(self, mark_id):
+        query_mark = self.conn.query(Mark).filter(
+            Mark.mark_id == mark_id
         ).first()
 
-        return query_discipline.discipline_id
+        return query_mark.mark_value
