@@ -4,3 +4,4 @@ python-dotenv
 tk
 sqlalchemy
 psycopg
+cryptography

@@ -30,7 +30,6 @@ class App:
 
         self.controller = Controller(self.model, self.view)
         self.view.set_controller(self.controller)
-        self.view.set_disciplines()
 
     def start(self):
         self.view.start()

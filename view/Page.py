@@ -10,8 +10,8 @@ class Page:
 
         self.controller = controller
 
-        self.option_dictionary = None
-        self.option = None
+        self.option_dictionary = {}
+        self.option = tkinter.IntVar(value=OPTION_DEFAULT_VALUE)
 
         self.show_page()
 
@@ -44,14 +44,13 @@ class Page:
             self.main_window, bg=LE_PANEL_COLOR, width=LE_PANEL_WIDTH
         )
 
-        self.option = tkinter.IntVar(value=OPTION_DEFAULT_VALUE)
-        self.option_dictionary = dict()
-
         for i in range(CLASS_QUANTITY):
-            option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=LE_PANEL_COLOR,
-                                         fg=RB_FONT_COLOR,
-                                         width=RB_WIDTH, variable=self.option,
-                                         font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT))
+            option = tkinter.Radiobutton(
+                left_panel, text=f'{i + 1} Клас', value=i + 1, bg=LE_PANEL_COLOR,
+                fg=RB_FONT_COLOR,
+                width=RB_WIDTH, variable=self.option,
+                font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT)
+            )
 
             self.option_dictionary[i + 1] = option
 
@@ -76,7 +75,6 @@ class Page:
 
     def disable_option(self, num):
         self.option_dictionary[num].configure(state=DISABLED)
-
 
     def get_option(self):
         return self.option.get()

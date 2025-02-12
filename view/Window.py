@@ -10,7 +10,7 @@ class Window:
         self.main_window.title(MW_TITLE)
 
         self.controller = None
-        self.active_window = None
+        self.active_page = None
         self.toolbar_panel = None
 
         self.user_id = None
@@ -35,9 +35,12 @@ class Window:
         pass
 
     def on_toolbar_button_click(self, page_class):
-        if not isinstance(self.active_window, page_class):
-            if self.active_window:
-                self.active_window.__del__()
-                self.active_window = None
+        if not isinstance(self.active_page, page_class):
+            if self.active_page:
+                self.active_page.__del__()
+                self.active_page = None
 
-            self.active_window = page_class(self, self.controller)
+            self.active_page = page_class(self, self.controller)
+
+    def get_user_id(self):
+        return self.user_id

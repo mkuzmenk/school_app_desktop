@@ -220,7 +220,7 @@ class Model:
 
         self.conn.commit()
 
-    def get_homeworks(self, teacher_id, discipline_id):
+    def get_teacher_discipline_homeworks(self, teacher_id, discipline_id):
         query = self.conn.query(Homework).filter(
             Homework.home_work_teacher_ref_id == teacher_id,
             Homework.home_work_discipline_ref == discipline_id
@@ -244,3 +244,10 @@ class Model:
             teacher_disciplines.append(teacher_discipline.discipline_teacherdiscipline.discipline_name)
 
         return teacher_disciplines
+
+    def get_discipline_id(self, discipline_name):
+        query_discipline = self.conn.query(Discipline).filter(
+            Discipline.discipline_name == discipline_name
+        ).first()
+
+        return query_discipline.discipline_id
