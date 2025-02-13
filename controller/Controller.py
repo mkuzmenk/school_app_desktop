@@ -186,9 +186,9 @@ class Controller:
                 result = self.model.add_homework(topic, description, deadline, group_id, teacher_id, discipline_id)
 
                 if result:
-                    self.view.active_page.show_message(CODE_TASK_ADDED)
+                    self.view.show_message(CODE_TASK_ADDED)
                 else:
-                    self.view.active_page.show_message(CODE_INVALID_DATA)
+                    self.view.show_message(CODE_INVALID_DATA)
 
     def show_students_homeworks_subpage(self):
         homework = self.view.active_page.get_current_homework()

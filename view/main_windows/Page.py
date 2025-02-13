@@ -4,6 +4,8 @@ from view.main_windows.Window import *
 
 class Page:
     def __init__(self, window, controller):
+        self.parent = window
+
         self.main_window = window.main_window
 
         self.controller = controller

@@ -142,33 +142,37 @@ class EditGroup(Page):
         button_change.pack()
 
     def open_change_student_window(self):
-        self.window_student = tkinter.Tk()
-        self.window_student.geometry(SW_GEOMETRY)
-        self.window_student.title(SW_TITLE)
-
-        group_list = self.controller.get_groups()
-
-        selected_group = tkinter.StringVar()
-
-        self.window_student_group_box = tkinter.ttk.Combobox(
-            self.window_student, values=group_list, state=SWCB_STATE,
-            textvariable=selected_group, width=SWCB_WIDTH,
-            font=(SWCB_FONT, SWCB_FONT_SIZE)
-        )
-
         selected_student = self.table.selection()
-        student = self.table.item(selected_student)[VALUES]
-        student_name = student[STUDENT_NAME_POS]
-        student_email = student[STUDENT_EMAIL_POS]
 
-        button_change = tkinter.Button(
-            self.window_student, text=f'Перевести учня {student_name} з {self.get_class_number()} класу',
-            bg=B_COLOR, font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR,
-            command=lambda: self.controller.change_student(student_email, self.window_student_group_box.get())
-        )
+        if selected_student:
+            self.window_student = tkinter.Tk()
+            self.window_student.geometry(SW_GEOMETRY)
+            self.window_student.title(SW_TITLE)
 
-        self.window_student_group_box.pack(pady=LA_PAD_Y)
-        button_change.pack()
+            group_list = self.controller.get_groups()
+
+            selected_group = tkinter.StringVar()
+
+            self.window_student_group_box = tkinter.ttk.Combobox(
+                self.window_student, values=group_list, state=SWCB_STATE,
+                textvariable=selected_group, width=SWCB_WIDTH,
+                font=(SWCB_FONT, SWCB_FONT_SIZE)
+            )
+
+            student = self.table.item(selected_student)[VALUES]
+            student_name = student[STUDENT_NAME_POS]
+            student_email = student[STUDENT_EMAIL_POS]
+
+            button_change = tkinter.Button(
+                self.window_student, text=f'Перевести учня {student_name} з {self.get_class_number()} класу',
+                bg=B_COLOR, font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR,
+                command=lambda: self.controller.change_student(student_email, self.window_student_group_box.get())
+            )
+
+            self.window_student_group_box.pack(pady=LA_PAD_Y)
+            button_change.pack()
+        else:
+            self.parent.show_message(CODE_STUDENT_NOT_CHOSEN)
 
     def close_change_teacher_window(self):
         self.window_teacher.destroy()

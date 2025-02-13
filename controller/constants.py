@@ -124,6 +124,7 @@ SHOW_MESSAGE_CODES = (
     "Користувача з таким логіном не знайдено.",
     "Невірний пароль.",
     "На даний момент у вас немає назначених предметів.",
+    "Будь ласка, виберіть учня",
 )
 
 CODE_EMPTY_FIELDS = 0
@@ -136,6 +137,7 @@ CODE_TASK_ADDED = 6
 CODE_LOGIN_NOT_FOUND = 7
 CODE_WRONG_PASSWORD = 8
 CODE_NO_DISCIPLINES = 9
+CODE_STUDENT_NOT_CHOSEN = 10
 
 SEARCH_FIRST_NAME_POS = 0
 SEARCH_LAST_NAME_POS = 1

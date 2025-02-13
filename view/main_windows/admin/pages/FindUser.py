@@ -83,7 +83,7 @@ class FindUser(Page):
             data[SEARCH_LABELS[i]] = self.entries[i].get()
 
         if (not data[SEARCH_LABELS[SEARCH_FIRST_NAME_POS]]) and (not data[SEARCH_LABELS[SEARCH_LAST_NAME_POS]]):
-            self.main_window.show_message(CODE_EMPTY_FIELDS)
+            self.parent.show_message(CODE_EMPTY_FIELDS)
             data.clear()
             return data
 

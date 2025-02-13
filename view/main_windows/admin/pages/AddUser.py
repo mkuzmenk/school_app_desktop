@@ -134,14 +134,14 @@ class AddUser(Page):
 
         for key in data.keys():
             if not data[key] and ('*' not in key):
-                self.main_window.show_message(CODE_EMPTY_FIELDS)
+                self.parent.show_message(CODE_EMPTY_FIELDS)
                 data.clear()
                 return data
 
         group_id = data[labels[LABEL_GROUP_POS]]
 
         if group_id and group_id != RCB_GROUP_NOT_DEFINED and not group_id.isdigit():
-            self.main_window.show_message(CODE_INVALID_DATA)
+            self.parent.show_message(CODE_INVALID_DATA)
             data.clear()
             return data
 
@@ -154,7 +154,7 @@ class AddUser(Page):
         password_repeat = data[labels[LABEL_PASSWORD_REPEAT_POS]]
 
         if password != password_repeat:
-            self.main_window.show_message(CODE_PASSWORDS_DONT_MATCH)
+            self.parent.show_message(CODE_PASSWORDS_DONT_MATCH)
             data.clear()
             return data
 
