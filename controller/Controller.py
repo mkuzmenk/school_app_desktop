@@ -1,13 +1,47 @@
 import tkinter
 
 from controller.constants import *
-from view.teacher.pages.Homework import Homework
+from view.main_windows.admin.AdminMode import AdminMode
+from view.main_windows.teacher.TeacherMode import TeacherMode
+from view.main_windows.teacher.pages.Homework import Homework
 
 
 class Controller:
     def __init__(self, model, view):
         self.model = model
         self.view = view
+
+    def login_user(self):
+        login = self.view.get_login()
+        password = self.view.get_password()
+
+        user = self.model.get_user(login)
+
+        if user:
+            if user.password != password:
+                self.view.show_message(CODE_WRONG_PASSWORD)
+
+            else:
+                if user.user_role == TEACHER_ROLE_ID:
+                    self.open_teacher_window(user.user_id)
+
+                else:
+                    self.open_admin_window()
+
+        else:
+            self.view.show_message(CODE_LOGIN_NOT_FOUND)
+
+    def open_teacher_window(self, teacher_id):
+        self.view.close()
+
+        self.view = TeacherMode(teacher_id)
+        self.view.set_controller(self)
+
+    def open_admin_window(self):
+        self.view.close()
+
+        self.view = AdminMode()
+        self.view.set_controller(self)
 
     def add_user_to_database(self):
         user_role = self.view.active_page.get_user_role()

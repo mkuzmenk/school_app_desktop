@@ -1,11 +1,11 @@
 import tkinter
 
-from view.Window import Window
-from view.admin.pages.AddUser import AddUser
-from view.admin.pages.EditGroup import EditGroup
-from view.admin.pages.FindUser import FindUser
-from view.admin.pages.Schedule import Schedule
-from view.admin.admin_window_settings import *
+from view.main_windows.Window import Window
+from view.main_windows.admin.pages.AddUser import AddUser
+from view.main_windows.admin.pages.EditGroup import EditGroup
+from view.main_windows.admin.pages.FindUser import FindUser
+from view.main_windows.admin.pages.Schedule import Schedule
+from view.main_windows.admin.admin_window_settings import *
 
 
 class AdminMode(Window):

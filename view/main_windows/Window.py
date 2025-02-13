@@ -1,6 +1,6 @@
 import tkinter
 
-from view.admin.admin_window_settings import *
+from view.main_windows.admin.admin_window_settings import *
 
 
 class Window:

@@ -3,9 +3,9 @@ from tkinter import ttk
 from tkinter.ttk import Combobox
 
 from controller.constants import *
-from view.teacher.teacher_window_settings import *
+from view.main_windows.teacher.teacher_window_settings import *
 
-from view.Page import Page
+from view.main_windows.Page import Page
 
 from controller.constants import MARK_VALUES
 

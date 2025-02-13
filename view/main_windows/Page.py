@@ -1,7 +1,7 @@
 from tkinter import messagebox
 
 from controller.constants import *
-from view.Window import *
+from view.main_windows.Window import *
 
 
 class Page:

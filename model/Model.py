@@ -25,6 +25,13 @@ class Model:
         if self.Session:
             self.Session().close()
 
+    def get_user(self, login):
+        query_user = self.conn.query(User).filter(
+            User.user_login == login
+        ).first()
+
+        return query_user
+
     def add_user(self, ipn, user_login, name, last_name, surname, birthdate, email, password, phone, sex, user_role,
                  group_id=None):
 

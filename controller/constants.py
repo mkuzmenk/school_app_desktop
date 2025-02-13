@@ -99,6 +99,9 @@ TEXT_START_POS = '1.0'
 FIRST_COLUMN = 1
 SECOND_COLUMN = 2
 
+FIRST_ROW = 1
+SECOND_ROW = 2
+
 REGISTRATION_LABELS = (
     REGISTRATION_LABELS_TEACHER,
     REGISTRATION_LABELS_STUDENT,
@@ -117,6 +120,8 @@ SHOW_MESSAGE_CODES = (
     "Вчителя успішно додано.",
     "Учня/ученицю успішно додано.",
     "Завдання успішно додано",
+    "Користувача з таким логіном не знайдено",
+    "Невірний пароль",
 )
 
 CODE_EMPTY_FIELDS = 0
@@ -126,6 +131,8 @@ CODE_PASSWORDS_DONT_MATCH = 3
 CODE_TEACHER_ADDED = 4
 CODE_STUDENT_ADDED = 5
 CODE_TASK_ADDED = 6
+CODE_LOGIN_NOT_FOUND = 7
+CODE_WRONG_PASSWORD = 8
 
 SEARCH_FIRST_NAME_POS = 0
 SEARCH_LAST_NAME_POS = 1
@@ -206,3 +213,8 @@ LABEL_TASK_GROUP_ID_POS = 0
 LABEL_TASK_TOPIC_POS = 1
 LABEL_TASK_DESCRIPTION_POS = 2
 LABEL_TASK_DEADLINE_POS = 3
+
+LOGIN_WINDOW_LABELS = (
+    "Логін",
+    "Пароль"
+)

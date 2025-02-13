@@ -1,7 +1,7 @@
 from tkinter import ttk
 
-from view.Page import Page
-from view.Window import *
+from view.main_windows.Page import Page
+from view.main_windows.Window import *
 from controller.constants import *
 
 
