@@ -78,3 +78,4 @@ class Page:
 
     def get_option(self):
         return self.option.get()
+

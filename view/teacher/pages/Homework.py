@@ -152,6 +152,14 @@ class Homework(Page):
         )
         self.task_description.pack(side=tkinter.LEFT)
 
+        self.button_go_back = tkinter.Button(self.homework_panel, text='← Назад', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
+            fg=B_FONT_COLOR)
+
+        self.button_go_back.configure(command=self.back_to_disciplines)
+
+
+        self.button_go_back.pack(side=tkinter.BOTTOM)
+
     def show_homework_main_panel(self, responses, marks, students):
         main_panel = tkinter.Frame(
             self.main_window, bg=SH_COLOR
@@ -176,6 +184,7 @@ class Homework(Page):
     def on_student_homework_click(self):
         self.enable_student_options()
         self.disable_student_option(self.get_student_option())
+        self.button_go_back.configure(command=self.controller.show_students_homeworks_subpage)
 
         self.controller.show_student_homework_description()
 
@@ -189,3 +198,11 @@ class Homework(Page):
 
     def get_student_option(self):
         return self.student.get()
+
+    def back_to_disciplines(self):
+        self.hide_page()
+        self.show_page()
+        self.disable_option(self.get_option())
+        self.show_actions_panel()
+        self.controller.show_teacher_discipline_homeworks()
+
