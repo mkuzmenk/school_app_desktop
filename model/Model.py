@@ -267,3 +267,29 @@ class Model:
         ).first()
 
         return query_mark.mark_value
+
+    def change_mark_value(self, hw_resp, new_mark_value):
+        hw_resp.mark_hw_resp.mark_value = new_mark_value
+
+        self.conn.commit()
+
+    def create_mark(self, mark_value, hw_id, discipline_id, student_id, teacher_id):
+        mark_id = None
+        try:
+            today = datetime.today().strftime('%Y-%m-%d')
+
+            mark = Mark(mark_value=mark_value, mark_created_at=today, homework_id_ref=hw_id,
+                        mark_discipline_type_ref=discipline_id, mark_student_id=student_id, mark_teacher_id=teacher_id)
+
+            self.conn.add(mark)
+            self.conn.commit()
+
+            mark_id = mark.mark_id
+
+
+        except sqlalchemy.exc.DatabaseError:
+            self.conn.rollback()
+            print('ошибка в марк')
+
+        finally:
+            return mark_id

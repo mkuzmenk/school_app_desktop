@@ -1,9 +1,12 @@
 import tkinter
+from tkinter.ttk import Combobox
 
 from controller.constants import *
 from view.teacher.teacher_window_settings import *
 
 from view.Page import Page
+
+from controller.constants import MARK_VALUES
 
 
 class Homework(Page):
@@ -184,6 +187,8 @@ class Homework(Page):
     def on_student_homework_click(self):
         self.enable_student_options()
         self.disable_student_option(self.get_student_option())
+        self.show_mark_button()
+
         self.button_go_back.configure(command=self.controller.show_students_homeworks_subpage)
 
         self.controller.show_student_homework_description()
@@ -206,3 +211,39 @@ class Homework(Page):
         self.show_actions_panel()
         self.controller.show_teacher_discipline_homeworks()
 
+
+    def show_mark_button(self):
+        self.button_mark = tkinter.Button(self.homework_panel, text='Оцінити', bg=B_COLOR,
+                                             font=(B_FONT, B_FONT_SIZE),
+                                             fg=B_FONT_COLOR, command=self.open_set_mark_window)
+
+
+        self.button_mark.pack(side=tkinter.BOTTOM)
+
+
+    def open_set_mark_window(self):
+        self.window_mark = tkinter.Tk()
+        self.window_mark.geometry('600x600')
+        self.window_mark.title('Оцінити')
+
+
+        selected_mark = tkinter.IntVar()
+        mark_list = list(MARK_VALUES.keys())
+
+        self.window_mark_box = Combobox(
+            self.window_mark, values=mark_list, state=MWCB_STATE,
+            textvariable=selected_mark, width=MWCB_WIDTH,
+            font=(MWCB_FONT, MWCB_FONT_SIZE)
+        )
+
+        button_change = tkinter.Button(
+            self.window_mark, text=f'Поставити оцінку',
+            bg=B_COLOR, font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR,
+            command=lambda: self.controller.change_student_mark(self.window_mark_box.get())
+        )
+
+        self.window_mark_box.pack(pady=LA_PAD_Y)
+        button_change.pack()
+
+    def close_set_mark_window(self):
+        self.window_mark.destroy()

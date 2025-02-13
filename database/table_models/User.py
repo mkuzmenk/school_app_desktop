@@ -55,11 +55,9 @@ class User(Base):
     def __init__(self, password, user_login, user_first_name, user_last_name,
                  user_phone, user_email, user_sex, user_birthday, user_created_at,
                  user_changed_at, is_active, is_staff, is_superuser, last_login=None,
-                 user_surname=None, user_tax_number=None, user_description=None, user_group_id_ref=None, user_role=None,
-                 user_id=None):
+                 user_surname=None, user_tax_number=None, user_description=None, user_group_id_ref=None, user_role=None):
         self.password = password
         self.last_login = last_login
-        self.user_id = user_id
         self.user_login = user_login
         self.user_first_name = user_first_name
         self.user_last_name = user_last_name

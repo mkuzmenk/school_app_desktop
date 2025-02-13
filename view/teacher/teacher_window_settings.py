@@ -15,6 +15,14 @@ TB_FONT_FORMAT = "bold"
 TB_BUTTONS_PAD_Y = 30
 TB_HEIGHT = 100
 
+
+# MWCB - Mark Window Combobox
+MWCB_FONT = "Courier New"
+MWCB_FONT_SIZE = 18
+MWCB_WIDTH = 38
+MWCB_STATE = 'readonly'
+MWCB_PAD_Y = 5
+
 # LE - Left
 LE_PANEL_COLOR = "grey"
 LE_PANEL_WIDTH = 200

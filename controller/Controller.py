@@ -137,11 +137,16 @@ class Controller:
         students = []
 
         for homework_response in homework_responses:
-            mark_id = homework_response.mark_hw_resp.mark_value
+            mark_value = '-'
+            if homework_response.home_work_mark_id_ref:
+                mark_value = homework_response.mark_hw_resp.mark_value
+                if mark_value == 0:
+                    mark_value = 'Н/О'
+
             student_fl_name = (f'{homework_response.user_hw_resp.user_first_name} '
                                f'{homework_response.user_hw_resp.user_last_name}')
 
-            marks.append(mark_id)
+            marks.append(mark_value)
             students.append(student_fl_name)
 
         self.view.active_page.show_students_homeworks_subpage(marks, students, homework_responses, homework)
@@ -156,3 +161,34 @@ class Controller:
 
         self.view.active_page.task_description.config(text=description)
         self.view.active_page.deadline.config(text=f'Дата здачі: {date_of_sending}')
+
+    def change_student_mark(self, mark):
+        mark_value = MARK_VALUES[mark]
+
+        current_option = self.view.active_page.get_student_option()
+        homework_response = self.view.active_page.responses[current_option - 1]
+
+        if homework_response.home_work_mark_id_ref:
+            self.model.change_mark_value(homework_response, mark_value)
+
+        else:
+            self.create_mark(homework_response, mark_value)
+
+        self.view.active_page.close_set_mark_window()
+        self.show_students_homeworks_subpage()
+
+    def create_mark(self, homework_response, mark_value):
+        option = self.view.active_page.get_option()
+
+        discipline_name = self.view.active_page.disciplines[option - 1]
+
+        discipline_id = DISCIPLINES_ID[discipline_name]
+        homework_id = homework_response.home_work_id_ref
+        student_id = homework_response.home_work_user_id_ref
+        teacher_id = homework_response.home_work_response_teacher_id_ref
+
+        new_mark_id = self.model.create_mark(mark_value=mark_value, hw_id=homework_id, discipline_id=discipline_id,
+                               student_id=student_id, teacher_id=teacher_id)
+
+        homework_response.home_work_mark_id_ref = new_mark_id
+        self.model.conn.commit()
