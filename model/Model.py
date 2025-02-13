@@ -268,6 +268,13 @@ class Model:
 
         return query_mark.mark_value
 
+    def delete_homework(self, homework_id):
+        self.conn.query(Homework).filter(
+            Homework.home_work_id == homework_id
+        ).delete()
+
+        self.conn.commit()
+
     def change_mark_value(self, hw_resp, new_mark_value):
         hw_resp.mark_hw_resp.mark_value = new_mark_value
 

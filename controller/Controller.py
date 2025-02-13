@@ -1,3 +1,5 @@
+import tkinter
+
 from controller.constants import *
 from view.teacher.pages.Homework import Homework
 
@@ -128,8 +130,7 @@ class Controller:
         self.view.active_page.show_tasks_panel()
 
     def show_students_homeworks_subpage(self):
-        homework_option = self.view.active_page.get_task_option()
-        homework = self.view.active_page.homeworks[homework_option - 1]
+        homework = self.view.active_page.get_current_homework()
 
         homework_responses = self.model.get_homework_responses(homework.home_work_id)
 
@@ -152,15 +153,28 @@ class Controller:
         self.view.active_page.show_students_homeworks_subpage(marks, students, homework_responses, homework)
 
     def show_student_homework_description(self):
-        current_option = self.view.active_page.get_student_option()
-        homework_response = self.view.active_page.responses[current_option - 1]
+        homework_response = self.view.active_page.get_current_homework_response()
 
         description = homework_response.home_work_response
 
         date_of_sending = homework_response.home_work_response_created_at
 
-        self.view.active_page.task_description.config(text=description)
+        self.view.active_page.task_description.config(state=NORMAL)
+
+        self.view.active_page.task_description.delete(TEXT_START_POS, tkinter.END)
+        self.view.active_page.task_description.insert(tkinter.END, description)
+
+        self.view.active_page.task_description.config(state=DISABLED)
+
         self.view.active_page.deadline.config(text=f'Дата здачі: {date_of_sending}')
+
+    def delete_homework(self):
+        homework = self.view.active_page.get_current_homework()
+
+        self.model.delete_homework(homework.home_work_id)
+
+        self.view.active_page.back_to_disciplines()
+
 
     def change_student_mark(self, mark):
         mark_value = MARK_VALUES[mark]
@@ -187,8 +201,10 @@ class Controller:
         student_id = homework_response.home_work_user_id_ref
         teacher_id = homework_response.home_work_response_teacher_id_ref
 
-        new_mark_id = self.model.create_mark(mark_value=mark_value, hw_id=homework_id, discipline_id=discipline_id,
-                               student_id=student_id, teacher_id=teacher_id)
+        new_mark_id = self.model.create_mark(
+            mark_value=mark_value, hw_id=homework_id, discipline_id=discipline_id,
+            student_id=student_id, teacher_id=teacher_id
+        )
 
         homework_response.home_work_mark_id_ref = new_mark_id
         self.model.conn.commit()

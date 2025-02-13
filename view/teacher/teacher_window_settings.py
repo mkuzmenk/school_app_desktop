@@ -2,9 +2,9 @@
 MW_TITLE = 'Шкільний додаток'
 MW_STATE = 'zoomed'
 
-# CHM - Check Homework Window
-CHM_TITLE = 'Перевірка домашнього завдання'
-CHM_STATE = 'zoomed'
+# SMW - Set Mark Window
+SMW_TITLE = 'Оцінити'
+SMW_GEOMETRY = '600x600'
 
 # TB - Toolbar
 TB_COLOR = "#212121"
@@ -14,7 +14,6 @@ TB_FONT_SIZE = 22
 TB_FONT_FORMAT = "bold"
 TB_BUTTONS_PAD_Y = 30
 TB_HEIGHT = 100
-
 
 # MWCB - Mark Window Combobox
 MWCB_FONT = "Courier New"
@@ -72,26 +71,34 @@ MB_FAIL_TITLE = 'Помилка'
 # A - Actions
 A_PANEL_WIDTH = 100
 
-# TI - Task Information
+# TI - Tasks Information
 TI_COLOR = "grey"
 TI_FONT_COLOR = "white"
 TI_FONT = "Courier New"
 TI_FONT_SIZE = 18
 TI_FONT_FORMAT = "bold"
-TI_WIDTH = 50
+TI_WIDTH = 100
 
-# TD - Task Description
-TD_COLOR = "white"
-TD_WIDTH = 50
-TD_HEIGHT = 50
-TD_FONT = "Courier New"
-TD_FONT_SIZE = 18
-TD_FONT_FORMAT = "bold"
+# HT - Homework Text
+HT_COLOR = "white"
+HT_WIDTH = 59
+HT_HEIGHT = 15
+HT_FONT = "Courier New"
+HT_FONT_SIZE = 18
+HT_FONT_FORMAT = "bold"
 
-# SH - Student Homework
+# HD - Homework Description
+HD_COLOR = "grey"
+HD_FONT_COLOR = "white"
+HD_FONT = "Courier New"
+HD_FONT_SIZE = 18
+HD_FONT_FORMAT = "bold"
+HD_WIDTH = 50
+
+# SH - Students Homeworks
 SH_COLOR = "grey"
 SH_FONT_COLOR = "white"
 SH_FONT = "Courier New"
 SH_FONT_SIZE = 18
 SH_FONT_FORMAT = "bold"
-SH_WIDTH = 50
+SH_WIDTH = 100

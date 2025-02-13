@@ -27,7 +27,15 @@ class Homework(Page):
         self.homework_panel = None
         self.task_description = None
 
+        self.buttons_panel = None
+
         self.responses = None
+
+        self.button_go_back = None
+
+        self.button_mark = None
+
+        self.window_mark = None
 
         self.student_dictionary = {}
         self.student = tkinter.IntVar(value=OPTION_DEFAULT_VALUE)
@@ -123,47 +131,74 @@ class Homework(Page):
 
         self.responses = responses
 
-        self.show_homework_left_panel(homework)
-        self.show_homework_main_panel(responses, marks, students)
+        self.show_homework_main_panel(homework)
+        self.show_homework_right_panel(responses, marks, students)
 
-    def show_homework_left_panel(self, homework):
+    def show_homework_main_panel(self, homework):
         self.homework_panel = tkinter.Frame(
-            self.main_window, bg=TI_COLOR
+            self.main_window, bg=HD_COLOR
         )
         self.homework_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
 
         topic = tkinter.Label(
             self.homework_panel, text=homework.home_work_topic,
-            bg=TI_COLOR, fg=TI_FONT_COLOR,
-            width=TI_WIDTH,
-            font=(TI_FONT, TI_FONT_SIZE, TI_FONT_FORMAT),
+            bg=HD_COLOR, fg=HD_FONT_COLOR,
+            width=HD_WIDTH,
+            font=(HD_FONT, HD_FONT_SIZE, HD_FONT_FORMAT),
         )
         topic.pack()
 
         self.deadline = tkinter.Label(
             self.homework_panel, text=f'Здати до {homework.home_work_deadline}',
-            bg=TI_COLOR, fg=TI_FONT_COLOR,
-            width=TI_WIDTH,
-            font=(TI_FONT, TI_FONT_SIZE, TI_FONT_FORMAT),
+            bg=HD_COLOR, fg=HD_FONT_COLOR,
+            width=HD_WIDTH,
+            font=(HD_FONT, HD_FONT_SIZE, HD_FONT_FORMAT),
         )
         self.deadline.pack()
 
-        self.task_description = tkinter.Label(
-            self.homework_panel, text=homework.home_work_description,
-            bg=TD_COLOR, width=TD_WIDTH, height=TD_HEIGHT,
-            font=(TD_FONT, TD_FONT_SIZE, TD_FONT_FORMAT),
+        self.show_task_description(homework)
+
+        self.button_go_back = tkinter.Button(
+            self.homework_panel, text='← Назад', bg=B_COLOR,
+            font=(B_FONT, B_FONT_SIZE),
+            fg=B_FONT_COLOR, command=self.back_to_disciplines
         )
-        self.task_description.pack(side=tkinter.LEFT)
-
-        self.button_go_back = tkinter.Button(self.homework_panel, text='← Назад', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
-            fg=B_FONT_COLOR)
-
-        self.button_go_back.configure(command=self.back_to_disciplines)
-
-
         self.button_go_back.pack(side=tkinter.BOTTOM)
 
-    def show_homework_main_panel(self, responses, marks, students):
+        self.buttons_panel = tkinter.Frame(
+            self.homework_panel
+        )
+        self.buttons_panel.pack()
+
+        delete_homework_button = tkinter.Button(
+            self.buttons_panel, text='Видалити завдання', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
+            fg=B_FONT_COLOR, command=self.on_delete_homework_click
+        )
+        delete_homework_button.pack(side=tkinter.LEFT)
+
+    def show_task_description(self, homework):
+        task_description_panel = tkinter.Frame(
+            self.homework_panel
+        )
+        task_description_panel.pack()
+
+        self.task_description = tkinter.Text(
+            task_description_panel,
+            bg=HT_COLOR, width=HT_WIDTH, height=HT_HEIGHT,
+            font=(HT_FONT, HT_FONT_SIZE, HT_FONT_FORMAT),
+        )
+
+        scrollbar = tkinter.Scrollbar(
+            task_description_panel, command=self.task_description.yview
+        )
+        scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+
+        self.task_description.insert(tkinter.END, homework.home_work_description)
+        self.task_description.config(state=DISABLED, yscrollcommand=scrollbar.set)
+
+        self.task_description.pack()
+
+    def show_homework_right_panel(self, responses, marks, students):
         main_panel = tkinter.Frame(
             self.main_window, bg=SH_COLOR
         )
@@ -187,11 +222,27 @@ class Homework(Page):
     def on_student_homework_click(self):
         self.enable_student_options()
         self.disable_student_option(self.get_student_option())
+
         self.show_mark_button()
 
         self.button_go_back.configure(command=self.controller.show_students_homeworks_subpage)
 
         self.controller.show_student_homework_description()
+
+    def get_current_homework(self):
+        homework_option = self.get_task_option()
+        homework = self.homeworks[homework_option - 1]
+
+        return homework
+
+    def get_current_homework_response(self):
+        current_option = self.get_student_option()
+        homework_response = self.responses[current_option - 1]
+
+        return homework_response
+
+    def on_delete_homework_click(self):
+        self.controller.delete_homework()
 
     def enable_student_options(self):
         for option in self.student_dictionary.values():
@@ -211,38 +262,37 @@ class Homework(Page):
         self.show_actions_panel()
         self.controller.show_teacher_discipline_homeworks()
 
-
     def show_mark_button(self):
-        self.button_mark = tkinter.Button(self.homework_panel, text='Оцінити', bg=B_COLOR,
-                                             font=(B_FONT, B_FONT_SIZE),
-                                             fg=B_FONT_COLOR, command=self.open_set_mark_window)
+        if self.button_mark:
+            self.button_mark.destroy()
 
-
-        self.button_mark.pack(side=tkinter.BOTTOM)
-
+        self.button_mark = tkinter.Button(
+            self.buttons_panel, text='Оцінити', bg=B_COLOR,
+            font=(B_FONT, B_FONT_SIZE),
+            fg=B_FONT_COLOR, command=self.open_set_mark_window
+        )
+        self.button_mark.pack(side=tkinter.LEFT)
 
     def open_set_mark_window(self):
         self.window_mark = tkinter.Tk()
-        self.window_mark.geometry('600x600')
-        self.window_mark.title('Оцінити')
-
+        self.window_mark.geometry(SMW_GEOMETRY)
+        self.window_mark.title(SMW_TITLE)
 
         selected_mark = tkinter.IntVar()
         mark_list = list(MARK_VALUES.keys())
 
-        self.window_mark_box = Combobox(
+        window_mark_box = Combobox(
             self.window_mark, values=mark_list, state=MWCB_STATE,
             textvariable=selected_mark, width=MWCB_WIDTH,
             font=(MWCB_FONT, MWCB_FONT_SIZE)
         )
+        window_mark_box.pack(pady=LA_PAD_Y)
 
         button_change = tkinter.Button(
-            self.window_mark, text=f'Поставити оцінку',
+            self.window_mark, text='Поставити оцінку',
             bg=B_COLOR, font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR,
-            command=lambda: self.controller.change_student_mark(self.window_mark_box.get())
+            command=lambda: self.controller.change_student_mark(window_mark_box.get())
         )
-
-        self.window_mark_box.pack(pady=LA_PAD_Y)
         button_change.pack()
 
     def close_set_mark_window(self):
