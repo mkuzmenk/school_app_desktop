@@ -6,6 +6,10 @@ MW_STATE = 'zoomed'
 SMW_TITLE = 'Оцінити'
 SMW_GEOMETRY = '600x600'
 
+# SDW - Set Date Window
+SDW_TITLE = 'Вибрати дату'
+SDW_GEOMETRY = '450x450'
+
 # TB - Toolbar
 TB_COLOR = "#212121"
 TB_FONT = "Courier New"

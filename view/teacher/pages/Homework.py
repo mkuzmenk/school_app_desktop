@@ -2,10 +2,15 @@ import tkinter
 from tkinter import ttk
 from tkinter.ttk import Combobox
 
+from datetime import datetime
+
 from controller.constants import *
 from view.teacher.teacher_window_settings import *
 
 from view.Page import Page
+
+from tkcalendar import Calendar
+from tktimepicker import AnalogPicker, AnalogThemes
 
 from controller.constants import MARK_VALUES
 
@@ -28,6 +33,9 @@ class Homework(Page):
         self.deadline = None
         self.homework_panel = None
         self.task_description = None
+
+        self.calendar_date = tkinter.StringVar()
+        self.time_deadline = tkinter.StringVar()
 
         self.buttons_panel = None
 
@@ -381,6 +389,24 @@ class Homework(Page):
                 )
                 data_field.grid(column=SECOND_COLUMN, row=i + 1, pady=E_PAD_Y)
 
+            elif i == LABEL_TASK_DEADLINE_POS:
+                self.button_choose_date = tkinter.Button(
+                    self.create_task_panel, text='Дата: (не вибрано)', bg=B_COLOR,
+                    font=(B_FONT, B_FONT_SIZE),
+                    fg=B_FONT_COLOR, command=self.open_choose_date
+                )
+                self.button_choose_date.grid(column=SECOND_COLUMN, row=i + 1, pady=E_PAD_Y)
+
+                self.button_choose_time = tkinter.Button(
+                    self.create_task_panel, text='Час: (не вибрано)', bg=B_COLOR,
+                    font=(B_FONT, B_FONT_SIZE),
+                    fg=B_FONT_COLOR, command=self.open_choose_time
+                )
+                self.button_choose_time.grid(column=THIRD_COLUMN, row=i + 1, pady=E_PAD_Y)
+
+                self.entries.extend((self.calendar_date, self.time_deadline))
+                break
+
             else:
                 data_field = tkinter.Entry(
                     self.create_task_panel, font=(E_FONT, E_FONT_SIZE)
@@ -404,6 +430,51 @@ class Homework(Page):
                 data.clear()
                 return data
 
-        data[LABEL_TASK_GROUP_ID_POS] = int(data[LABEL_TASK_GROUP_ID_POS])
-
         return data
+
+
+    def open_choose_date(self):
+        self.window_choose_date = tkinter.Tk()
+        self.window_choose_date.geometry(SDW_GEOMETRY)
+        self.window_choose_date.title(SDW_TITLE)
+
+        self.calendar = Calendar(self.window_choose_date, date_pattern='yyyy-mm-dd', mindate=datetime.today())
+        self.calendar.pack(expand=True, fill="both")
+
+        self.calendar.bind("<<CalendarSelected>>", self.on_date_selected)
+
+    def on_date_selected(self, event):
+        date = self.calendar.get_date()
+        self.button_choose_date.config(text=f'Дата: {date}')
+        self.calendar_date.set(date)
+        self.window_choose_date.destroy()
+
+
+    def open_choose_time(self):
+        self.window_choose_time = tkinter.Tk()
+        self.window_choose_time.geometry(SDW_GEOMETRY)
+        self.window_choose_time.title(SDW_TITLE)
+
+        self.time = AnalogPicker(self.window_choose_time)
+        self.time.pack(expand=True, fill="both")
+        button_close = tkinter.Button(
+                    self.window_choose_time, text='Підтвердити', bg=B_COLOR,
+                    font=(B_FONT, B_FONT_SIZE),
+                    fg=B_FONT_COLOR, command=self.on_time_selected
+                )
+        theme = AnalogThemes(self.time)
+        theme.setNavyBlue()
+        button_close.pack(pady=E_PAD_Y)
+
+
+    def on_time_selected(self):
+        # format from tuple to string
+        time = "{}:{} {}".format(*self.time.time())
+
+        # format from AM/PM to 24 hours
+        time = datetime.strptime(time, '%I:%M %p').strftime("%H:%M")
+
+        self.time_deadline.set(time)
+        print(self.time_deadline.get())
+        self.button_choose_time.config(text=f'Час: {self.time_deadline.get()}')
+        self.window_choose_time.destroy()
