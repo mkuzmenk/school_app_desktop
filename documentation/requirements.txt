@@ -5,3 +5,5 @@ tk
 sqlalchemy
 psycopg
 cryptography
+tkcalendar
+tkTimePicker

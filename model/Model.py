@@ -185,12 +185,16 @@ class Model:
 
         return teacher_dict
 
-    def get_group(self, group_id):
-        group = self.conn.query(Group).filter(
-            Group.group_id == group_id
-        ).first()
+    def get_group_by_name(self, group_name):
+        try:
+            group = self.conn.query(Group).filter(
+                Group.group_name == group_name
+            ).first()
 
-        return group
+            return group
+
+        except:
+            return None
 
     def get_groups(self):
         query = self.conn.query(Group).order_by(Group.group_id).all()
@@ -311,7 +315,6 @@ class Model:
 
         except sqlalchemy.exc.DatabaseError:
             self.conn.rollback()
-            print('ошибка в марк')
 
         finally:
             return mark_id

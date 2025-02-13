@@ -132,8 +132,8 @@ class Controller:
         groups = self.model.get_groups()
         return groups
 
-    def get_group(self, group_id):
-        group = self.model.get_group(group_id)
+    def get_group_by_name(self, group_name):
+        group = self.model.get_group_by_name(group_name)
         return group
 
     def change_student(self, email, group):
@@ -174,19 +174,21 @@ class Controller:
 
         if data:
             # data - словник.
-            group_id = data[LABEL_TAX_POS]
-            topic = data[LABEL_TASK_TOPIC_POS]
-            description = data[LABEL_TASK_DESCRIPTION_POS]
-            deadline = data[LABEL_TASK_DEADLINE_POS]
-            teacher_id = self.view.active_page.get_user_id()
-            discipline_id = self.view.active_page.get_discipline_id()
+            group_id = self.get_group_by_name(data[LABEL_TASK_GROUP_ID_POS])
 
-            result = self.model.add_homework(topic, description, deadline, group_id, teacher_id, discipline_id)
+            if group_id:
+                topic = data[LABEL_TASK_TOPIC_POS]
+                description = data[LABEL_TASK_DESCRIPTION_POS]
+                deadline = f'{data[TASK_DATE_POS]} {data[TASK_TIME_POS]}'
+                teacher_id = self.view.active_page.get_user_id()
+                discipline_id = self.view.active_page.get_discipline_id()
 
-            if result:
-                self.view.show_message(CODE_TASK_ADDED)
-            else:
-                self.view.show_message(CODE_INVALID_DATA)
+                result = self.model.add_homework(topic, description, deadline, group_id, teacher_id, discipline_id)
+
+                if result:
+                    self.view.active_page.show_message(CODE_TASK_ADDED)
+                else:
+                    self.view.active_page.show_message(CODE_INVALID_DATA)
 
     def show_students_homeworks_subpage(self):
         homework = self.view.active_page.get_current_homework()
@@ -264,5 +266,6 @@ class Controller:
             student_id=student_id, teacher_id=teacher_id
         )
 
-        homework_response.home_work_mark_id_ref = new_mark_id
-        self.model.conn.commit()
+        if new_mark_id:
+            homework_response.home_work_mark_id_ref = new_mark_id
+            self.model.conn.commit()
