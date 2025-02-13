@@ -309,7 +309,6 @@ class Model:
 
             mark_id = mark.mark_id
 
-
         except sqlalchemy.exc.DatabaseError:
             self.conn.rollback()
             print('ошибка в марк')

@@ -26,5 +26,12 @@ class TeacherMode(Window):
         )
         schedule_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
 
+        logoff_button = tkinter.Button(
+            self.toolbar_panel, text="Вийти", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
+            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
+            command=self.on_logoff_button_click
+        )
+        logoff_button.pack(side=tkinter.RIGHT, pady=TB_BUTTONS_PAD_Y)
+
     def on_homework_button_click(self):
         self.controller.show_teacher_disciplines()

@@ -1,6 +1,7 @@
 import tkinter
 
 from controller.constants import *
+from view.authorization_window.AuthorizationWindow import AuthorizationWindow
 from view.main_windows.admin.AdminMode import AdminMode
 from view.main_windows.teacher.TeacherMode import TeacherMode
 from view.main_windows.teacher.pages.Homework import Homework
@@ -30,6 +31,12 @@ class Controller:
 
         else:
             self.view.show_message(CODE_LOGIN_NOT_FOUND)
+
+    def open_authorization_window(self):
+        self.view.close()
+
+        self.view = AuthorizationWindow()
+        self.view.set_controller(self)
 
     def open_teacher_window(self, teacher_id):
         self.view.close()

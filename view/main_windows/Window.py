@@ -20,6 +20,9 @@ class Window:
     def start(self):
         self.main_window.mainloop()
 
+    def close(self):
+        self.main_window.destroy()
+
     def set_controller(self, controller):
         self.controller = controller
 
@@ -41,6 +44,9 @@ class Window:
                 self.active_page = None
 
             self.active_page = page_class(self, self.controller)
+
+    def on_logoff_button_click(self):
+        self.controller.open_authorization_window()
 
     def get_user_id(self):
         return self.user_id
