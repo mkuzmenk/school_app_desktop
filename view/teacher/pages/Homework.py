@@ -17,7 +17,6 @@ from controller.constants import MARK_VALUES
 
 class Homework(Page):
     def __init__(self, window, controller, disciplines_data):
-        self.create_task_panel = None
         self.user_id = window.user_id
 
         self.window = window
@@ -48,6 +47,17 @@ class Homework(Page):
         self.window_mark = None
 
         self.entries = []
+
+        self.window_choose_date = None
+        self.button_choose_date = None
+
+        self.window_choose_time = None
+        self.button_choose_time = None
+
+        self.calendar = None
+        self.time = None
+
+        self.create_task_panel = None
 
         self.student_dictionary = {}
         self.student = tkinter.IntVar(value=OPTION_DEFAULT_VALUE)
@@ -432,7 +442,6 @@ class Homework(Page):
 
         return data
 
-
     def open_choose_date(self):
         self.window_choose_date = tkinter.Tk()
         self.window_choose_date.geometry(SDW_GEOMETRY)
@@ -449,7 +458,6 @@ class Homework(Page):
         self.calendar_date.set(date)
         self.window_choose_date.destroy()
 
-
     def open_choose_time(self):
         self.window_choose_time = tkinter.Tk()
         self.window_choose_time.geometry(SDW_GEOMETRY)
@@ -458,14 +466,13 @@ class Homework(Page):
         self.time = AnalogPicker(self.window_choose_time)
         self.time.pack(expand=True, fill="both")
         button_close = tkinter.Button(
-                    self.window_choose_time, text='Підтвердити', bg=B_COLOR,
-                    font=(B_FONT, B_FONT_SIZE),
-                    fg=B_FONT_COLOR, command=self.on_time_selected
-                )
+            self.window_choose_time, text='Підтвердити', bg=B_COLOR,
+            font=(B_FONT, B_FONT_SIZE),
+            fg=B_FONT_COLOR, command=self.on_time_selected
+        )
         theme = AnalogThemes(self.time)
         theme.setNavyBlue()
         button_close.pack(pady=E_PAD_Y)
-
 
     def on_time_selected(self):
         # format from tuple to string
