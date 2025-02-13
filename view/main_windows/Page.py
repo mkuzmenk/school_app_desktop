@@ -1,6 +1,4 @@
-from tkinter import messagebox
 
-from controller.constants import *
 from view.main_windows.Window import *
 
 
@@ -57,11 +55,6 @@ class Page:
             option.pack()
 
         left_panel.pack(side=tkinter.LEFT, fill=tkinter.Y)
-
-    def show_message(self, code):
-        messagebox.showinfo(
-            title=MB_FAIL_TITLE, message=SHOW_MESSAGE_CODES[code]
-        )
 
     def hide_main_panel(self):
         # Усі віджети після індексу 1 є віджетами головної панелі.

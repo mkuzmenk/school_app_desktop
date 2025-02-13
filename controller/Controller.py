@@ -76,9 +76,9 @@ class Controller:
 
             if result:
                 # Якщо user_role = 0 - виводиться повідомлення з кодом 4, якщо user_role = 1 - код 5
-                self.view.active_page.show_message(user_role + 4)
+                self.view.show_message(user_role + 4)
             else:
-                self.view.active_page.show_message(CODE_INVALID_DATA)
+                self.view.show_message(CODE_INVALID_DATA)
 
     def show_users(self):
         data = self.view.active_page.get_user_data()
@@ -91,7 +91,7 @@ class Controller:
             )
 
         if not result_data:
-            self.view.active_page.show_message(CODE_USERS_NOT_FOUND)
+            self.view.show_message(CODE_USERS_NOT_FOUND)
         else:
             self.view.active_page.show_found_students(result_data)
 
@@ -141,20 +141,19 @@ class Controller:
         self.view.active_page.close_change_student_window()
         self.show_students()
 
-    def get_teacher_disciplines(self):
+    def show_teacher_disciplines(self):
         teacher_id = self.view.get_user_id()
         teacher_disciplines = self.model.get_teacher_disciplines(teacher_id)
 
-        return teacher_disciplines
+        if not teacher_disciplines:
+            self.view.show_message(CODE_NO_DISCIPLINES)
+            return
 
-    def show_teacher_disciplines(self):
         if self.view.active_page:
             self.view.active_page.__del__()
             self.view.active_page = None
 
-        disciplines_data = self.get_teacher_disciplines()
-
-        self.view.active_page = Homework(self.view, self, disciplines_data)
+        self.view.active_page = Homework(self.view, self, teacher_disciplines)
 
     def show_teacher_discipline_tasks(self):
         teacher_id = self.view.get_user_id()
@@ -185,9 +184,9 @@ class Controller:
             result = self.model.add_homework(topic, description, deadline, group_id, teacher_id, discipline_id)
 
             if result:
-                self.view.active_page.show_message(CODE_TASK_ADDED)
+                self.view.show_message(CODE_TASK_ADDED)
             else:
-                self.view.active_page.show_message(CODE_INVALID_DATA)
+                self.view.show_message(CODE_INVALID_DATA)
 
     def show_students_homeworks_subpage(self):
         homework = self.view.active_page.get_current_homework()

@@ -1,5 +1,7 @@
 import tkinter
+from tkinter import messagebox
 
+from controller.constants import *
 from view.main_windows.admin.admin_window_settings import *
 
 
@@ -33,6 +35,11 @@ class Window:
         self.toolbar_panel.pack(side=tkinter.TOP, fill=tkinter.X)
 
         self.add_toolbar_buttons()
+
+    def show_message(self, code):
+        messagebox.showinfo(
+            title=MB_FAIL_TITLE, message=SHOW_MESSAGE_CODES[code]
+        )
 
     def add_toolbar_buttons(self):
         pass
