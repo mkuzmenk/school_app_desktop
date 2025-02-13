@@ -91,4 +91,3 @@ RCB_FONT = "Courier New"
 RCB_FONT_SIZE = 18
 RCB_WIDTH = 19
 RCB_STATE = 'readonly'
-RCB_GROUP_NOT_DEFINED = 'Не визначено'

@@ -115,7 +115,7 @@ class Controller:
 
         self.view.active_page = Homework(self.view, self, disciplines_data)
 
-    def show_teacher_discipline_homeworks(self):
+    def show_teacher_discipline_tasks(self):
         teacher_id = self.view.get_user_id()
         option = self.view.active_page.get_option()
 
@@ -128,6 +128,25 @@ class Controller:
         self.view.active_page.homeworks = discipline_homeworks
 
         self.view.active_page.show_tasks_panel()
+
+    def add_task_to_database(self):
+        data = self.view.active_page.get_add_task_entries_data()
+
+        if data:
+            # data - словник.
+            group_id = data[LABEL_TAX_POS]
+            topic = data[LABEL_TASK_TOPIC_POS]
+            description = data[LABEL_TASK_DESCRIPTION_POS]
+            deadline = data[LABEL_TASK_DEADLINE_POS]
+            teacher_id = self.view.active_page.get_user_id()
+            discipline_id = self.view.active_page.get_discipline_id()
+
+            result = self.model.add_homework(topic, description, deadline, group_id, teacher_id, discipline_id)
+
+            if result:
+                self.view.active_page.show_message(CODE_TASK_ADDED)
+            else:
+                self.view.active_page.show_message(CODE_INVALID_DATA)
 
     def show_students_homeworks_subpage(self):
         homework = self.view.active_page.get_current_homework()
@@ -174,7 +193,6 @@ class Controller:
         self.model.delete_homework(homework.home_work_id)
 
         self.view.active_page.back_to_disciplines()
-
 
     def change_student_mark(self, mark):
         mark_value = MARK_VALUES[mark]

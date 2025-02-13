@@ -22,6 +22,21 @@ MWCB_WIDTH = 38
 MWCB_STATE = 'readonly'
 MWCB_PAD_Y = 5
 
+# CTCB - Create Task Combobox
+CTCB_FONT = "Courier New"
+CTCB_FONT_SIZE = 18
+CTCB_WIDTH = 19
+CTCB_STATE = 'readonly'
+CTCB_PAD_Y = 5
+
+# CTDE - Create Task Description Entry
+CTDE_FONT = "Courier New"
+CTDE_FONT_SIZE = 18
+CTDE_WIDTH = 20
+CTDE_HEIGHT = 10
+CTDE_STATE = 'readonly'
+CTDE_PAD_Y = 5
+
 # LE - Left
 LE_PANEL_COLOR = "grey"
 LE_PANEL_WIDTH = 200

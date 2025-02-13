@@ -12,7 +12,7 @@ class Mark(Base):
     mark_student_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=False)
     mark_teacher_id = Column(mysql.INTEGER, nullable=False)
 
-    #mark_type = Column(mysql.INTEGER, ForeignKey('mark_types.mark_type_id'), nullable=False)
+    # mark_type = Column(mysql.INTEGER, ForeignKey('mark_types.mark_type_id'), nullable=False)
 
     hw_resp_mark = relationship('HomeworkResponse', back_populates='mark_hw_resp',
                                 foreign_keys='HomeworkResponse.home_work_mark_id_ref')

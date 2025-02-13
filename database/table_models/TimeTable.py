@@ -13,9 +13,6 @@ class TimeTable(Base):
     time_table_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
     time_table_teacher_id_ref = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
 
-    homework_time_table = relationship('Homework', back_populates='time_table_homework',
-                                       foreign_keys='Homework.home_work_timetable_ref')
-
     discipline_time_table = relationship('Discipline', back_populates='time_table_discipline',
                                          foreign_keys='TimeTable.time_table_discipline_ref')
 

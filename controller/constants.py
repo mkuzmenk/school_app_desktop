@@ -116,6 +116,7 @@ SHOW_MESSAGE_CODES = (
     "Паролі не співпадають",
     "Вчителя успішно додано.",
     "Учня/ученицю успішно додано.",
+    "Завдання успішно додано",
 )
 
 CODE_EMPTY_FIELDS = 0
@@ -124,6 +125,7 @@ CODE_USERS_NOT_FOUND = 2
 CODE_PASSWORDS_DONT_MATCH = 3
 CODE_TEACHER_ADDED = 4
 CODE_STUDENT_ADDED = 5
+CODE_TASK_ADDED = 6
 
 SEARCH_FIRST_NAME_POS = 0
 SEARCH_LAST_NAME_POS = 1
@@ -150,6 +152,10 @@ NO_STUDENT_EMAIL = '**Не вказано**'
 
 NO_TEACHER_NAME = '---'
 
+RCB_GROUP_NOT_DEFINED = 'Не визначено'
+
+CTCB_GROUP_NOT_DEFINED = 'Не визначено'
+
 DISCIPLINES_ID = {
     "Математика": 1,
     "Фізика": 2,
@@ -173,17 +179,30 @@ DISCIPLINES_ID = {
     "Психологія": 20,
 }
 
-MARK_VALUES = {'Н/О': 0,
-               '1': 1,
-               '2': 2,
-               '3': 3,
-               '4': 4,
-               '5': 5,
-               '6': 6,
-               '7': 7,
-               '8': 8,
-               '9': 9,
-               '10': 10,
-               '11': 11,
-               '12': 12
+MARK_VALUES = {
+    'Н/О': 0,
+    '1': 1,
+    '2': 2,
+    '3': 3,
+    '4': 4,
+    '5': 5,
+    '6': 6,
+    '7': 7,
+    '8': 8,
+    '9': 9,
+    '10': 10,
+    '11': 11,
+    '12': 12
 }
+
+ADD_TASK_LABELS = (
+    'Клас',
+    'Тема завдання',
+    'Опис завдання',
+    'Час здачі',
+)
+
+LABEL_TASK_GROUP_ID_POS = 0
+LABEL_TASK_TOPIC_POS = 1
+LABEL_TASK_DESCRIPTION_POS = 2
+LABEL_TASK_DEADLINE_POS = 3

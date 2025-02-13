@@ -5,13 +5,11 @@ class Homework(Base):
     __tablename__ = 'homeworks'
 
     home_work_id = Column(mysql.INTEGER, autoincrement=True, primary_key=True)
-    home_work_name = Column(mysql.VARCHAR(255), nullable=False)
     home_work_topic = Column(mysql.VARCHAR(255), nullable=False)
     home_work_description = Column(mysql.LONGTEXT, nullable=False)
     home_work_deadline = Column(mysql.DATETIME(fsp=6), nullable=False)
     home_work_created_at = Column(mysql.DATETIME(fsp=6), nullable=False)
     home_work_group_id_ref = Column(mysql.INTEGER, ForeignKey('groups.group_id'), nullable=True)
-    home_work_timetable_ref = Column(mysql.INTEGER, ForeignKey('time_table.time_table_id'), nullable=True)
     home_work_teacher_ref_id = Column(mysql.INTEGER, ForeignKey('users.user_id'), nullable=True)
     home_work_discipline_ref = Column(mysql.INTEGER, ForeignKey('disciplines.discipline_id'), nullable=True)
 
@@ -24,24 +22,18 @@ class Homework(Base):
     group_homework = relationship('Group', back_populates='homework_group',
                                   foreign_keys='Homework.home_work_group_id_ref')
 
-    time_table_homework = relationship('TimeTable', back_populates='homework_time_table',
-                                       foreign_keys='Homework.home_work_timetable_ref')
-
     user_homework = relationship('User', back_populates='homework_user',
                                  foreign_keys='Homework.home_work_teacher_ref_id')
 
-    def __init__(self, home_work_id, home_work_name, home_work_topic, home_work_description, home_work_deadline,
-                 home_work_created_at, home_work_group_id_ref, home_work_timetable_ref, home_work_user_ref_id,
+    def __init__(self, home_work_topic, home_work_description, home_work_deadline,
+                 home_work_created_at, home_work_group_id_ref, home_work_teacher_ref_id,
                  home_work_discipline_ref):
-        self.home_work_id = home_work_id
-        self.home_work_name = home_work_name
         self.home_work_topic = home_work_topic
         self.home_work_description = home_work_description
         self.home_work_deadline = home_work_deadline
         self.home_work_created_at = home_work_created_at
         self.home_work_group_id_ref = home_work_group_id_ref
-        self.home_work_timetable_ref = home_work_timetable_ref
-        self.home_work_teacher_ref_id = home_work_user_ref_id
+        self.home_work_teacher_ref_id = home_work_teacher_ref_id
         self.home_work_discipline_ref = home_work_discipline_ref
 
     def __str__(self):

@@ -1,6 +1,7 @@
 # engine works with PyMySQL package
 import os
 
+import sqlalchemy
 from dotenv import find_dotenv, load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
@@ -30,7 +31,7 @@ def start_db():
         Base.metadata.create_all(bind=engine)
         return Session
 
-    except Exception:
+    except sqlalchemy.exc.DatabaseError:
         dotenv_server = find_dotenv('.env.2')
 
         load_dotenv(dotenv_server)

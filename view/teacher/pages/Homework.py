@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import ttk
 from tkinter.ttk import Combobox
 
 from controller.constants import *
@@ -11,6 +12,7 @@ from controller.constants import MARK_VALUES
 
 class Homework(Page):
     def __init__(self, window, controller, disciplines_data):
+        self.create_task_panel = None
         self.user_id = window.user_id
 
         self.window = window
@@ -36,6 +38,8 @@ class Homework(Page):
         self.button_mark = None
 
         self.window_mark = None
+
+        self.entries = []
 
         self.student_dictionary = {}
         self.student = tkinter.IntVar(value=OPTION_DEFAULT_VALUE)
@@ -70,7 +74,7 @@ class Homework(Page):
 
         self.show_actions_panel()
 
-        self.controller.show_teacher_discipline_homeworks()
+        self.controller.show_teacher_discipline_tasks()
 
     def show_actions_panel(self):
         actions_panel = tkinter.Frame(
@@ -80,9 +84,13 @@ class Homework(Page):
 
         button = tkinter.Button(
             actions_panel, text='Створити нове завдання', bg=B_COLOR, font=(B_FONT, B_FONT_SIZE),
-            fg=B_FONT_COLOR
+            fg=B_FONT_COLOR,
+            command=self.on_create_task_click
         )
         button.pack()
+
+    def on_create_task_click(self):
+        self.show_create_task_subpage()
 
     def show_tasks_panel(self):
         tasks_panel = tkinter.Frame(
@@ -96,7 +104,7 @@ class Homework(Page):
             homework = self.homeworks[i]
 
             option = tkinter.Radiobutton(
-                tasks_panel, text=f'{homework.home_work_topic}',
+                tasks_panel, text=f'{homework.home_work_topic} | {homework.group_homework.group_name} клас',
                 value=i + 1, bg=TI_COLOR, fg=TI_FONT_COLOR,
                 width=TI_WIDTH, variable=self.task,
                 font=(TI_FONT, TI_FONT_SIZE, TI_FONT_FORMAT),
@@ -108,6 +116,14 @@ class Homework(Page):
 
     def get_user_id(self):
         return self.user_id
+
+    def get_discipline_id(self):
+        option = self.get_option()
+
+        discipline_name = self.disciplines[option - 1]
+        discipline_id = DISCIPLINES_ID[discipline_name]
+
+        return discipline_id
 
     def on_task_radiobutton_click(self):
         self.enable_task_options()
@@ -260,7 +276,7 @@ class Homework(Page):
         self.show_page()
         self.disable_option(self.get_option())
         self.show_actions_panel()
-        self.controller.show_teacher_discipline_homeworks()
+        self.controller.show_teacher_discipline_tasks()
 
     def show_mark_button(self):
         if self.button_mark:
@@ -297,3 +313,97 @@ class Homework(Page):
 
     def close_set_mark_window(self):
         self.window_mark.destroy()
+
+    def show_create_task_subpage(self):
+        self.hide_page()
+
+        self.create_task_panel = tkinter.Frame(
+            self.main_window
+        )
+        self.create_task_panel.pack()
+
+        groups = self.controller.get_groups()
+
+        selected_group = tkinter.StringVar(value=CTCB_GROUP_NOT_DEFINED)
+
+        label = tkinter.Label(
+            self.create_task_panel, text=ADD_TASK_LABELS[LABEL_TASK_GROUP_ID_POS],
+            font=(LA_FONT, LA_FONT_SIZE)
+        )
+        label.grid(column=FIRST_COLUMN, row=LABEL_TASK_GROUP_ID_POS + 1, pady=LA_PAD_Y)
+
+        data_field = ttk.Combobox(
+            self.create_task_panel, values=groups, state=CTCB_STATE,
+            textvariable=selected_group, width=CTCB_WIDTH,
+            font=(CTCB_FONT, CTCB_FONT_SIZE)
+        )
+        data_field.grid(column=SECOND_COLUMN, row=LABEL_TASK_GROUP_ID_POS + 1, pady=E_PAD_Y)
+
+        self.entries.append(data_field)
+
+        self.show_add_task_entries()
+
+        button_complete_panel = tkinter.Frame(
+            self.main_window
+        )
+        button_complete_panel.pack()
+
+        complete_button = tkinter.Button(
+            button_complete_panel, text='Завершити додавання', bg=B_COLOR,
+            font=(B_FONT, B_FONT_SIZE), fg=B_FONT_COLOR,
+            command=self.controller.add_task_to_database
+        )
+        complete_button.pack(pady=B_PAD_Y)
+
+        button_back_panel = tkinter.Frame(
+            self.main_window
+        )
+        button_back_panel.pack()
+
+        button_go_back = tkinter.Button(
+            button_back_panel, text='← Назад', bg=B_COLOR,
+            font=(B_FONT, B_FONT_SIZE),
+            fg=B_FONT_COLOR, command=self.back_to_disciplines
+        )
+        button_go_back.pack(pady=B_PAD_Y)
+
+    def show_add_task_entries(self):
+        for i in range(LABEL_TASK_GROUP_ID_POS + 1, len(ADD_TASK_LABELS)):
+            label = tkinter.Label(
+                self.create_task_panel, text=ADD_TASK_LABELS[i], font=(LA_FONT, LA_FONT_SIZE)
+            )
+            label.grid(column=FIRST_COLUMN, row=i + 1, pady=LA_PAD_Y)
+
+            if i == LABEL_TASK_DESCRIPTION_POS:
+                data_field = tkinter.Text(
+                    self.create_task_panel, font=(E_FONT, E_FONT_SIZE),
+                    width=CTDE_WIDTH, height=CTDE_HEIGHT
+                )
+                data_field.grid(column=SECOND_COLUMN, row=i + 1, pady=E_PAD_Y)
+
+            else:
+                data_field = tkinter.Entry(
+                    self.create_task_panel, font=(E_FONT, E_FONT_SIZE)
+                )
+                data_field.grid(column=SECOND_COLUMN, row=i + 1, pady=E_PAD_Y)
+
+            self.entries.append(data_field)
+
+    def get_add_task_entries_data(self):
+        data = []
+
+        for entry in self.entries:
+            if isinstance(entry, tkinter.Text):
+                data.append(entry.get(TEXT_START_POS, tkinter.END))
+            else:
+                data.append(entry.get())
+
+        for data_value in data:
+            if not data_value:
+                self.show_message(CODE_EMPTY_FIELDS)
+                data.clear()
+                return data
+
+        data[LABEL_TASK_GROUP_ID_POS] = int(data[LABEL_TASK_GROUP_ID_POS])
+
+        return data

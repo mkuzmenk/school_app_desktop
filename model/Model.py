@@ -1,6 +1,5 @@
 import sqlalchemy
 
-from database.table_models.Discipline import Discipline
 from database.table_models.Homework import Homework
 from database.table_models.HomeworkResponse import HomeworkResponse
 from database.table_models.Mark import Mark
@@ -187,7 +186,7 @@ class Model:
         return group
 
     def get_groups(self):
-        query = self.conn.query(Group).order_by(Group.group_name).all()
+        query = self.conn.query(Group).order_by(Group.group_id).all()
 
         group_list = []
         for group in query:
@@ -261,12 +260,22 @@ class Model:
 
         return query_responses
 
-    def get_mark_value(self, mark_id):
-        query_mark = self.conn.query(Mark).filter(
-            Mark.mark_id == mark_id
-        ).first()
+    def add_homework(self, topic, description, deadline, group_id, teacher_id, discipline_id):
 
-        return query_mark.mark_value
+        try:
+            homework = Homework(
+                home_work_topic=topic, home_work_description=description, home_work_deadline=deadline,
+                home_work_created_at=datetime.now(UTC), home_work_group_id_ref=group_id,
+                home_work_teacher_ref_id=teacher_id, home_work_discipline_ref=discipline_id
+            )
+
+            self.conn.add(homework)
+            self.conn.commit()
+            return True
+
+        except sqlalchemy.exc.DatabaseError:
+            self.conn.rollback()
+            return False
 
     def delete_homework(self, homework_id):
         self.conn.query(Homework).filter(
