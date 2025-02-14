@@ -19,12 +19,19 @@ class TeacherMode(Window):
         )
         schedule_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
 
-        schedule_button = tkinter.Button(
+        homeworks_button = tkinter.Button(
             self.toolbar_panel, text="Домашні завдання", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
             font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
             command=self.on_homework_button_click
         )
-        schedule_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
+        homeworks_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
+
+        journal_button = tkinter.Button(
+            self.toolbar_panel, text="Журнал", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
+            font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
+            command=self.on_journal_button_click
+        )
+        journal_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
 
         logoff_button = tkinter.Button(
             self.toolbar_panel, text="Вийти", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
@@ -35,3 +42,6 @@ class TeacherMode(Window):
 
     def on_homework_button_click(self):
         self.controller.show_teacher_disciplines()
+
+    def on_journal_button_click(self):
+        self.controller.show_teacher_group_journal()

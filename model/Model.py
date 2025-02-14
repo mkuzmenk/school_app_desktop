@@ -318,3 +318,33 @@ class Model:
 
         finally:
             return mark_id
+
+    def get_marks(self, discipline_id):
+        marks_for_teacher = []
+
+        query_marks = self.conn.query(Mark).filter(
+            Mark.mark_discipline_type_ref == discipline_id
+        ).all()
+
+        for mark in query_marks:
+            student_initials = (f'{mark.user_mark.user_last_name}'
+                                f' {mark.user_mark.user_first_name}')
+
+            if mark.user_mark.user_surname:
+                student_initials += f' {mark.user_mark.user_surname}'
+
+            student_group = self.conn.query(Group).filter(
+                Group.group_id == mark.user_mark.user_group_id_ref
+            ).first()
+
+            if not student_group:
+                student_group = 'Клас не визначений'
+            else:
+                student_group = student_group.group_name
+
+            marks_for_teacher.append(
+                (student_initials, student_group,
+                 mark.mark_value, mark.mark_created_at)
+            )
+
+        return marks_for_teacher

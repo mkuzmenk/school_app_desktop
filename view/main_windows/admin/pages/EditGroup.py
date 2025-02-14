@@ -27,7 +27,6 @@ class EditGroup(Page):
 
     def show_main_panel(self, student_list=None, teacher_data=None):
         if isinstance(student_list, list):
-            # ?
             self.main_frame = self.create_main_frame(self.main_frame)
 
             teacher = tkinter.Label(

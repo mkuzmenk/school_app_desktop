@@ -5,6 +5,7 @@ from view.authorization_window.AuthorizationWindow import AuthorizationWindow
 from view.main_windows.admin.AdminMode import AdminMode
 from view.main_windows.teacher.TeacherMode import TeacherMode
 from view.main_windows.teacher.pages.Homework import Homework
+from view.main_windows.teacher.pages.Journal import Journal
 
 
 class Controller:
@@ -269,3 +270,28 @@ class Controller:
         if new_mark_id:
             homework_response.home_work_mark_id_ref = new_mark_id
             self.model.conn.commit()
+
+    def show_teacher_group_journal(self):
+        teacher_id = self.view.get_user_id()
+        teacher_disciplines = self.model.get_teacher_disciplines(teacher_id)
+
+        if not teacher_disciplines:
+            self.view.show_message(CODE_NO_DISCIPLINES)
+            return
+
+        if self.view.active_page:
+            self.view.active_page.__del__()
+            self.view.active_page = None
+
+        self.view.active_page = Journal(self.view, self, teacher_disciplines)
+
+    def show_discipline_marks(self):
+        self.view.active_page.hide_main_panel()
+
+        current_discipline_option = self.view.active_page.get_option()
+
+        marks = self.model.get_marks(current_discipline_option)
+
+        self.view.active_page.group_marks = marks
+
+        self.view.active_page.show_main_panel()

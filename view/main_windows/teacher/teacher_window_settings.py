@@ -4,7 +4,7 @@ MW_STATE = 'zoomed'
 
 # SMW - Set Mark Window
 SMW_TITLE = 'Оцінити'
-SMW_GEOMETRY = '600x600'
+SMW_GEOMETRY = '600x220'
 
 # SDW - Set Date Window
 SDW_TITLE = 'Вибрати дату'
@@ -121,3 +121,6 @@ SH_FONT = "Courier New"
 SH_FONT_SIZE = 18
 SH_FONT_FORMAT = "bold"
 SH_WIDTH = 100
+
+# TGM - Table Group Marks
+TGM_HEIGHT = 25
