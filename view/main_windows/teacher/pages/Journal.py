@@ -49,7 +49,7 @@ class Journal(Page):
         discipline_marks_table.heading('#1', text='ПІБ')
         discipline_marks_table.heading('#2', text='Клас')
         discipline_marks_table.heading('#3', text='Оцінка')
-        discipline_marks_table.heading('#4', text='Дата виставлення')
+        discipline_marks_table.heading('#4', text='Дата виставлення завдання')
 
         discipline_marks_table.pack(side=tkinter.LEFT)
 

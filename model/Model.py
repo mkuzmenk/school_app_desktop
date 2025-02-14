@@ -344,7 +344,7 @@ class Model:
 
             marks_for_teacher.append(
                 (student_initials, student_group,
-                 mark.mark_value, mark.mark_created_at)
+                 mark.mark_value, mark.homework_mark.home_work_created_at)
             )
 
         return marks_for_teacher
