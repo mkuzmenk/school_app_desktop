@@ -62,3 +62,5 @@ class Journal(Page):
 
         for group_mark in self.group_marks:
             discipline_marks_table.insert("", tkinter.END, values=group_mark)
+
+

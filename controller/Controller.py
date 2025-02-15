@@ -296,17 +296,21 @@ class Controller:
 
     def show_discipline_marks(self):
         option = self.view.active_page.get_option()
-        teacher_id = self.view.get_user_id()
+        discipline_name = self.view.active_page.disciplines[option-1]
+        discipline_id = self.model.get_discipline_id(discipline_name)
 
-        self.view.active_page.enable_options()
-        self.view.active_page.disable_option(option)
+        if discipline_id:
 
-        self.view.active_page.hide_main_panel()
+            teacher_id = self.view.get_user_id()
 
-        current_discipline_option = self.view.active_page.get_option()
+            self.view.active_page.enable_options()
+            self.view.active_page.disable_option(option)
 
-        marks = self.model.get_marks(current_discipline_option, teacher_id)
+            self.view.active_page.hide_main_panel()
 
-        self.view.active_page.group_marks = marks
 
-        self.view.active_page.show_main_panel()
+            marks = self.model.get_marks(discipline_id, teacher_id)
+
+            self.view.active_page.group_marks = marks
+
+            self.view.active_page.show_main_panel()

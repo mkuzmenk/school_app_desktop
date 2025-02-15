@@ -7,6 +7,7 @@ from database.table_models.TeacherDiscipline import TeacherDiscipline
 from database.table_models.User import User
 from database.table_models.TimeTable import TimeTable
 from database.table_models.Group import Group
+from database.table_models.Discipline import Discipline
 
 from database.start_db import start_db
 from datetime import datetime, UTC
@@ -322,6 +323,13 @@ class Model:
 
         finally:
             return mark_id
+
+    def get_discipline_id(self, discipline_name):
+        query = self.conn.query(Discipline).filter(Discipline.discipline_name == discipline_name).first()
+        try:
+            return query.discipline_id
+        except:
+            return None
 
     def get_marks(self, discipline_id, teacher_id):
         marks_for_teacher = []
