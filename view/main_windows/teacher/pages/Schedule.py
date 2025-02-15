@@ -76,6 +76,9 @@ class Schedule(Page):
     def show_groups_in_left_panel(self):
         left_panel = tkinter.Frame(self.main_window, bg=LE_PANEL_COLOR, width=LE_PANEL_WIDTH)
 
+        self.num_class = tkinter.IntVar(value=OPTION_DEFAULT_VALUE)
+        self.option_dictionary = dict()
+
         for i in range(CLASS_QUANTITY):
             option = tkinter.Radiobutton(left_panel, text=f'{i + 1} Клас', value=i + 1, bg=LE_PANEL_COLOR,
                                          fg=RB_FONT_COLOR,
