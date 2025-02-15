@@ -107,6 +107,9 @@ class Homework(Page):
         )
         button.pack()
 
+    def get_user_id(self):
+        return self.user_id
+
     def on_create_task_click(self):
         self.show_create_task_subpage()
 
