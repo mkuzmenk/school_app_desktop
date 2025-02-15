@@ -10,6 +10,7 @@ MB_SUCCESS_TITLE = 'Успіх'
 MB_FAIL_TITLE = 'Помилка'
 
 # AN - App Name
+AN_TEXT = 'SubjectBy'
 AN_FONT = "Courier New"
 AN_FONT_SIZE = 25
 AN_FONT_FORMAT = 'bold'

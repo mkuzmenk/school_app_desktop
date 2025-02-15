@@ -38,7 +38,7 @@ class AuthorizationWindow:
 
     def show_app_name(self):
         app_name = tkinter.Label(
-            self.registration_panel, text='SubjectBy',
+            self.registration_panel, text=AN_TEXT,
             font=(AN_FONT, AN_FONT_SIZE, AN_FONT_FORMAT),
         )
         app_name.pack(padx=AN_PAD_X, pady=AN_PAD_Y)
