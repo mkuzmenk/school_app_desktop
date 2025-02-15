@@ -27,7 +27,7 @@ class TeacherMode(Window):
         homeworks_button.pack(side=tkinter.LEFT, pady=TB_BUTTONS_PAD_Y)
 
         journal_button = tkinter.Button(
-            self.toolbar_panel, text="Журнал", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
+            self.toolbar_panel, text="Історія оцінок", bg=TB_COLOR, fg=TB_FONT_COLOR, height=B_HEIGHT,
             font=(TB_FONT, TB_FONT_SIZE, TB_FONT_FORMAT), relief=tkinter.FLAT,
             command=self.on_journal_button_click
         )
