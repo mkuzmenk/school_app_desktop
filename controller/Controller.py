@@ -296,6 +296,7 @@ class Controller:
 
     def show_discipline_marks(self):
         option = self.view.active_page.get_option()
+        teacher_id = self.view.get_user_id()
 
         self.view.active_page.enable_options()
         self.view.active_page.disable_option(option)
@@ -304,7 +305,7 @@ class Controller:
 
         current_discipline_option = self.view.active_page.get_option()
 
-        marks = self.model.get_marks(current_discipline_option)
+        marks = self.model.get_marks(current_discipline_option, teacher_id)
 
         self.view.active_page.group_marks = marks
 

@@ -323,11 +323,12 @@ class Model:
         finally:
             return mark_id
 
-    def get_marks(self, discipline_id):
+    def get_marks(self, discipline_id, teacher_id):
         marks_for_teacher = []
 
         query_marks = self.conn.query(Mark).filter(
-            Mark.mark_discipline_type_ref == discipline_id
+            Mark.mark_discipline_type_ref == discipline_id,
+            Mark.mark_teacher_id == teacher_id
         ).all()
 
         for mark in query_marks:
