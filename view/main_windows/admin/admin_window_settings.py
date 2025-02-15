@@ -18,6 +18,10 @@ TWCB_PAD_Y = 5
 SW_TITLE = 'Переведення учня'
 SW_GEOMETRY = '700x300+0+0'
 
+# SDW - Set Date Window
+SDW_TITLE = 'Вибрати дату'
+SDW_GEOMETRY = '450x450'
+
 # SWCB - Student Window Combobox
 SWCB_FONT = "Courier New"
 SWCB_FONT_SIZE = 18

@@ -25,6 +25,10 @@ class Model:
         if self.Session:
             self.Session().close()
 
+    def change_last_login(self, user):
+        user.last_login = datetime.now(UTC)
+        self.conn.commit()
+
     def get_user(self, login):
         query_user = self.conn.query(User).filter(
             User.user_login == login

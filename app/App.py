@@ -13,7 +13,5 @@ class App:
 
         self.view.set_controller(self.controller)
 
-        self.view.start()
-
     def start(self):
         self.view.start()

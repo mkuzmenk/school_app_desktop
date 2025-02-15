@@ -24,11 +24,17 @@ class Controller:
                 self.view.show_message(CODE_WRONG_PASSWORD)
 
             else:
+                self.model.change_last_login(user)
+
+                user_id = user.user_id
+
                 if user.user_role == TEACHER_ROLE_ID:
-                    self.open_teacher_window(user.user_id)
+                    self.open_teacher_window(user_id)
 
                 else:
-                    self.open_admin_window()
+                    self.open_admin_window(user_id)
+
+
 
         else:
             self.view.show_message(CODE_LOGIN_NOT_FOUND)
@@ -45,10 +51,10 @@ class Controller:
         self.view = TeacherMode(teacher_id)
         self.view.set_controller(self)
 
-    def open_admin_window(self):
+    def open_admin_window(self, admin_id):
         self.view.close()
 
-        self.view = AdminMode()
+        self.view = AdminMode(admin_id)
         self.view.set_controller(self)
 
     def add_user_to_database(self):
@@ -58,22 +64,25 @@ class Controller:
 
         labels = REGISTRATION_LABELS[user_role]
 
+        result = None
+
         if data:
             # data - словник.
-            ipn = data[labels[LABEL_TAX_POS]]
-            name = data[labels[LABEL_FIRST_NAME_POS]]
-            last_name = data[labels[LABEL_LAST_NAME_POS]]
-            surname = data[labels[LABEL_SURNAME_POS]]
-            birthdate = data[labels[LABEL_BIRTHDATE]]
-            group_id = data[labels[LABEL_GROUP_POS]]
-            email = data[labels[LABEL_EMAIL_POS]]
-            login = data[labels[LABEL_LOGIN_POS]]
-            phone = data[labels[LABEL_PHONE_NUMBER_POS]]
-            sex = data[labels[LABEL_SEX_POS]]
-            password = data[labels[LABEL_PASSWORD_POS]]
+            group_id = self.get_group_by_name(data[labels[LABEL_GROUP_POS]])
+            if group_id:
+                ipn = data[labels[LABEL_TAX_POS]]
+                name = data[labels[LABEL_FIRST_NAME_POS]]
+                last_name = data[labels[LABEL_LAST_NAME_POS]]
+                surname = data[labels[LABEL_SURNAME_POS]]
+                birthdate = data[labels[LABEL_BIRTHDATE]]
+                email = data[labels[LABEL_EMAIL_POS]]
+                login = data[labels[LABEL_LOGIN_POS]]
+                phone = data[labels[LABEL_PHONE_NUMBER_POS]]
+                sex = data[labels[LABEL_SEX_POS]]
+                password = data[labels[LABEL_PASSWORD_POS]]
 
-            result = self.model.add_user(ipn, login, name, last_name, surname, birthdate, email, password, phone,
-                                         sex, user_role + 2, group_id)
+                result = self.model.add_user(ipn, login, name, last_name, surname, birthdate, email, password, phone,
+                                             sex, user_role + 2, group_id)
 
             if result:
                 # Якщо user_role = 0 - виводиться повідомлення з кодом 4, якщо user_role = 1 - код 5

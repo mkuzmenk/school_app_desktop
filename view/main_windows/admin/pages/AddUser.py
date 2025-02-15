@@ -1,9 +1,11 @@
+from datetime import datetime
 from tkinter import ttk
 
 from view.main_windows.Page import Page
 from view.main_windows.Window import *
 from controller.constants import *
 
+from tkcalendar import Calendar
 
 class AddUser(Page):
     def __init__(self, window, controller):
@@ -14,6 +16,12 @@ class AddUser(Page):
         self.registration_panel = None
         self.button_panel = None
         self.label_panel = None
+
+        self.window_choose_date = None
+        self.button_choose_date = None
+        self.calendar = None
+        self.calendar_date = tkinter.StringVar()
+
 
         super().__init__(window, controller)
 
@@ -97,6 +105,16 @@ class AddUser(Page):
 
                 self.data_fields[current_labels[i]] = selected_group
 
+            elif i == LABEL_BIRTHDATE:
+                self.button_choose_date = tkinter.Button(
+                    self.registration_panel, text='Дата: (не вибрано)', bg=B_COLOR,
+                    font=(B_FONT, B_FONT_SIZE),
+                    fg=B_FONT_COLOR, command=self.open_choose_date
+                )
+                self.button_choose_date.grid(column=SECOND_COLUMN, row=i + 1, pady=E_PAD_Y)
+
+                self.data_fields[current_labels[i]] = self.calendar_date
+
             else:
                 data_field = tkinter.Entry(
                     self.registration_panel, font=(E_FONT, E_FONT_SIZE)
@@ -138,17 +156,15 @@ class AddUser(Page):
                 data.clear()
                 return data
 
-        group_id = data[labels[LABEL_GROUP_POS]]
+        group_name = data[labels[LABEL_GROUP_POS]]
 
-        if group_id and group_id != RCB_GROUP_NOT_DEFINED and not group_id.isdigit():
+        if group_name and group_name != RCB_GROUP_NOT_DEFINED and not group_name.isdigit():
             self.parent.show_message(CODE_INVALID_DATA)
             data.clear()
             return data
 
-        if group_id == RCB_GROUP_NOT_DEFINED:
+        if group_name == RCB_GROUP_NOT_DEFINED:
             data[labels[LABEL_GROUP_POS]] = None
-        else:
-            data[labels[LABEL_GROUP_POS]] = int(group_id)
 
         password = data[labels[LABEL_PASSWORD_POS]]
         password_repeat = data[labels[LABEL_PASSWORD_REPEAT_POS]]
@@ -159,3 +175,28 @@ class AddUser(Page):
             return data
 
         return data
+
+    def open_choose_date(self):
+        year = datetime.now().year
+        user_role = self.get_user_role()
+        if user_role == 0:
+            year -= 30
+
+        elif user_role == 1:
+            year -= 19
+
+
+        self.window_choose_date = tkinter.Tk()
+        self.window_choose_date.geometry(SDW_GEOMETRY)
+        self.window_choose_date.title(SDW_TITLE)
+
+        self.calendar = Calendar(self.window_choose_date, date_pattern='yyyy-mm-dd', year=year)
+        self.calendar.pack(expand=True, fill="both")
+
+        self.calendar.bind("<<CalendarSelected>>", self.on_date_selected)
+
+    def on_date_selected(self, event):
+        date = self.calendar.get_date()
+        self.button_choose_date.config(text=f'Дата: {date}')
+        self.calendar_date.set(date)
+        self.window_choose_date.destroy()

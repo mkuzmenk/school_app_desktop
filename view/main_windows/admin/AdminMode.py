@@ -9,8 +9,10 @@ from view.main_windows.admin.admin_window_settings import *
 
 
 class AdminMode(Window):
-    def __init__(self):
+    def __init__(self, admin_id):
         super().__init__()
+
+        self.user_id = admin_id
 
     def add_toolbar_buttons(self):
         schedule_button = tkinter.Button(

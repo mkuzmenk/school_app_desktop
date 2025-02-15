@@ -132,9 +132,6 @@ class Homework(Page):
 
             self.task_dictionary[i + 1] = option
 
-    def get_user_id(self):
-        return self.user_id
-
     def get_discipline_id(self):
         option = self.get_option()
 
@@ -436,7 +433,7 @@ class Homework(Page):
 
         for data_value in data:
             if not data_value:
-                self.show_message(CODE_EMPTY_FIELDS)
+                self.parent.show_message(CODE_EMPTY_FIELDS)
                 data.clear()
                 return data
 
