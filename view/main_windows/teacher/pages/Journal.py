@@ -30,7 +30,7 @@ class Journal(Page):
                 value=i + 1, bg=LE_PANEL_COLOR, fg=RB_FONT_COLOR,
                 width=RB_WIDTH, variable=self.option,
                 font=(RB_FONT, RB_FONT_SIZE, RB_FONT_FORMAT),
-                command=self.on_group_radiobutton_click
+                command=self.controller.show_discipline_marks
             )
             option.pack()
 
@@ -62,6 +62,3 @@ class Journal(Page):
 
         for group_mark in self.group_marks:
             discipline_marks_table.insert("", tkinter.END, values=group_mark)
-
-    def on_group_radiobutton_click(self):
-        self.controller.show_discipline_marks()

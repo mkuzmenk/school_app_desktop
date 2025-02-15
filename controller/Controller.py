@@ -295,6 +295,11 @@ class Controller:
         self.view.active_page = Journal(self.view, self, teacher_disciplines)
 
     def show_discipline_marks(self):
+        option = self.view.active_page.get_option()
+
+        self.view.active_page.enable_options()
+        self.view.active_page.disable_option(option)
+
         self.view.active_page.hide_main_panel()
 
         current_discipline_option = self.view.active_page.get_option()
