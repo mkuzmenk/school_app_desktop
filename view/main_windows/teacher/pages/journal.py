@@ -1,7 +1,7 @@
 import tkinter
 from tkinter import ttk
 
-from view.main_windows.Page import Page
+from view.main_windows.page import Page
 from view.main_windows.teacher.teacher_window_settings import *
 
 

@@ -7,7 +7,7 @@ from datetime import datetime
 from controller.constants import *
 from view.main_windows.teacher.teacher_window_settings import *
 
-from view.main_windows.Page import Page
+from view.main_windows.page import Page
 
 from tkcalendar import Calendar
 from tktimepicker import AnalogPicker, AnalogThemes

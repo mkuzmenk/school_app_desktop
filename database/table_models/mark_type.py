@@ -1,4 +1,4 @@
-from database.DB import *
+from database.db import *
 
 
 class MarkType(Base):
@@ -16,4 +16,4 @@ class MarkType(Base):
     def __str__(self):
         return f'{self.mark_type_id} - {self.mark_type_name}'
 
-from .Mark import Mark # noqa: E402
+from .mark import Mark # noqa: E402

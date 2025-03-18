@@ -1,4 +1,4 @@
-from database.DB import *
+from database.db import *
 
 
 class TimeTable(Base):
@@ -36,7 +36,7 @@ class TimeTable(Base):
     def __str__(self):
         return f'{self.time_table_start_time} - {self.time_table_id}'
 
-from .Homework import Homework # noqa: E402
-from .Discipline import Discipline # noqa: E402
-from .Homework import Homework # noqa: E402
-from .User import User # noqa: E402
+from .homework import Homework # noqa: E402
+from .discipline import Discipline # noqa: E402
+from .homework import Homework # noqa: E402
+from .user import User # noqa: E402

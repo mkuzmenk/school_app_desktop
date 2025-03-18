@@ -1,6 +1,6 @@
 import tkinter.ttk
-from view.main_windows.Page import Page
-from view.main_windows.Window import *
+from view.main_windows.page import Page
+from view.main_windows.window import *
 from controller.constants import *
 
 

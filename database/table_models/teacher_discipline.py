@@ -1,4 +1,4 @@
-from database.DB import *
+from database.db import *
 
 
 class TeacherDiscipline(Base):
@@ -22,5 +22,5 @@ class TeacherDiscipline(Base):
     def __str__(self):
         return f'{self.teacher_id} - {self.id}'
 
-from .Discipline import Discipline # noqa: E402
-from .User import User # noqa: E402
+from .discipline import Discipline # noqa: E402
+from .user import User # noqa: E402

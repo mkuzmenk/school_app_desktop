@@ -1,8 +1,8 @@
 import tkinter
 
 from view.main_windows.teacher.teacher_window_settings import *
-from view.main_windows.Window import Window
-from view.main_windows.teacher.pages.Schedule import Schedule
+from view.main_windows.window import Window
+from view.main_windows.teacher.pages.schedule import Schedule
 
 
 class TeacherMode(Window):

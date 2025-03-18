@@ -1,4 +1,4 @@
-from database.DB import *
+from database.db import *
 
 
 class UserRole(Base):
@@ -17,4 +17,4 @@ class UserRole(Base):
     def __str__(self):
         return f'{self.user_role_name} - {self.user_role_id}'
 
-from .User import User # noqa: E402
+from .user import User # noqa: E402

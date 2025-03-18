@@ -1,4 +1,4 @@
-from database.DB import *
+from database.db import *
 
 
 class User(Base):
@@ -79,10 +79,10 @@ class User(Base):
     def __str__(self):
         return f'{self.user_last_name} - {self.user_first_name} - {self.user_email}'
 
-from .HomeworkResponse import HomeworkResponse # noqa: E402
-from .Group import Group # noqa: E402
-from .Homework import Homework # noqa: E402
-from .Mark import Mark # noqa: E402
-from .TeacherDiscipline import TeacherDiscipline # noqa: E402
-from .UserRole import UserRole # noqa: E402
-from .TimeTable import TimeTable # noqa: E402
+from .homework_response import HomeworkResponse # noqa: E402
+from .group import Group # noqa: E402
+from .homework import Homework # noqa: E402
+from .mark import Mark # noqa: E402
+from .teacher_discipline import TeacherDiscipline # noqa: E402
+from .user_role import UserRole # noqa: E402
+from .time_table import TimeTable # noqa: E402

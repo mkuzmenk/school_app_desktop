@@ -1,5 +1,5 @@
 
-from view.main_windows.Window import *
+from view.main_windows.window import *
 
 
 class Page:

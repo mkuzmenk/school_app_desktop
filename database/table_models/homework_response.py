@@ -1,4 +1,4 @@
-from database.DB import *
+from database.db import *
 
 
 class HomeworkResponse(Base):
@@ -36,6 +36,6 @@ class HomeworkResponse(Base):
     def __str__(self):
         return f'{self.home_work_response_id} - User: {self.home_work_user_id_ref} - Homework: {self.home_work_id_ref}'
 
-from .Mark import Mark # noqa: E402
-from .User import User # noqa: E402
-from .Homework import Homework # noqa: E402
+from .mark import Mark # noqa: E402
+from .user import User # noqa: E402
+from .homework import Homework # noqa: E402

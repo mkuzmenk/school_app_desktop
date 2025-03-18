@@ -1,4 +1,4 @@
-from database.DB import *
+from database.db import *
 
 
 class Group(Base):
@@ -28,6 +28,6 @@ class Group(Base):
     def __str__(self):
         return f'{self.group_name}'
 
-from .User import User # noqa: E402
-from .Homework import Homework # noqa: E402
-from .TimeTable import TimeTable # noqa: E402
+from .user import User # noqa: E402
+from .homework import Homework # noqa: E402
+from .time_table import TimeTable # noqa: E402

@@ -2,10 +2,10 @@ import tkinter
 
 from controller.constants import *
 from view.authorization_window.AuthorizationWindow import AuthorizationWindow
-from view.main_windows.admin.AdminMode import AdminMode
-from view.main_windows.teacher.TeacherMode import TeacherMode
-from view.main_windows.teacher.pages.Homework import Homework
-from view.main_windows.teacher.pages.Journal import Journal
+from view.main_windows.admin.admin_mode import AdminMode
+from view.main_windows.teacher.teacher_mode import TeacherMode
+from view.main_windows.teacher.pages.homework import Homework
+from view.main_windows.teacher.pages.journal import Journal
 
 
 class Controller:

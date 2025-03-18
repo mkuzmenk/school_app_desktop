@@ -1,5 +1,5 @@
-from controller.Controller import Controller
-from model.Model import Model
+from controller.controller import Controller
+from model.model import Model
 from view.authorization_window.AuthorizationWindow import AuthorizationWindow
 
 

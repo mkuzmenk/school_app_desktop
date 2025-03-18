@@ -1,4 +1,4 @@
-from database.DB import *
+from database.db import *
 
 
 class Mark(Base):
@@ -36,8 +36,8 @@ class Mark(Base):
     def __str__(self):
         return f'{self.mark_id} - value {self.mark_value} - student {self.mark_student_id}'
 
-from .HomeworkResponse import HomeworkResponse # noqa: E402
-from .Homework import Homework # noqa: E402
-from .Discipline import Discipline # noqa: E402
-from .User import User # noqa: E402
-from .MarkType import MarkType # noqa: E402
+from .homework_response import HomeworkResponse # noqa: E402
+from .homework import Homework # noqa: E402
+from .discipline import Discipline # noqa: E402
+from .user import User # noqa: E402
+from .mark_type import MarkType # noqa: E402

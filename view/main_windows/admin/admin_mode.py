@@ -1,10 +1,10 @@
 import tkinter
 
-from view.main_windows.Window import Window
-from view.main_windows.admin.pages.AddUser import AddUser
-from view.main_windows.admin.pages.EditGroup import EditGroup
-from view.main_windows.admin.pages.FindUser import FindUser
-from view.main_windows.admin.pages.Schedule import Schedule
+from view.main_windows.window import Window
+from view.main_windows.admin.pages.add_user import AddUser
+from view.main_windows.admin.pages.edit_group import EditGroup
+from view.main_windows.admin.pages.find_user import FindUser
+from view.main_windows.admin.pages.schedule import Schedule
 from view.main_windows.admin.admin_window_settings import *
 
 

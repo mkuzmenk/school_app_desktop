@@ -1,4 +1,4 @@
-from database.DB import *
+from database.db import *
 
 
 class Homework(Base):
@@ -39,8 +39,8 @@ class Homework(Base):
     def __str__(self):
         return f'{self.home_work_id} - Group id ref: {self.home_work_group_id_ref}'
 
-from .HomeworkResponse import HomeworkResponse # noqa: E402
-from .Mark import Mark # noqa: E402
-from .Group import Group # noqa: E402
-from .TimeTable import TimeTable # noqa: E402
-from .User import User # noqa: E402
+from .homework_response import HomeworkResponse # noqa: E402
+from .mark import Mark # noqa: E402
+from .group import Group # noqa: E402
+from .time_table import TimeTable # noqa: E402
+from .user import User # noqa: E402

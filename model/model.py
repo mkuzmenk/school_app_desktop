@@ -1,13 +1,13 @@
 import sqlalchemy
 
-from database.table_models.Homework import Homework
-from database.table_models.HomeworkResponse import HomeworkResponse
-from database.table_models.Mark import Mark
-from database.table_models.TeacherDiscipline import TeacherDiscipline
-from database.table_models.User import User
-from database.table_models.TimeTable import TimeTable
-from database.table_models.Group import Group
-from database.table_models.Discipline import Discipline
+from database.table_models.homework import Homework
+from database.table_models.homework_response import HomeworkResponse
+from database.table_models.mark import Mark
+from database.table_models.teacher_discipline import TeacherDiscipline
+from database.table_models.user import User
+from database.table_models.time_table import TimeTable
+from database.table_models.group import Group
+from database.table_models.discipline import Discipline
 
 from database.start_db import start_db
 from datetime import datetime, UTC
