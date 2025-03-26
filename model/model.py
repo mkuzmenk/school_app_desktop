@@ -18,8 +18,6 @@ class Model:
     def __init__(self):
         self.Session = start_db()
 
-        assert self.Session is not None, DB_CONN_NOT_FOUND  # if no connection, program won't run
-
         self.conn = self.Session()
 
     def __del__(self):
